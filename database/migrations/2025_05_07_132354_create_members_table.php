@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
+
             $table->string("member_name");
             $table->date("date_of_birth");
             $table->enum("gender", ["male", "female"])->default("male");
