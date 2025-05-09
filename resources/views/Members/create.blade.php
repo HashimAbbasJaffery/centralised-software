@@ -12,7 +12,7 @@
             >
               Create Member
             </h2>
-            <div v-show="current_step === 1" class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div v-show="current_step === 1" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Personal Information</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 33.33%;">
@@ -74,7 +74,7 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div v-show="current_step === 2" class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div v-show="current_step === 2" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Contact Details</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 33.33%;">
@@ -130,7 +130,7 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div v-show="current_step === 3" class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div v-show="current_step === 3" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Membership Details</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 33.33%;">
@@ -151,10 +151,11 @@
                 </div>
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400">Card Type</span>
-                    <select v-model="card_type" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
-                      <option value="Provisional Membership">Provisional Membership</option>
-                      <option value="Cleared">Cleared</option>
+                    <span class="text-gray-700 dark:text-gray-400">Membership Status</span>
+                    <select v-model="membership_status" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                      <option value="regular">Regular</option>
+                      <option value="defaulter">Defaulter</option>
+                      <option value="cancelled">Cancelled</option>
                     </select>
                     <span style="display: none;" class="member_number_message step_1_message text-xs text-red-600 dark:text-red-400">
                       Card Type field is required
@@ -195,12 +196,227 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
+            <div v-show="current_step === 4" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Spouse Information</h5>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">First Spouse</span>
+                    <input v-model="spouses[0]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="First Spouse">
+                  </label>
+                </div>
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Second Spouse</span>
+                    <input v-model="spouses[1]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Second Spouse">
+                  </label>
+                </div>
+              </div>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Third Spouse</span>
+                    <input v-model="spouses[2]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Third Spouse">
+                  </label>
+                </div>
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Fourth Spouse</span>
+                    <input v-model="spouses[3]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Fourth Spouse">
+                  </label>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
+            <div v-show="current_step === 5" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Children Information</h5>
+              <div v-for="child in children" style="display: flex; column-gap: 20px; align-items: center;">
+                <div style="width: 49%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`${numberToOrdinal(child.id)} child`"></span>
+                    <input v-model="child.childName" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`${numberToOrdinal(child.id)} child`">
+                  </label>
+                </div>
+                <div style="width: 49%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400" v-text="`${numberToOrdinal(child.id)} child date of birth`"></span>
+                    <input v-model="child.dob" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`${numberToOrdinal(child.id)} child date of birth`">
+                  </label>
+                </div>
+                <div class="actions" style="display: flex; column-gap: 10px;">
+                  <button @click="addNewChild" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    +
+                  </button>
+                  <button @click="deleteChild(child.id)" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    -
+                  </button>
+                </div>
+              </div>              
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
+            <div v-show="current_step === 6" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Financial Details</h5>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Form Fee</span>
+                    <input type="text" v-model="form_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Form Fee">
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Processing Fee</span>
+                    <input type="text" v-model="processing_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Processing Fee">
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">First Payment</span>
+                    <input type="text" v-model="first_payment" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="First Payment">
+                  </label>
+                </div>
+              </div>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Total Installment</span>
+                    <input type="text" v-model="total_installment" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Total Installment">
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Installment Month</span>
+                    <input type="text" v-model="installment_month" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Installment Month">
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Sum</span>
+                    <input type="text" :value="totalSum" readonly style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Sum">
+                  </label>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
+            <div v-show="current_step === 7" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Emergency and Health Information</h5>
+              <div style="display: flex; column-gap: 20px;">
+                <label class="block text-sm" style="margin-bottom: 20px; width: 50%">
+                  <span class="text-gray-700 dark:text-gray-400">Blood Group</span>
+                  <select v-model="blood_group" data-message="marital_field_message" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                    <option value="a+">A+</option>
+                    <option value="a-">A-</option>
+                    <option value="b+">B+</option>
+                    <option value="b-">B-</option>
+                    <option value="ab+">AB+</option>
+                    <option value="ab-">AB-</option>
+                    <option value="o+">O+</option>
+                    <option value="o-">O-</option>
+                  </select>
+                  <span style="display: none;" class="marital_field_message step_1_message text-xs text-red-600 dark:text-red-400">
+                    Marital field is required
+                  </span>
+                </label>
+                <div style="width: 50%;">
+                  <label class="block text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Emergency Contact</span>
+                    <input type="text" v-model="emergency_contact" style="width: 100% !important; margin-top: 4px !important;" data-message="emergency_contact" class="phone step_7 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Emergency Contact">
+                  </label>
+                  <span style="display: none;" class="emergency_contact text-xs text-red-600 dark:text-red-400">
+                    Emergency Contact field is required
+                  </span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
+            <div v-show="current_step === 8" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Membership Card Details</h5>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Profile Picture</span>
+                    <input type="file" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Profile Picture">
+                  </label>
+                </div>
+                <label class="block text-sm" style="margin-bottom: 20px; width: 50%">
+                  <span class="text-gray-700 dark:text-gray-400">Card Type</span>
+                  <select v-model="card_type" data-message="marital_field_message" class="step_8 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                    <option value="Provisional Membership">Provisional Membership</option>
+                    <option value="cleared">Cleared</option>
+                  </select>
+                </label>
+              </div>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 50%;">
+                  <label class="block text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Date of Issue</span>
+                    <input type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="date_of_issue" class="step_8 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Profile Picture">
+                  </label>
+                  <span style="display: none;" class="date_of_issue text-xs text-red-600 dark:text-red-400">
+                    Date of Issue field is required
+                  </span>
+                </div>
+                <div style="width: 50%;">
+                  <label class="block text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Validity</span>
+                    <input type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="validity_message" class="step_8 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Profile Picture">
+                  </label>
+                  <span style="display: none;" class="validity_message text-xs text-red-600 dark:text-red-400">
+                    Validity field is required
+                  </span>
+                  <div style="margin-bottom: 20px;">&nbsp;</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
+            <div v-show="current_step === 9" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Locker Details</h5>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Locker Category</span>
+                    <select v-model="locker_category" data-message="marital_field_message" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                      <option value="a">A</option>
+                      <option value="b">B</option>
+                      <option value="c">C</option>
+                      <option value="d">D</option>
+                      <option value="e">E</option>
+                      <option value="f">F</option>
+                    </select>
+                    <span style="display: none;" class="marital_field_message step_1_message text-xs text-red-600 dark:text-red-400">
+                      Marital field is required
+                    </span>
+                  </label>
+                </div>
+                <label class="block text-sm" style="margin-bottom: 20px; width: 50%">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Locker Number</span>
+                    <input type="text" v-model="locker_number" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Locker Number">
+                  </label>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
             <div style="display: flex; column-gap: 10px;">
               <button @click="previous" :disabled="current_step < 2" style="background: #1f2937;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-700 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Previous
               </button>
-              <button @click="next" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+              <button v-if="current_step < total_steps" @click="next" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Next
+              </button>
+              <button @click="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" v-else>
+                Submit
               </button>
             </div>
           </div>
@@ -227,9 +443,36 @@
 
                 membership_type: "permanent",
                 membership_number: "",
-                card_type: "Provisional Membership",
+                membership_status: "regular",
                 file_number: "",
-                date_of_applying: ""
+                date_of_applying: "",
+
+                spouses: [[], [], [], []],
+                children: [{id: 1, childName: "", dob: ""}],
+
+                form_fee: "",
+                processing_fee: "",
+                first_payment: "",
+                total_installment: "",
+                installment_month: "",
+
+                blood_group: "a+",
+                emergency_contact: "",
+
+                card_type: "Provisional Membership",
+
+                locker_category: "a",
+                locker_number: ""
+              }
+            },
+            computed: {
+              totalSum() {
+                let total = 0;
+                if(this.form_fee && typeof parseInt(this.form_fee) === "number") total += parseInt(this.form_fee);
+                if(this.processing_fee && typeof parseInt(this.processing_fee) === "number") total += parseInt(this.processing_fee);
+                if(this.first_payment && typeof parseInt(this.first_payment) === "number") total += parseInt(this.first_payment);
+                if(this.total_installment && typeof parseInt(this.total_installment) === "number") total += parseInt(this.total_installment);
+                return new Intl.NumberFormat().format(total);
               }
             },
             methods: {
@@ -259,9 +502,40 @@
               },
               previous() {
                 this.current_step--;
+              },
+              addNewChild() {
+                this.children.push({ id: this.children.length + 1, childName: "", dob: "" });
+              },
+              numberToOrdinal(n) {
+                  const ordinals = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth'];
+                  if (n >= 1 && n <= ordinals.length) {
+                    return ordinals[n - 1];
+                  }
+
+                  // Fallback for numbers > 10
+                  const suffixes = ['th', 'st', 'nd', 'rd'];
+                  const v = n % 100;
+                  const suffix = suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0];
+                  return n + suffix;
+              },
+              normalizeIds() {
+                this.children.forEach((child, index) => {
+                  child.id = index + 1;
+                })
+              },
+              deleteChild(id) {
+                this.children = this.children.filter(child => child.id !== id);
+                this.normalizeIds();
+              },
+              submit() {
+                console.log("Form will be submitted!");
               }
             },
             mounted() {
+              const stepForms = document.querySelectorAll(".step-form");
+              this.total_steps = stepForms.length;
+
+
               const input = document.querySelector("#phone");
               const inputs = document.querySelectorAll(".phone");
 
