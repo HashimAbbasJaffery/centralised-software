@@ -6,6 +6,7 @@
         </style>
         <main id="app" class="h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
+          
           <div class="container px-6 mx-auto grid">
             <h2
               class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
@@ -81,7 +82,9 @@
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400" style="margin-bottom: 20px;">Phone</span>
                     <br>
-                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="phone" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
+                    <input type="hidden" v-model="phone_numbers[0].countryCode" />
+                    <input type="hidden" v-model="phone_numbers[0].phoneNumber"/>
+                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="phone" data-index="0" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
                     <span style="display: none;" class="phone_field_message text-xs text-red-600 dark:text-red-400">
                       Phone number field is required
                     </span>
@@ -90,7 +93,10 @@
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Alternate Phone Number</span>
-                    <input v-model="alt_phone_number" style="width: 100% !important; margin-top: 4px !important;" id="alt_phone_number" data-message="alt_ph_number_field_message" type="text" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Alternate Phone Number">
+                    
+                    <input type="hidden" v-model="phone_numbers[1].countryCode" />
+                    <input type="hidden" v-model="phone_numbers[1].phoneNumber"/>
+                    <input v-model="alt_phone_number" style="width: 100% !important; margin-top: 4px !important;" data-index="1" id="alt_phone_number" data-message="alt_ph_number_field_message" type="text" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Alternate Phone Number">
                     <span style="display: none;" class="alt_ph_number_field_message step_1_message text-xs text-red-600 dark:text-red-400">
                       Alternate Phone Number field is required
                     </span>
@@ -261,19 +267,33 @@
             <div v-show="current_step === 6" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Financial Details</h5>
               <div style="display: flex; column-gap: 20px;">
-                <div style="width: 33.33%;">
+                <div style="width: 25%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Payment Status</span>
+                    <select v-model="payment_status" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                      <option value="regular">Regular</option>
+                      <option value="level1">Level 1 - Request for payment</option>
+                      <option value="level2">Level 2 - Payment Reminder Letter</option>
+                      <option value="level3">Level 3 - Final Notice</option>
+                      <option value="level4">Level 4 - Membership Cancelled</option>
+                      <option value="cleared">Cleared</option>
+                      <option value="re-regularised">Re-Regularized</option>
+                    </select>
+                  </label>
+                </div>
+                <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Form Fee</span>
                     <input type="text" v-model="form_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Form Fee">
                   </label>
                 </div>
-                <div style="width: 33.33%;">
+                <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Processing Fee</span>
                     <input type="text" v-model="processing_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Processing Fee">
                   </label>
                 </div>
-                <div style="width: 33.33%;">
+                <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">First Payment</span>
                     <input type="text" v-model="first_payment" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="First Payment">
@@ -422,11 +442,12 @@
           </div>
           
         </main>
+        
         <script>
           const app = Vue.createApp({
             data() {
               return {
-                current_step: 1,
+                current_step: 6,
                 total_steps: 4,
 
                 member_name: "",
@@ -440,6 +461,8 @@
                 email: "",
                 residential_address: "",
                 city_country: "",
+                phone_number_code: "",
+                alt_phone_number_code: "",
 
                 membership_type: "permanent",
                 membership_number: "",
@@ -455,6 +478,7 @@
                 first_payment: "",
                 total_installment: "",
                 installment_month: "",
+                payment_status: "regular",
 
                 blood_group: "a+",
                 emergency_contact: "",
@@ -462,16 +486,20 @@
                 card_type: "Provisional Membership",
 
                 locker_category: "a",
-                locker_number: ""
+                locker_number: "",
+
+                phone_numbers: [{countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}]
               }
             },
             computed: {
               totalSum() {
                 let total = 0;
+
                 if(this.form_fee && typeof parseInt(this.form_fee) === "number") total += parseInt(this.form_fee);
                 if(this.processing_fee && typeof parseInt(this.processing_fee) === "number") total += parseInt(this.processing_fee);
                 if(this.first_payment && typeof parseInt(this.first_payment) === "number") total += parseInt(this.first_payment);
                 if(this.total_installment && typeof parseInt(this.total_installment) === "number") total += parseInt(this.total_installment);
+                
                 return new Intl.NumberFormat().format(total);
               }
             },
@@ -543,29 +571,24 @@
                 const iti = window.intlTelInput(input, {
                   loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"),
                 });
+
+                input.addEventListener("countrychange", function () {
+                  updatePhoneNumber(iti, input);
+                });
+
+                input.addEventListener("input", function() {
+                  updatePhoneNumber(iti, input);
+                })
               });
 
                 const phones = document.querySelectorAll(".phone")
                 
-                const updatePhoneNumber = () => {
-                  // const countryData = iti.getSelectedCountryData();
-                  // const country_code = document.getElementById("country_code");
-                  // const phone_number = document.getElementById("phone_number");
-                  // country_code.value = countryData.dialCode;
-                  // phone_number.value = iti.getNumber().replace(/^\+/, '');
+                const updatePhoneNumber = (iti, input) => {
+                  const countryData = iti.getSelectedCountryData();
+                  this.phone_numbers[input.dataset.index]["countryCode"] = countryData.dialCode;
+                  this.phone_numbers[input.dataset.index]["phoneNumber"] = iti.getNumber().replace(/^\+/, '');
                 }
 
-                inputs.forEach(input => {
-                  input.addEventListener("countrychange", function () {
-                      updatePhoneNumber();
-                  });
-                });
-                
-                phones.forEach(phone => {
-                  phone.addEventListener("input", function() {
-                      updatePhoneNumber();
-                  })
-                })
             }
           }).mount("#app");
         </script>
