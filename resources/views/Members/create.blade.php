@@ -447,9 +447,9 @@
           const app = Vue.createApp({
             data() {
               return {
-                current_step: 6,
+                current_step: 1,
                 total_steps: 4,
-
+                past_step: 2,
                 member_name: "",
                 date_of_birth: "",
                 cnic: "",
