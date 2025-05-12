@@ -590,7 +590,34 @@
                 const response = await axios.post(route("api.member.create", this.getData()));
                 if(response.data.status === "200") {
                   window.location = route("member.manage");
+                  localStorage.removeItem("formData");
                 }
+              }
+            },
+            created() {
+              const storedData = JSON.parse(localStorage.getItem('formData')) || {};
+                // Loop through storedData and assign each value to the corresponding property in this.$data
+                Object.keys(storedData).forEach(key => {
+                  if (this.$data.hasOwnProperty(key)) {
+                    this[key] = storedData[key];
+                  }
+                });
+            },
+            watch: {
+              $data: {
+                handler(newValue) {
+                   // Check if formData exists in localStorage
+                    let formData = JSON.parse(localStorage.getItem('formData')) || {};
+
+                    // Update the formData with the new values from $data
+                    for (let key in newValue) {
+                      formData[key] = newValue[key];
+                    }
+
+                    // Save the updated formData back to localStorage
+                    localStorage.setItem('formData', JSON.stringify(formData));
+                },
+                deep: true
               }
             },
             mounted() {
