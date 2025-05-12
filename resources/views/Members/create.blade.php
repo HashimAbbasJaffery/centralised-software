@@ -387,7 +387,7 @@
                 <div style="width: 50%;">
                   <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Validity</span>
-                    <input type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="validity_message" class="step_8 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Profile Picture">
+                    <input type="date" v-model="validity" style="width: 100% !important; margin-top: 4px !important;" data-message="validity_message" class="step_8 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Profile Picture">
                   </label>
                   <span style="display: none;" class="validity_message text-xs text-red-600 dark:text-red-400">
                     Validity field is required
@@ -442,14 +442,14 @@
           </div>
           
         </main>
-        
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
           const app = Vue.createApp({
             data() {
               return {
                 current_step: 1,
                 total_steps: 4,
-                past_step: 2,
+
                 member_name: "",
                 date_of_birth: "",
                 cnic: "",
@@ -469,6 +469,7 @@
                 membership_status: "regular",
                 file_number: "",
                 date_of_applying: "",
+                validity: "",
 
                 spouses: [[], [], [], []],
                 children: [{id: 1, childName: "", dob: ""}],
@@ -488,7 +489,8 @@
                 locker_category: "a",
                 locker_number: "",
 
-                phone_numbers: [{countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}]
+                phone_numbers: [{countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}],
+                formData: ""
               }
             },
             computed: {
@@ -555,8 +557,40 @@
                 this.children = this.children.filter(child => child.id !== id);
                 this.normalizeIds();
               },
-              submit() {
-                console.log("Form will be submitted!");
+              getData() {
+                return {
+                  member_name: this.member_name,
+                  date_of_birth: this.date_of_birth,
+                  gender: this.gender,
+                  marital_status: this.marital_status,
+                  cnic_passport: this.cnic,
+                  phone_number: this.phone,
+                  alternate_ph_number: this.alt_phone_number,
+                  email_address: this.email,
+                  residential_address: this.residential_address,
+                  city_country: this.city_country,
+                  membership_type: this.membership_type,
+                  membership_number: this.membership_number,
+                  membership_status: this.membership_status,
+                  file_number: this.file_number,
+                  date_of_applying: this.date_of_applying,
+                  form_fee: this.form_fee,
+                  processing_fee: this.processing_fee,
+                  first_payment: this.first_payment,
+                  total_installment: this.total_installment,
+                  blood_group: this.blood_group,
+                  emergency_contact: this.emergency_contact,
+                  profile_picture: "-",
+                  card_type: this.card_type,
+                  date_of_issue: this.date_of_applying,
+                  validity: this.validity
+                }
+              },
+              async submit() {
+                const response = await axios.post(route("api.member.create", this.getData()));
+                if(response.data.status === "200") {
+                  window.location = route("member.manage");
+                }
               }
             },
             mounted() {
@@ -589,6 +623,7 @@
                   this.phone_numbers[input.dataset.index]["phoneNumber"] = iti.getNumber().replace(/^\+/, '');
                 }
 
+                this.formData = new FormData();
             }
           }).mount("#app");
         </script>

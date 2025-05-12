@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
 
-            $table->string("member_name");
+            $table->string("member_name")->index("idx_member_name");
             $table->date("date_of_birth");
             $table->enum("gender", ["male", "female"])->default("male");
             $table->string("marital_status");
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string("city_country");
 
             $table->string("membership_type");
-            $table->string("membership_number");
+            $table->string("membership_number")->index("idx_membership_number");
             $table->string("membership_status");
             $table->string("file_number");
             $table->date("date_of_applying");
@@ -48,6 +48,7 @@ return new class extends Migration
             $table->date("date_of_issue")->default(now());
             $table->date("validity")->default(now());
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

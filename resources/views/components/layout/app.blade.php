@@ -20,7 +20,9 @@
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/priyashpatil/phone-input-by-country@0.0.1/cpi.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
-    </head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @routes  
+  </head>
   <body>
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
