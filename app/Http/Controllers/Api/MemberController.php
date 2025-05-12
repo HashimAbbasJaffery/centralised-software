@@ -13,13 +13,7 @@ class MemberController extends Controller
 {
     public function __construct(public ApiResponse $apiResponse) {}
     public function index() {
-        $keyword = request()->keyword;
-        // $member = Member::whereLike("member_name", "%$keyword%")->paginate(8)->withQueryString();
-        $member = Member::where(function($query) use($keyword) {
-            $query->whereLike("member_name", "%$keyword%")
-                    ->orWhereLike("membership_number", "%$keyword");
-        })->paginate(8);
-        
+        $member = Member::filter()->paginate(8);
         return MemberResource::collection($member);
     }
     public function store(MemberRequest $request) {
@@ -31,7 +25,6 @@ class MemberController extends Controller
     }
     public function destroy(Member $member) {
         $member->delete();
-
         return $this->apiResponse->success("Member has been deleted!");
     }
 }

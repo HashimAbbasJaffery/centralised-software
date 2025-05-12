@@ -95,12 +95,16 @@
         }
       },
       async mounted() {
+        const savedData = JSON.parse(localStorage.getItem('formData'));
+        if (savedData) {
+          this.$data = Object.assign(this.$data, savedData);
+        }
         this.getContent(route("api.member.index"));
       },
       watch: {
         search(newValue) {
           this.getContent(route("api.member.index", { keyword: newValue }));
-        }
+        },
       },
       methods: {
         debounce(func, delay = 300) {
