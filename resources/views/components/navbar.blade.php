@@ -45,21 +45,21 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.create') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./login.html">Add member</a>
+            <a class="w-full" href="{{ route("member.create") }}">Add member</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.manage') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./create-account.html">
+            <a class="w-full" href="{{ route("member.manage") }}">
               Manage member
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.birthdays') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./forgot-password.html">
+            <a class="w-full" href="{{ route('member.birthdays') }}">
               birthdays
             </a>
           </li>

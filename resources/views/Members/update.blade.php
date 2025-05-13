@@ -345,9 +345,10 @@
                 </label>
                 <div style="width: 50%;">
                   <label class="block text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Emergency Contact</span>
+                    
                     <input type="hidden" v-model="phone_numbers[2].countryCode" />
                     <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
-                    <span class="text-gray-700 dark:text-gray-400">Emergency Contact</span>
                     <input type="text" v-model="emergency_contact" data-index="2" style="width: 100% !important; margin-top: 4px !important;" data-message="emergency_contact" class="phone step_7 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Emergency Contact">
                   </label>
                   <span style="display: none;" class="emergency_contact text-xs text-red-600 dark:text-red-400">
@@ -452,48 +453,52 @@
                 current_step: 1,
                 total_steps: 4,
 
-                member_name: "",
-                date_of_birth: "",
-                cnic: "",
-                gender: "male",
-                marital_status: "married",
+                member_name: "{{ $member->member_name }}",
+                date_of_birth: "{{ $member->date_of_birth }}",
+                cnic: "{{ $member->cnic_passport }}",
+                gender: "{{ $member->gender }}",
+                marital_status: "{{ $member->marital_status }}",
 
-                phone: "",
-                alt_phone_number: "",
-                email: "",
-                residential_address: "",
-                city_country: "",
-                phone_number_code: "",
-                alt_phone_number_code: "",
+                phone: "{{ $member->phone_number }}",
+                alt_phone_number: "{{ $member->alternate_ph_number }}",
+                email: "{{ $member->email_address }}",
+                residential_address: "{{ $member->residential_address }}",
+                city_country: "{{ $member->city_country }}",
+                phone_number_code: "{{ $member->phone_number_code }}",
+                alt_phone_number_code: "{{ $member->alternate_ph_number_code }}",
 
-                membership_type: "permanent",
-                membership_number: "",
-                membership_status: "regular",
-                file_number: "",
-                date_of_applying: "",
-                validity: "",
-                date_of_issue: "",
+                membership_type: "{{ $member->membership_type }}",
+                membership_number: "{{ $member->membership_number }}",
+                membership_status: "{{ $member->membership_status }}",
+                file_number: "{{ $member->file_number }}",
+                date_of_applying: "{{ $member->date_of_applying }}",
+                validity: "{{ $member->validity }}",
                 profilePictureBase64: "",
+                date_of_issue: "",
 
-                spouses: [[], [], [], []],
-                children: [{id: 1, childName: "", dob: ""}],
+                spouses: @json($spouse_array),
+                children: @json($children),
 
-                form_fee: "",
-                processing_fee: "",
-                first_payment: "",
-                total_installment: "",
-                installment_month: "",
-                payment_status: "regular",
+                form_fee: "{{ $member->form_fee }}",
+                processing_fee: "{{ $member->processing_fee }}",
+                first_payment: "{{ $member->first_payment }}",
+                total_installment: "{{ $member->total_installment }}",
+                installment_month: "{{ $member->installment_month }}",
+                payment_status: "{{ $member->payment_status }}",
 
-                blood_group: "a+",
-                emergency_contact: "",
+                blood_group: "{{ $member->blood_group }}",
+                emergency_contact: "{{ $member->emergency_contact }}",
 
-                card_type: "Provisional Membership",
+                card_type: "{{ $member->card_type }}",
 
                 locker_category: "a",
                 locker_number: "",
 
-                phone_numbers: [{countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}],
+                phone_numbers: [
+                                  {countryCode: "{{ $member->phone_number_code }}", phoneNumber: "{{ $member->phone_number }}"}, 
+                                  {countryCode: "{{ $member->alternate_ph_number_code }}", phoneNumber: "{{ $member->alternate_ph_number }}"}, 
+                                  {countryCode: "{{ $member->emergency_contact_code }}", phoneNumber: "{{ $member->emergency_contact }}"}
+                                ],
                 formData: new FormData()
               }
             },
@@ -617,12 +622,15 @@
               },
               async submit() {
                 this.getData();
-                const response = await axios.post(route("api.member.create"), this.formData, {
+
+                for (let pair of this.formData.entries()) {
+                    console.log(pair[0]+ ', '+ pair[1]); 
+                }
+                const response = await axios.post(route("api.member.update", { member: route().params.member, _method: "PUT" }), this.formData, {
                     headers: {
-                      'Content-Type': 'multipart/form-data',  // Explicitly set the content-type header
+                      'Content-Type': 'multipart/form-data',
                     }
                 });
-                console.log(response);
                 if(response.data.status === "200") {
                   window.location = route("member.manage");
                 }

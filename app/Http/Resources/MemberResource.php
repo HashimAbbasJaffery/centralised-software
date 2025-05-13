@@ -41,7 +41,9 @@ class MemberResource extends JsonResource
             "profile_picture" => $this->profile_picture,
             "card_type" => $this->card_type,
             "date_of_issue" => $this->date_of_issue,
-            "validity" => $this->validity
+            "validity" => $this->validity,
+            "spouses" => $this->spouses,
+            "children" => $this->children
         ];
     }
 }

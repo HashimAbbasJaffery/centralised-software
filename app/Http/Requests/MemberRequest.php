@@ -40,13 +40,15 @@ class MemberRequest extends FormRequest
             "form_fee" => [ "required", "integer" ],
             "processing_fee" => [ "required", "integer" ],
             "first_payment" => [ "required", "integer" ],
+            "installment_month" => [ "required", "integer" ],
             "total_installment" => [ "required", "integer" ],
             "blood_group" => [ "required" ],
             "emergency_contact" => [ "required" ],
-            "profile_picture" => [ "required" ],
             "card_type" => [ "required" ],
             "date_of_issue" => [ "required" ],
-            "validity" => [ "required" ]
+            "validity" => [ "required" ],
+            "profile_picture" => [ "required" ],
+            "payment_status" => [ "required" ],
         ];
     }
 }

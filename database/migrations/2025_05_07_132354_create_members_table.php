@@ -21,7 +21,9 @@ return new class extends Migration
             $table->string("cnic_passport");
 
             $table->string("phone_number");
+            $table->string("phone_number_code");
             $table->string("alternate_ph_number");
+            $table->string("alternate_ph_number_code");
             $table->string("email_address");
             $table->string("residential_address");
             $table->string("city_country");
@@ -39,9 +41,11 @@ return new class extends Migration
             $table->float("first_payment")->default(0);
             $table->float("total_installment")->default(0);
             $table->float("installment_month")->default(0);
+            $table->string("payment_status");
 
             $table->string("blood_group");
             $table->string("emergency_contact");
+            $table->string("emergency_contact_code");
 
             $table->string("profile_picture");
             $table->string("card_type");

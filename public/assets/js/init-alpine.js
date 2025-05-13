@@ -43,7 +43,7 @@ function data() {
     closeProfileMenu() {
       this.isProfileMenuOpen = false
     },
-    isPagesMenuOpen: false,
+    isPagesMenuOpen: route().current("member.*"),
     isRecoveryMenuOpen: false,
     isReciprocalMenuOpen: false,
     isMembershipCardMenuOpen: false,
