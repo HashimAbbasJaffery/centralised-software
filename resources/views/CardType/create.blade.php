@@ -120,7 +120,6 @@ td h6{
     }
 
     .card-custom {
-            background-color: #857147;
             color: white;
             border-radius: 0px;
             margin: auto;
@@ -190,24 +189,34 @@ td h6{
             .card-footer-custom {
                 font-size: 16px;
             }
-            .building-images {
-                background-color: #3b321d; /* The color to show in the image pattern */
-                -webkit-mask-image: url("{{ asset('assets/img/front.png') }}");
-                -webkit-mask-repeat: no-repeat; /* Ensures the image doesn't repeat */
-                -webkit-mask-size: cover; /* Scale the mask to cover the area */
-                mask-image: url("{{ asset('assets/img/front.png') }}"); /* Masking for other browsers */
-                mask-repeat: no-repeat;
-                mask-size: cover;
-                
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 0;
+            .card-custom-front {
+  position: relative;
+  z-index: 1;
+}
 
-            }
+.card-custom-front .building-images {
+  -webkit-mask-image: url("{{ asset('assets/img/front.png') }}");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-image: url("{{ asset('assets/img/front.png') }}");
+  mask-repeat: no-repeat;
+  mask-size: cover;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 1; /* LOWER than card-body */
+  pointer-events: none;
+}
+
+.card-custom-front .card-body {
+  position: relative;
+  z-index: 2;
+}
+
         </style>
         <main id="app" class="h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
@@ -248,39 +257,50 @@ td h6{
  <table class="table">
   <tbody>
     <tr>
-      {{-- #857147 --}}
-      <!-- Front Side of Card -->
       <td style="width: 50%;">
-        <div class="card card-custom-front mx-1 mt-3 p-3" id="colorPreview1" style="width: 320px; position: relative;" :style="{ 'background': card_color }">
-          <div class="building-images" style="z-index: 0; background-color: rgb(59, 50, 29);">&nbsp;</div>
-          <div class="before-left" style="z-index: 0;"></div>
-          <div class="after-right" style="z-index: 0;"></div>
-          <div class="card-body" style="z-index: 1;">
-            <table style="width: 100%;">
-              <tbody style="text-align: center;">
-                <tr>
-                  <td colspan="2" class="text-center">
-                    <img src="{{ asset('/assets/img/gg_logo.png') }}" alt="Card Logo" class="img-fluid" style="margin: auto; height: 50px;">
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <h6 class="text-center text-white" id="textPreview1" style="margin: 38px 0px;">PERMANENT</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td><h6 class="text-start text-white">Sample</h6></td>
-                  <td><h6 class="text-end text-white">Sample</h6></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <div class="card card-custom-front mx-1 mt-3 p-3" id="colorPreview1"
+     style="width: 320px; position: relative;" 
+     :style="{ 'background': card_color }">
+
+  <!-- Background mask -->
+  <div class="building-images" :style="{ background: shade_color }"></div>
+
+  <!-- Other visual layers -->
+  <div class="before-left"></div>
+  <div class="after-right"></div>
+
+  <!-- Foreground content -->
+  <div class="card-body">
+    <table style="width: 100%;">
+      <tbody style="text-align: center;">
+        <tr>
+          <td colspan="2" class="text-center">
+            <img src="{{ asset('/assets/img/gg_logo.png') }}" alt="Card Logo"
+                 class="img-fluid" style="margin: auto; height: 50px;">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <h6 class="text-center text-white" id="textPreview1"
+                style="margin: 38px 0px;"
+                v-text="card_name ? card_name : 'Card name will appear here'">
+            </h6>
+          </td>
+        </tr>
+        <tr>
+          <td><h6 class="text-start text-white">Sample</h6></td>
+          <td><h6 class="text-end text-white">Sample</h6></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
       </td>
 
       <!-- Back Side of Card -->
       <td style="width: 50%;">
-        <div class="card card-custom mx-1 mt-3 p-3" id="colorPreview2" style="width: 320px;">
+        <div class="card card-custom mx-1 mt-3 p-3" :style="{ 'background': card_color }" id="colorPreview2" style="width: 320px;">
           <div class="before-left"></div>
           <div class="after-right"></div>
           <div class="card-body">
@@ -350,9 +370,9 @@ td h6{
           const app = Vue.createApp({
             data() {
               return {
-                card_name: "",
+                card_name: "permanent",
                 card_color: "#857147",
-                shade_color: "#000"
+                shade_color: "#2C2A2A"
               }
             },
             methods: {
