@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string("residential_address");
             $table->string("city_country");
 
-            $table->string("membership_type");
+            $table->foreignId("membership_type")->constrained("card_types")->cascadeOnDelete();
             $table->string("membership_number")->index("idx_membership_number");
             $table->string("membership_status");
             $table->string("file_number");

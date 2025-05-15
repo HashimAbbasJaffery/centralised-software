@@ -17,6 +17,9 @@ class Member extends Model
     public function children() {
         return $this->hasMany(Child::class);
     }
+    public function membership() {
+        return $this->belongsTo(CardType::class, "membership_type");
+    }
     public function scopeFilter($query) {
         $keyword = request()->keyword;
         $query->where(function($query) use($keyword) {

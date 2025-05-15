@@ -26,7 +26,7 @@ class MemberResource extends JsonResource
             "email_address" => $this->email_address,
             "residential_address" => $this->residential_address,
             "city_country" => $this->city_country,
-            "membership_type" => $this->membership_type,
+            "membership_type" => $this->membership->card_name,
             "membership_number" => $this->membership_number,
             "membership_status" => $this->membership_status,
             "file_number" => $this->file_number,

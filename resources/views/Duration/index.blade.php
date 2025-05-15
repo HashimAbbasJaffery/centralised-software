@@ -11,50 +11,34 @@
       <h2
         class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
-        Manage Members
+        Manage Duration &amp; Fees
       </h2>
-      <a href="{{ route('member.create') }}" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+      <a @click="createNew" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
         Create
       </a>
       <div style="display: flex; justify-content: space-between;">
         <input v-model="search" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="width: 25%; margin-bottom: 20px;" placeholder="Search">
       </div>
-      <table v-if="members.length > 0" class="w-full whitespace-no-wrap">
+      <table class="w-full whitespace-no-wrap">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-            <th class="px-4 py-3">Member Name</th>
-            <th class="px-4 py-3">Membership Number</th>
-            <th class="px-4 py-3">Email</th>
-            <th class="px-4 py-3">Phone Number</th>
+            <th class="px-4 py-3">Months</th>
+            <th class="px-4 py-3">Fees</th>
             <th class="px-4 py-3">Actions</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-          <tr v-for="member in members" class="text-gray-700 dark:text-gray-400">
-            <td class="px-4 py-3">
-              <div class="flex items-center text-sm">
-                <!-- Avatar with inset shadow -->
-                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                  <img class="object-cover w-full h-full rounded-full" :src="`/storage/${member.profile_picture}`" alt="" loading="lazy">
-                  <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                </div>
-                <div>
-                  <p class="font-semibold" v-text="member.member_name"></p>
-                  <p class="text-xs text-gray-600 dark:text-gray-400" style="text-transform: capitalize;" v-text="`${member.membership_type} Membership`"></p>
-                </div>
-              </div>
-            </td>
-            <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
-            <td class="px-4 py-3 text-xs" v-text="member.email_address"></td>
-            <td class="px-4 py-3 text-sm" v-text="member.phone_number"></td>
+          <tr v-for="duration in durations" class="text-gray-700 dark:text-gray-400">
+            <td class="px-4 py-3 text-sm" v-html="`${duration.months} Months`"></td>
+            <td class="px-4 py-3 text-xs" v-html="`${duration.fee}/-`"></td>
             <td class="px-4 py-3">
               <div class="flex items-center space-x-4 text-sm">
-                <button @click="editMember(member.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                <button @click="editDuration(duration.id, duration.months, duration.fee)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                   <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                   </svg>
                 </button>
-                <button @click="deleteMember(member.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                <button @click="deleteDuration(duration.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
                   <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                   </svg>
@@ -64,11 +48,6 @@
           </tr>
         </tbody>
       </table>
-      <div v-else class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          No Members found!
-        </p>
-      </div>
     </div>
     <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end" style="color: white; margin-top: 20px;">
       <nav aria-label="Table navigation">
@@ -96,7 +75,7 @@
     const app = Vue.createApp({
       data() {
         return {
-          members: [],
+          durations: [],
           links: [],
           search: ""
         }
@@ -106,14 +85,80 @@
         if (savedData) {
           this.$data = Object.assign(this.$data, savedData);
         }
-        this.getContent(route("api.member.index"));
+        this.getContent(route("api.duration.index"));
       },
       watch: {
         search(newValue) {
-          this.getContent(route("api.member.index", { keyword: newValue }));
+          this.getContent(route("api.duration.index", { keyword: newValue }));
         },
       },
       methods: {
+        createNew() {
+          Swal.fire({
+            title: "Create Duration & Fee",
+            html: `
+              <input id="swal-input-username" type="number" class="swal2-input" placeholder="Duration(in Months)">
+              <input id="swal-input-email" type="number" class="swal2-input" placeholder="Fee">
+            `,
+            showCancelButton: true,
+            confirmButtonText: "Create",
+            showLoaderOnConfirm: true,
+            focusConfirm: false,
+            preConfirm: async () => {
+              const months = document.getElementById("swal-input-username").value.trim();
+              const fee = document.getElementById("swal-input-email").value.trim();
+
+              if (!months || !fee) {
+                Swal.showValidationMessage("Please enter both duration and fee");
+                return false;
+              }
+
+              try {
+                const response = await axios.post(route("api.duration.create"), { months, fee });
+                if(response.data.status === "200") {
+                  window.location = route("duration.index");
+                }
+              } catch (error) {
+
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          })
+
+        },
+        editDuration(id, months, fees) {
+          Swal.fire({
+            title: "Edit Duration & Fee",
+            html: `
+              <input id="swal-input-username" value="${months}" type="number" class="swal2-input" placeholder="Duration(in Months)">
+              <input id="swal-input-email" value="${fees}" type="number" class="swal2-input" placeholder="Fee">
+            `,
+            showCancelButton: true,
+            confirmButtonText: "Update",
+            showLoaderOnConfirm: true,
+            focusConfirm: false,
+            preConfirm: async () => {
+              const months = document.getElementById("swal-input-username").value.trim();
+              const fee = document.getElementById("swal-input-email").value.trim();
+
+              if (!months || !fee) {
+                Swal.showValidationMessage("Please enter both duration and fee");
+                return false;
+              }
+
+              try {
+                const response = await axios.put(route("api.duration.update", { duration: id }), { months, fee });
+                if(response.data.status === "200") {
+                  window.location = route("duration.index");
+                }
+              } catch (error) {
+                
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          })
+
+        },
         debounce(func, delay = 300) {
           let timeoutId;
           return function (...args) {
@@ -129,23 +174,22 @@
         },
         async getContent(url) {
           const response = await axios.get(url);
-          this.members = response.data.data;
+          this.durations = response.data.data;
           this.links = response.data.meta.links;
         },
-        editMember(id) {
-          window.location = route('member.updated', { member: id });
+        editClub(id) {
+          window.location = route('club.update', {club: id});
         },
-        async deleteMember(id) {
-
+        async deleteDuration(id) {
           Swal.fire({
-            title: "Do you want to move it in trash?",
+            title: "Do you want to delete it permanently?",
             showCancelButton: true,
             confirmButtonText: "Delete",
           }).then(async (result) => {
             if (result.isConfirmed) {
-              const response = await axios.delete(route("api.member.delete", { member: id }));
+              const response = await axios.delete(route("api.duration.delete", { duration: id }));
               if(response.data.status === "200") {
-                this.members = this.members.filter(member => member.id !== id);
+                this.durations = this.durations.filter(duration => duration.id !== id);
               } 
             }
           });

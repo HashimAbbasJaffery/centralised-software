@@ -250,7 +250,7 @@ td h6{
                   </div>
                 </div>
                 <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                  Create
+                  Update
                 </button>
               </div>
             </form>
@@ -370,16 +370,15 @@ td h6{
           const app = Vue.createApp({
             data() {
               return {
-                card_name: "permanent",
-                card_color: "#857147",
-                shade_color: "#2C2A2A"
+                card_name: "{{ $cardType->card_name }}",
+                card_color: "{{ $cardType->card_color }}",
+                shade_color: "{{ $cardType->shade_color }}"
               }
             },
             methods: {
               async submit(e) {
                 e.preventDefault();
-                const response = await axios.post(route("api.card.add"), { ...this.$data });
-                console.log(response);
+                const response = await axios.put(route("api.card.update", route().params), { ...this.$data });
                 if(response.data.status === "200") {
                   window.location = route("card-type.index");
                 } 

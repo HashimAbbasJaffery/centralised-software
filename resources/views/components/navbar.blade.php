@@ -173,23 +173,23 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
             <a class="w-full" href="./login.html">Create Introduction letter</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.index') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./create-account.html">
-              Manage country/cities
+            <a class="w-full" href="{{ route('club.index') }}">
+              Manage Clubs
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.create') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./forgot-password.html">
+            <a class="w-full" href="{{ route("club.create") }}">
               Add clubs
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('duration.index') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./forgot-password.html">
+            <a class="w-full" href="{{ route("duration.index") }}">
               Add duration and fees
             </a>
           </li>
@@ -234,14 +234,14 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.add') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./login.html">Add Card</a>
+            <a class="w-full" href="{{ route('card-type.add') }}">Add Card</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.index') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./create-account.html">
+            <a class="w-full" href="{{ route('card-type.index') }}">
               Manage Card
             </a>
           </li>
