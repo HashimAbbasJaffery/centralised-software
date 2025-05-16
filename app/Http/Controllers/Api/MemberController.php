@@ -17,7 +17,7 @@ class MemberController extends Controller
 {
     public function __construct(public ApiResponse $apiResponse, public ImageService $imageService) {}
     public function index() {
-        $member = Member::filter()->orderBy("created_at", "desc")->paginate(8);
+        $member = Member::filter()->orderBy("created_at", "desc")->paginate(1);
         return MemberResource::collection($member);
     }
     public function store(MemberRequest $request) {

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\BirthdayController;
 use App\Http\Controllers\Api\CardTypeController;
 use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\DurationController;
+use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,9 @@ Route::get("/durations", [DurationController::class, "index"])->name("api.durati
 Route::post("/duration/create", [DurationController::class, "store"])->name("api.duration.create");
 Route::delete("/duration/{duration}/delete", [DurationController::class, "delete"])->name("api.duration.delete");
 Route::put("/duration/{duration}/update", [DurationController::class, "update"])->name("api.duration.update");
+
+Route::get("/introletters", [IntroletterController::class, "index"])->name("api.introletter.index");
+Route::delete("/introletter/{introletter}/delete", [IntroletterController::class, "delete"])->name("api.introletter.delete");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

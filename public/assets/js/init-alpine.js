@@ -45,7 +45,7 @@ function data() {
     },
     isPagesMenuOpen: route().current("member.*"),
     isRecoveryMenuOpen: false,
-    isReciprocalMenuOpen: route().current("club.*") || route().current("duration.*"),
+    isReciprocalMenuOpen: route().current("club.*") || route().current("duration.*") || route().current("introletter.*"),
     isMembershipCardMenuOpen: route().current("card-type.*"),
     isComplainsMenuOpen: false,
     togglePagesMenu() {

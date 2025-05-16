@@ -168,9 +168,9 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('introletter.index') ? 'text-white' : '' }}"
           >
-            <a class="w-full" href="./login.html">Create Introduction letter</a>
+            <a class="w-full" href="{{ route('introletter.index') }}">Create Introduction letter</a>
           </li>
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.index') ? 'text-white' : '' }}"

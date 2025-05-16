@@ -3,6 +3,10 @@
     .iti {
       width: 100%;
     }
+    input[type='checkbox'] {
+      width: 12px;
+      height: 12px;
+    }
   </style>
   <main id="app" class="h-full pb-16 overflow-y-auto">
     <!-- Remove everything INSIDE this div to a really blank page -->
@@ -22,6 +26,9 @@
       <table v-if="members.length > 0" class="w-full whitespace-no-wrap">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <th style="width: 2%;">
+              <input style="margin-left: 10px;" :checked="false" v-model="parentCheckbox" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" type="checkbox" />
+            </th>
             <th class="px-4 py-3">Member Name</th>
             <th class="px-4 py-3">Membership Number</th>
             <th class="px-4 py-3">Email</th>
@@ -31,6 +38,9 @@
         </thead>
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
           <tr v-for="member in members" class="text-gray-700 dark:text-gray-400">
+            <td style="width: 1%;">
+              <input style="margin-left: 10px;" :checked="false" :value="member.id" v-model="child_checkbox" class="child-checkboxes text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" type="checkbox" />
+            </td>
             <td class="px-4 py-3">
               <div class="flex items-center text-sm">
                 <!-- Avatar with inset shadow -->
@@ -69,6 +79,14 @@
           No Members found!
         </p>
       </div>
+      <div style="display: flex; column-gap: 10px;">
+        <a @click="frontCard" style="margin-top: 20px; width: 20%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          View Selected (Front)
+        </a>
+        <a @click="backCard" style="margin-top: 20px; width: 20%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          View Selected (Back)
+        </a>
+      </div>
     </div>
     <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end" style="color: white; margin-top: 20px;">
       <nav aria-label="Table navigation">
@@ -88,6 +106,7 @@
           </li>
         </ul>
       </nav>
+     
     </span>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -98,22 +117,45 @@
         return {
           members: [],
           links: [],
-          search: ""
+          search: "",
+          parentCheckbox: "",
+          child_checkbox: []
         }
+      },
+      created() {
+        const checked_checkboxes = document.querySelectorAll('.child-checkboxes');
+        checked_checkboxes.forEach(checkbox => {
+          checked_checkboxes.checked = false;
+        });
       },
       async mounted() {
         const savedData = JSON.parse(localStorage.getItem('formData'));
         if (savedData) {
           this.$data = Object.assign(this.$data, savedData);
         }
-        this.getContent(route("api.member.index"));
+
+        // Checking if the url is there is session storage
+        this.getContent(sessionStorage.getItem("url") ? sessionStorage.getItem("url") : route("api.member.index"));
       },
       watch: {
         search(newValue) {
           this.getContent(route("api.member.index", { keyword: newValue }));
         },
+        parentCheckbox(newValue) {
+          const child_checkboxes = document.querySelectorAll(".child-checkboxes");
+          child_checkboxes.forEach(checkbox => {
+            if(!newValue) this.child_checkbox = [];
+            else this.child_checkbox.push(checkbox.value);
+          });
+        }
       },
       methods: {
+        backCard() {
+          window.location = route("card.back", { members: this.child_checkbox });
+        },
+        frontCard() {
+          window.location = route("card.front", { members: this.child_checkbox })
+        },
         debounce(func, delay = 300) {
           let timeoutId;
           return function (...args) {
@@ -125,10 +167,12 @@
           };
         },
         changePage(url) {
+          this.parentCheckbox = false;
           this.getContent(url);
         },
         async getContent(url) {
           const response = await axios.get(url);
+          sessionStorage.setItem("url", url != null ? url : "");
           this.members = response.data.data;
           this.links = response.data.meta.links;
         },

@@ -25,6 +25,11 @@
 
     <script src="https://unpkg.com/vue-select@latest"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+    <style>
+      body {
+        background: #121317;
+      }
+    </style>
     @routes  
   </head>
   <body>
