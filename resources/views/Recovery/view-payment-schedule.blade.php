@@ -161,12 +161,7 @@ const app = Vue.createApp({
     addRow() {
         this.balances.push(this.rows[this.rows.length - 1].total_balance);
 
-        this.due_amounts.push(this.rows[this.rows.length - 1].due);
-        this.due_amounts = this.due_amounts.map(due_amount => {
-            if(due_amount < 0) {
-                return 0;
-            }
-        });
+        this.due_amounts.push(this.rows[this.rows.length - 1].due < 0 ? 0 : this.rows[this.rows.length - 1].due);
         console.log(this.due_amounts);
         this.rows.push({
             id: this.rows.length + 1,
