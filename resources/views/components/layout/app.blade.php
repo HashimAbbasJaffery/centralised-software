@@ -25,6 +25,11 @@
 
     <script src="https://unpkg.com/vue-select@latest"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <style>
       body {
         background: #121317;

@@ -9,7 +9,8 @@ use App\Http\Controllers\Api\MemberController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
+Route::get("/member/{member}/get", [MemberController::class, "getById"])->name("api.member.getById");
+Route::get("/members/all", [MemberController::class, "getAll"])->name("api.member.all");
 Route::get("/members", [MemberController::class, "index"])->name("api.member.index");
 Route::post("/member/create", [MemberController::class, "store"])->name("api.member.create");
 Route::delete("/member/{member}/delete", [MemberController::class, "destroy"])->name("api.member.delete");

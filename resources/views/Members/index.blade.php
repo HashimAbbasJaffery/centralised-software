@@ -135,7 +135,7 @@
         }
 
         // Checking if the url is there is session storage
-        this.getContent(sessionStorage.getItem("url") ? sessionStorage.getItem("url") : route("api.member.index"));
+        this.getContent(route("api.member.index"));
       },
       watch: {
         search(newValue) {

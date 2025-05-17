@@ -8,16 +8,15 @@ use App\Http\Requests\MemberRequest;
 use App\Http\Resources\MemberResource;
 use App\Models\Member;
 use App\Services\ImageService;
-use App\UploadImage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use function PHPUnit\Framework\isNull;
 
 class MemberController extends Controller
 {
     public function __construct(public ApiResponse $apiResponse, public ImageService $imageService) {}
+    public function getById(Member $member) {
+        return $member;
+    }
     public function index() {
-        $member = Member::filter()->orderBy("created_at", "desc")->paginate(1);
+        $member = Member::filter()->orderBy("created_at", "desc")->paginate(8);
         return MemberResource::collection($member);
     }
     public function store(MemberRequest $request) {
@@ -98,5 +97,10 @@ class MemberController extends Controller
         return $this->apiResponse->success(
             message: "Member has been updated successfully!"
         );
+    }
+    public function getAll() {
+        $members = Member::orderByDesc("created_at")->get();
+
+        return MemberResource::collection($members);
     }
 }

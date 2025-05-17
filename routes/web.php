@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\BirthdayController;
 use App\Http\Controllers\CardTypeController;
 use App\Http\Controllers\ClubController;
@@ -39,3 +40,5 @@ Route::get("googlesheet", [GoogleServicesController::class, "save"]);
 
 Route::get("/card/front", [MembersCardController::class, "index"])->name("card.front");
 Route::get("/card/back", [MembersCardController::class, "back"])->name("card.back");
+
+Route::get("/view-payment-schedule", [RecoveryController::class, "index"])->name("payment-schedule");

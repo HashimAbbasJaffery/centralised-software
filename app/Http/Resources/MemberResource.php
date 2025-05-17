@@ -35,6 +35,7 @@ class MemberResource extends JsonResource
             "processing_fee" => $this->processing_fee,
             "first_payment" => $this->first_payment,
             "total_installment" => $this->total_installment,
+            "installment_month" => $this->installment_month,
             "sum" => $this->form_fee + $this->processing_fee + $this->first_payment + $this->total_installment,
             "blood_group" => $this->blood_group,
             "emergency_contact" => $this->emergency_contact,
