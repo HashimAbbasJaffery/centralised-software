@@ -142,8 +142,19 @@ const app = Vue.createApp({
     watch: {
         rows: {
             handler(newRows) {
+                let lastDue = 0;
+                let balance = this.firstBalance();
+
                 newRows.forEach((row, index) => {
-                            
+                    const currentPayablePlusLateMonth = parseInt(row.current_month_payable) + parseInt(row.late_month_charges) + parseInt(lastDue);
+                    const dues = currentPayablePlusLateMonth - parseInt(row.paid);
+                    lastDue = dues;
+
+                    row.payable = currentPayablePlusLateMonth || "";
+                    row.due = dues;
+                    row.balance = balance;
+                    balance -= row.paid;
+                    row.total_balance = balance;
                 });
             },
             deep: true
