@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\DurationController;
 use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
+use App\Http\Controllers\Api\RecoveryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,9 @@ Route::put("/duration/{duration}/update", [DurationController::class, "update"])
 
 Route::get("/introletters", [IntroletterController::class, "index"])->name("api.introletter.index");
 Route::delete("/introletter/{introletter}/delete", [IntroletterController::class, "delete"])->name("api.introletter.delete");
+
+Route::post("/recovery/{member}/create", [RecoveryController::class, "store"])->name("recovery.create");
+Route::get("/recovery/{member}/get", [RecoveryController::class, "get"])->name("api.recovery.get");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

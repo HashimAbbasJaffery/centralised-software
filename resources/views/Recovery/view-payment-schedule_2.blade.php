@@ -1,5 +1,5 @@
 <x-layout.app>
-    <main class="h-full pb-16" id="app" :key="key">
+    <main class="h-full pb-16" id="app">
         <div class="container px-6 mx-auto grid">
             <h2 class="mt-6 mb-3 text-2xl font-semibold text-gray-700 dark:text-gray-200">View Payment Schedule</h2>
             <a @click="showMembers" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" style="margin-top: 20px; width: 150px; margin-bottom: 20px; text-align: center;">Select Member</a>
@@ -62,7 +62,7 @@
                             <input v-model="row.month" style="font-size: 10px;" type="date" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" :value="due_amounts[index]" style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text" v-model="row.due_amount" style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="date" v-model="row.due_date" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
@@ -77,19 +77,19 @@
                             <input type="text" v-model="row.late_month_charges" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" :value="sumAndSave(row.current_month_payable, parseInt(row.late_month_charges) + parseInt(due_amounts[index]), row.id, 'payable')" style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text" v-model="row.payable" style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="text" v-model="row.paid" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" :value="subtractAndSave(row.payable, row.paid, row.id, 'due') < 0 ? 0 : subtractAndSave(row.payable, row.paid, row.id, 'due') " style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text" v-model="row.due" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" :value="balances[index]" readonly style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text" v-model="row.balance" readonly style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" v-model="row.total_balance" :value="subtractAndSave(balances[index], parseInt(row.paid) - parseInt(row.late_month_charges), row.id, 'total_balance')" readonly style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text" v-model="row.total_balance" readonly style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px;">
                             <button @click="addRow" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -97,7 +97,7 @@
                             </button>
                         </td>
                         <td style="padding-left: 15px;">
-                            <button @click="deleteRow(row.id, index)" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 -
                             </button>
                         </td>
@@ -137,18 +137,19 @@ const app = Vue.createApp({
                     total_balance: ""
                 }
             ],
-            key: 1
         }
     },
     watch: {
+        rows: {
+            handler(newRows) {
+                newRows.forEach((row, index) => {
+                            
+                });
+            },
+            deep: true
+        },
         async selectedId(newValue) {
             const response = await axios.get(route("api.member.getById", { member: newValue }));
-            const second_response = await axios.get(route("api.recovery.get", { member: newValue }));
-            
-            if(second_response.data.data.length > 0) {
-                const recoveryRows = this.denormalize(second_response.data.data);
-                this.rows = recoveryRows;
-            }
 
 
             this.member = response.data;
@@ -157,42 +158,11 @@ const app = Vue.createApp({
         }
     },
   methods: {
-    denormalize(rows) {
-        rows.forEach(row => {
-            row["late_month_charges"] = row["late_payment_charges"];
-            row["balance"] = row["main_balance"]; 
-            this.due_amounts.push(row["due_amount"]);
-            this.balances.push(row["balance"])
-        });
-
-        return rows;
-    },
-    async saveInDatabase(id) {
-        this.rows.forEach((row, index) => {
-            row.balance = this.balances[index];
-            row.due_amount = this.due_amounts[index];
-        });
-        
-        const request = await axios.post(route("recovery.create", { member: id }), {rows: this.rows});
-        console.log(request); 
-    },
-    sumAndSave(value1, value2, id, key) {
-        const row = this.rows.filter(row => row.id == id);
-        console.log(key);
-        const value = parseInt(value1) + parseInt(value2);
-        row[0][key] = value;
-        return isNaN(value) ? '' : value;
-    },
-    subtractAndSave(value1, value2, id, key) {
-        const row = this.rows.filter(row => row.id == id);
-        const value = parseInt(value1) - parseInt(value2);
-        row[0][key] = value;
-        return isNaN(value) ? '' : value;
+    firstBalance() {
+        const member = this.member;
+        return member.form_fee + member.processing_fee + member.first_payment + member.total_installment;
     },
     addRow() {
-        this.balances.push(this.rows[this.rows.length - 1].total_balance);
-
-        this.due_amounts.push(this.rows[this.rows.length - 1].due < 0 ? 0 : this.rows[this.rows.length - 1].due);
         this.rows.push({
             id: this.rows.length + 1,
             month: "",
@@ -207,12 +177,6 @@ const app = Vue.createApp({
             balance: "",
             total_balance: ""
         });
-    },
-    deleteRow(id, index) {
-        this.rows = this.rows.filter(row => row.id != id);
-        this.balances.splice(index, 1);
-        this.due_amounts.splice(index, 1);
-        console.log(this.balances);
     },
     select(id) {
         this.selectedId = id;

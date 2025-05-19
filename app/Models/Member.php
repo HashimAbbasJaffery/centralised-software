@@ -21,6 +21,9 @@ class Member extends Model
     public function membership() {
         return $this->belongsTo(CardType::class, "membership_type");
     }
+    public function recovery() {
+        return $this->hasMany(RecoverySheet::class);
+    }
     public function scopeFilter($query) {
         $keyword = request()->keyword;
         $query->where(function($query) use($keyword) {
