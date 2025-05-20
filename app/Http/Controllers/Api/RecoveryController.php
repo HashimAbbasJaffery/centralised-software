@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RecoveryResource;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,10 @@ class RecoveryController extends Controller
         return view("Recovery.view-payment-schedule_2");
     }
     public function get(Member $member) {
-        return $this->apiResponse->success("Recovery Data has been fetched!", $member->recovery);
+        return $this->apiResponse->success(
+            "Recovery Data has been fetched!", 
+            RecoveryResource::collection($member->recovery)
+        );
     }
     public function store(Member $member) {
         $rows = request()->rows;

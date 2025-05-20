@@ -2,8 +2,17 @@
     <main class="h-full pb-16" id="app">
         <div class="container px-6 mx-auto grid">
             <h2 class="mt-6 mb-3 text-2xl font-semibold text-gray-700 dark:text-gray-200">View Payment Schedule</h2>
-            <a @click="showMembers" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" style="margin-top: 20px; width: 150px; margin-bottom: 20px; text-align: center;">Select Member</a>
-            <div class="member-info" v-if="member.id">
+            <button v-if="!is_fetching_members" @click="showMembers" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" style="margin-top: 20px; width: 150px; margin-bottom: 20px; text-align: center;">Select Member</button>
+            <button disabled v-else @click="showMembers" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" style="margin-top: 20px; width: 150px; margin-bottom: 20px; text-align: center; display: flex; width: 150px; justify-content: center;">
+                <span class="loader"></span>
+            </button>
+            <div v-if="is_fetching_sheet" class="loading-panel" style="display: flex; justify-content: center;">
+                <span class="loader big purple" style="margin: auto;"></span>
+            </div>
+            <div v-show="!is_fetching_sheet" class="member-info" v-if="member.id">
+                <button @click="getSheet(member.id)" style="margin-bottom: 10px; margin-top: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Print
+                </button>
                 <div class="container px-6 mx-auto grid mx-6" style="border-radius: 10px; background: rgba(26, 28, 35, var(--bg-opacity);">
                     <table style="color: white;">
                         <tr>
@@ -36,27 +45,27 @@
                     </table>
                 </div>
             </div>
-            <div class="member-installment" style="margin-top: 20px; border-radius: 10px; overflow-x: scroll;" v-if="member.id">
+            <div v-show="!is_fetching_sheet" class="member-installment" style="margin-top: 20px; border-radius: 10px; overflow-x: scroll;" v-if="member.id">
                 <div class="container grid" style="border-radius: 10px;">
                     <table class="w-full whitespace-no-wrap" style="margin-right: 20px;">
-                  <thead>
+                <thead>
                     <tr style="font-size: 10px;" class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">Month</th>
-                      <th class="px-4 py-3">Due <br> Amount</th>
-                      <th class="px-4 py-3">Due <br> Date</th>
-                      <th class="px-4 py-3">Payment <br> Description</th>
-                      <th class="px-4 py-3">Current <br> Month <br> Payable</th>
-                      <th class="px-4 py-3">Late <br> Month <br> Charges</th>
-                      <th class="px-4 py-3">Payable</th>
-                      <th class="px-4 py-3">Paid</th>
-                      <th class="px-4 py-3">Due B/F</th>
-                      <th class="px-4 py-3">Balance</th>
-                      <th class="px-4 py-3">Total <br> Balance</th>
-                      <th class="px-4 py-3">Add</th>
-                      <th class="px-4 py-3">Remove</th>
+                    <th class="px-4 py-3">Month</th>
+                    <th class="px-4 py-3">Due <br> Amount</th>
+                    <th class="px-4 py-3">Due <br> Date</th>
+                    <th class="px-4 py-3">Payment <br> Description</th>
+                    <th class="px-4 py-3">Current <br> Month <br> Payable</th>
+                    <th class="px-4 py-3">Late <br> Month <br> Charges</th>
+                    <th class="px-4 py-3">Payable</th>
+                    <th class="px-4 py-3">Paid</th>
+                    <th class="px-4 py-3">Due B/F</th>
+                    <th class="px-4 py-3">Balance</th>
+                    <th class="px-4 py-3">Total <br> Balance</th>
+                    <th class="px-4 py-3">Add</th>
+                    <th class="px-4 py-3">Remove</th>
                     </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                </thead>
+                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                     <tr class="text-gray-700 dark:text-gray-400" v-for="(row, index) in rows" :key="row.id">
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input v-model="row.month" style="font-size: 10px;" type="date" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
@@ -97,20 +106,21 @@
                             </button>
                         </td>
                         <td style="padding-left: 15px;">
-                            <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button @click="deleteRow(row.id)" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 -
                             </button>
                         </td>
                     </tr>
-                  </tbody>
+                </tbody>
                 </table>
             </div>
-            <div>
-            </div>
-            <button @click="saveInDatabase(member.id)" style="margin-top: 10px; margin-bottom: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            <button v-if="!is_saving_in_database" @click="saveInDatabase(member.id)" style="width: 50px; margin-top: 10px; margin-bottom: 10px; text-align: center; display: flex; justify-content: center;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Save
             </button>
-    </main>
+            <button v-else style="margin-top: 10px; margin-bottom: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                <span class="loader"></span>
+            </button>
+        </main>
     
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -121,6 +131,9 @@ const app = Vue.createApp({
             member: [],
             balances: [],
             due_amounts: [0],
+            is_fetching_members: false,
+            is_fetching_sheet: false,
+            is_saving_in_database: false,
             rows: [
                 {
                     id: 1,
@@ -142,33 +155,60 @@ const app = Vue.createApp({
     watch: {
         rows: {
             handler(newRows) {
-                let lastDue = 0;
-                let balance = this.firstBalance();
-
-                newRows.forEach((row, index) => {
-                    const currentPayablePlusLateMonth = parseInt(row.current_month_payable) + parseInt(row.late_month_charges) + parseInt(lastDue);
-                    const dues = currentPayablePlusLateMonth - parseInt(row.paid);
-                    lastDue = dues;
-
-                    row.payable = currentPayablePlusLateMonth || "";
-                    row.due = dues;
-                    row.balance = balance;
-                    balance -= row.paid;
-                    row.total_balance = balance;
-                });
+                this.doCalculation(newRows);
             },
             deep: true
         },
         async selectedId(newValue) {
+            this.is_fetching_sheet = true;
             const response = await axios.get(route("api.member.getById", { member: newValue }));
+            const second_response = await axios.get(route("api.recovery.get", { member: newValue }));
+            console.log(second_response.data.status);
 
+            if(second_response.data.data.length > 0) {
+                const rows = second_response.data.data;
+                this.rows = rows;
+            }
 
             this.member = response.data;
             const member = this.member;
             this.balances[0] = member.form_fee + member.processing_fee + member.first_payment + member.total_installment;
+            this.is_fetching_sheet = false;
         }
     },
   methods: {
+    doCalculation(newRows) {
+        let lastDue = 0;
+        let balance = this.firstBalance();
+
+        newRows.forEach((row, index) => {
+            const currentPayablePlusLateMonth = parseInt(row.current_month_payable) + parseInt(row.late_month_charges) + parseInt(lastDue);
+            const dues = currentPayablePlusLateMonth - parseInt(row.paid);
+            row.due_amount = lastDue;
+            lastDue = dues;
+
+            row.payable = currentPayablePlusLateMonth || "";
+            row.due = dues;
+            row.balance = balance;
+            balance -= row.paid;
+
+            if(row.late_month_charges) balance += parseInt(row.late_month_charges);
+            
+            row.total_balance = balance;
+        });
+    },
+    async saveInDatabase(id) {
+        this.is_saving_in_database = true;
+        const request = await axios.post(route("recovery.create", { member: id }), { rows: this.rows });
+        if(request.data.status === "200") {
+           Swal.fire({
+                icon: 'success',
+                title: 'Saved',
+                showConfirmButton: false,
+            });
+        }
+        this.is_saving_in_database = false;
+    },
     firstBalance() {
         const member = this.member;
         return member.form_fee + member.processing_fee + member.first_payment + member.total_installment;
@@ -189,11 +229,19 @@ const app = Vue.createApp({
             total_balance: ""
         });
     },
+    deleteRow(id) {
+        this.rows = this.rows.filter(row => row.id != id);
+        this.doCalculation(this.rows);
+    },
     select(id) {
         this.selectedId = id;
         Swal.close();
     },
+    getSheet() {
+        window.location = route("member.recovery.sheet", { member: this.member.id });
+    },
     async showMembers() {
+        this.is_fetching_members = true;
         const self = this;
       try {
         const response = await axios.get(route('api.member.all'));
@@ -250,6 +298,8 @@ const app = Vue.createApp({
       } catch (error) {
         console.error("Error fetching members:", error);
         Swal.fire('Error', 'Could not load members.', 'error');
+      } finally {
+        this.is_fetching_members = false;
       }
     }
   }
