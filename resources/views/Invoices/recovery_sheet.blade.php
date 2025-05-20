@@ -222,13 +222,12 @@ table, tfoot td{
         <h5 style="line-height: 22px; font-size: 18px; text-align: right;">PKR {{ number_format($late_payment_charges) }}/-</h5>
 
 <td class="main_table" style="width:33%; text-align:right;">    
-
-	<?php // if($member_data['status'] === "Level 3" || $member_data['status'] === 'Level 4'): ?>
-	    {{-- <h6 style="font-weight:600; line-height:12px; font-size:12px !important; text-align:right;">PAY OUTSTANDING DUES IMMEDIATELY</h6> --}}
-	<?php // else: ?>
-        <h6 style="font-weight:600; line-height:12px; font-size:12px !important; text-align:right;">PAY DUES BEFORE {{ $formattedDate }}</h6>
-    <?php // endif; ?>
-    <h5 style="font-weight:bold; line-height:22px; font-size:30px; text-align:right;">PKR. {{ number_format($to_be_paid_row->payable) }}/-</h5>
+	@if($member->payment_status === "level3" || $member->payment_status === "level4"):
+	    <h6 style="font-weight:600; line-height:12px; font-size:12px !important; text-align:right;">PAY OUTSTANDING DUES IMMEDIATELY</h6>
+	@else
+		<h6 style="font-weight:600; line-height:12px; font-size:12px !important; text-align:right;">PAY DUES BEFORE {{ $formattedDate }}</h6>
+	@endif
+	<h5 style="font-weight:bold; line-height:22px; font-size:30px; text-align:right;">PKR. {{ number_format($to_be_paid_row->payable) }}/-</h5>
     </td>
 </tr>
 </tbody>

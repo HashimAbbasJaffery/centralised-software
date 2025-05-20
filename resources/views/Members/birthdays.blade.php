@@ -16,7 +16,7 @@
       <div style="display: flex; justify-content: space-between;">
         <input v-model="search" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="width: 25%; margin-bottom: 20px;" placeholder="Search">
       </div>
-      <table v-if="members.length > 0" class="w-full whitespace-no-wrap">
+      <table v-if="members.length > 0 && !is_fetching" class="w-full whitespace-no-wrap">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <th class="px-4 py-3">Member Name</th>
@@ -46,7 +46,8 @@
           </tr>
         </tbody>
       </table>
-      <div v-else class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+      <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
+      <div v-else-if="!is_fetching && !members.length" class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <p class="text-sm text-gray-600 dark:text-gray-400">
           No Members found!
         </p>
@@ -80,7 +81,8 @@
         return {
           members: [],
           links: [],
-          search: ""
+          search: "",
+          is_fetching: true
         }
       },
       async mounted() {
@@ -110,9 +112,11 @@
           this.getContent(url);
         },
         async getContent(url) {
+          this.is_fetching = true;
           const response = await axios.get(url);
           this.members = response.data.data;
           this.links = response.data.meta.links;
+          this.is_fetching = false;
         },
         editMember(id) {
           window.location = route('member.updated', { member: id });

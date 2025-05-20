@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\DateFormatter;
 use App\Models\Member;
-use Illuminate\Http\Request;
 
 class RecoveryController extends Controller
 {
+    public function __construct(public DateFormatter $dateFormatter) {}
     public function getSheet(Member $member) {
         $recovery_rows = $member->recovery;
         $late_payment_charges = $recovery_rows->sum("late_payment_charges");
         
         $now = \Carbon\Carbon::now();
-
-        if ($now->day > 10) {
-            $dueDate = $now->copy()->addMonth()->day(10);
-        } else {
-            $dueDate = $now->copy()->day(10);
-        }
-
-        $formattedDate = $dueDate->format('d M Y');
+        $formattedDate = $this->dateFormatter->calculateNext10thDay($now);
+        
         $to_be_paid_row = $member
                             ->recovery()
                             ->whereRaw('? BETWEEN `month` AND `due_date`', [$now])
@@ -33,5 +28,11 @@ class RecoveryController extends Controller
             "formattedDate",
             "to_be_paid_row"
         ));
+    }
+    public function getReport() {
+        return view("Recovery.generate-report");
+    }
+    public function generateReport() {
+        
     }
 }
