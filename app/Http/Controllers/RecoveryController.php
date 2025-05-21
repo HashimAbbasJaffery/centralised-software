@@ -33,6 +33,6 @@ class RecoveryController extends Controller
         return view("Recovery.generate-report");
     }
     public function generateReport() {
-        
+        return view("Recovery.generate-report");
     }
 }
