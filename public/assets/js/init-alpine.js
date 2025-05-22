@@ -43,8 +43,8 @@ function data() {
     closeProfileMenu() {
       this.isProfileMenuOpen = false
     },
-    isPagesMenuOpen: route().current("member.*"),
-    isRecoveryMenuOpen: false,
+    isPagesMenuOpen: route().current("member.*") && !route().current("member.recovery.*"),
+    isRecoveryMenuOpen: route().current("payment-schedule") || route().current("member.recovery.*"),
     isReciprocalMenuOpen: route().current("club.*") || route().current("duration.*") || route().current("introletter.*"),
     isMembershipCardMenuOpen: route().current("card-type.*"),
     isComplainsMenuOpen: false,

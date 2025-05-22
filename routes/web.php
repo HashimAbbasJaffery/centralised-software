@@ -44,3 +44,4 @@ Route::get("/card/back", [MembersCardController::class, "back"])->name("card.bac
 Route::get("/view-payment-schedule", [RecoveryController::class, "index"])->name("payment-schedule");
 Route::get("/recovery/{member}/sheet", [\App\Http\Controllers\RecoveryController::class, "getSheet"])->name("member.recovery.sheet");
 Route::get("/recovery/member/report", [\App\Http\Controllers\RecoveryController::class, "getReport"])->name("member.recovery.report");
+Route::get("/recovery/monthly/report", [\App\Http\Controllers\RecoveryController::class, "getOverall"])->name("member.recovery.overall");

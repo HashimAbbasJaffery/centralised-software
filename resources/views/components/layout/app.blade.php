@@ -29,11 +29,10 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/choices.js/1.1.6/styles/css/choices.min.css" integrity="sha512-/PTsSsk4pRsdHtqWjRuAL/TkYUFfOpdB5QDb6OltImgFcmd/2ZkEhW/PTQSayBKQtzjQODP9+IAeKd7S2yTXtA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-      body {
-        background: #121317;
-      }
+
 
       .loader {
         width: 20px;
@@ -78,8 +77,8 @@
       :class="{ 'overflow-hidden': isSideMenuOpen}"
     >
       <!-- Desktop sidebar -->
-        <x-navbar />
-        <x-navbar style="position: fixed; height: 100%;"/>
+        <x-navbar style="width: 20%; width: 220px;" />
+        <x-navbar style="position: fixed; height: 100%; width: 220px;"/>
       <!-- Mobile sidebar -->
       <!-- Backdrop -->
       <div

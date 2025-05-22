@@ -39,6 +39,9 @@ Route::delete("/introletter/{introletter}/delete", [IntroletterController::class
 Route::post("/recovery/{member}/create", [RecoveryController::class, "store"])->name("recovery.create");
 Route::get("/recovery/{member}/get", [RecoveryController::class, "get"])->name("api.recovery.get");
 
+Route::get("/recovery/report", [ \App\Http\Controllers\RecoveryController::class, "createReport" ])->name("api.recovery.report");
+Route::get("/recovery/monthly/report", [RecoveryController::class, "getMonthlyReport"])->name("api.recovery.monthly.report");
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');

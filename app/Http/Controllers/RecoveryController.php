@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\ApiResponse;
 use App\DateFormatter;
 use App\Models\Member;
+use Illuminate\Support\Facades\DB;
 
 class RecoveryController extends Controller
 {
-    public function __construct(public DateFormatter $dateFormatter) {}
+    public function __construct(public DateFormatter $dateFormatter, public ApiResponse $apiResponse) {}
     public function getSheet(Member $member) {
         $recovery_rows = $member->recovery;
         $late_payment_charges = $recovery_rows->sum("late_payment_charges");
@@ -33,6 +35,42 @@ class RecoveryController extends Controller
         return view("Recovery.generate-report");
     }
     public function generateReport() {
+        $startDate = "2024-01-11";
+        $endDate = "2025-02-10";
+        $statuses = ["level3"];
+        $members = Member::select("id", "member_name", "membership_number", "phone_number", "alternate_phone_number")
+                                ->with(["recovery" => function($query) use($startDate, $endDate) {
+                                    $query
+                                        ->sum("recovery.payable")
+                                        ->whereDate("month", ">=", $startDate)
+                                        ->whereDate("due_date", "<=", $endDate);
+                                }])
+                                ->whereIn("payment_status", $statuses)
+                                ->groupBy("id")
+                                ->get();
         return view("Recovery.generate-report");
+    }
+    public function createReport() {
+        $startDate = request()->start_date;
+        $endDate = request()->end_date;
+        $statuses = explode(",", request()->statuses);
+        
+        $members = Member::select("id", "member_name", "membership_number", "phone_number", "alternate_ph_number", "payment_status")
+                        ->whereHas("recovery", function($query) use($startDate, $endDate) {
+                            $query->whereDate("month", ">=", $startDate)
+                            ->whereDate("due_date", "<=", $endDate);
+                        })
+                        ->withSum("recovery", "payable")
+                        ->withMax("recovery", "payable")
+                        ->when(!in_array("all", $statuses), function($query) use($statuses) {
+                            $query->whereIn("payment_status", $statuses);
+                        })
+                        ->get();
+        
+        $sum = $members->sum("recovery_max_payable");
+        return $this->apiResponse->success("Date has been fetched!", [$members, $sum]);
+    }
+    public function getOverall() {
+        return view("Recovery.overall-report");
     }
 }

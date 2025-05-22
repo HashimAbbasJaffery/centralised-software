@@ -13,7 +13,7 @@
                 <button @click="getSheet(member.id)" style="margin-bottom: 10px; margin-top: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Print
                 </button>
-                <div class="container px-6 mx-auto grid mx-6" style="border-radius: 10px; background: rgba(26, 28, 35, var(--bg-opacity);">
+                <div class="container px-6 mx-auto grid mx-6" style="border-radius: 10px; background: white;">
                     <table style="color: white;">
                         <tr>
                             <td style="padding: 10px; color: rgb(158, 158, 158)">Member Name: <span v-text="member.member_name"></span></td>
@@ -30,7 +30,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="container px-6 mx-auto grid mx-6" style="margin-top: 20px; border-radius: 10px; background: rgba(26, 28, 35, var(--bg-opacity);">
+                <div class="container px-6 mx-auto grid mx-6" style="margin-top: 20px; border-radius: 10px; background: white;">
                     <table style="color: white;">
                         <tr>
                             <td style="padding: 10px; color: rgb(158, 158, 158)">Membership Type: <span v-text="member.membership.card_name"></span></td>
