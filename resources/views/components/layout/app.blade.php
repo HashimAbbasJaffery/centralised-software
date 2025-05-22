@@ -33,7 +33,9 @@
 
     <style>
 
-
+      body {
+        height: 100%;
+      }
       .loader {
         width: 20px;
         height: 20px;
@@ -77,8 +79,8 @@
       :class="{ 'overflow-hidden': isSideMenuOpen}"
     >
       <!-- Desktop sidebar -->
-        <x-navbar style="width: 20%; width: 220px;" />
-        <x-navbar style="position: fixed; height: 100%; width: 220px;"/>
+        <x-navbar style="width: 20%; width: 230px;" />
+        <x-navbar style="position: fixed; height: 100%; width: 230px;"/>
       <!-- Mobile sidebar -->
       <!-- Backdrop -->
       <div

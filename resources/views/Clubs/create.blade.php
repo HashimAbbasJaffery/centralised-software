@@ -1,7 +1,7 @@
 <x-layout.app>
 <style>
   .vs__selected {
-    color: white;
+    color: black;
   }
   .v-select {
     padding: 3px;
@@ -29,7 +29,7 @@
                   <div style="width: 33.33%;">
                     <label class="block text-sm" style="margin-bottom: 20px;">
                       <span class="text-gray-700 dark:text-gray-400">Countries</span>
-                      <v-select style="color: white;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :options="options" label="country" v-model="selectedCountry"></v-select>
+                      <v-select class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :options="options" label="country" v-model="selectedCountry"></v-select>
                     </label>
                   </div>
                   <div style="width: 33.33%;">

@@ -46,19 +46,19 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.create') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.create') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route("member.create") }}">Add member</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.manage') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.manage') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route("member.manage") }}">
               Manage member
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.birthdays') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.birthdays') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route('member.birthdays') }}">
               birthdays
@@ -125,7 +125,7 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
           >
-            <a class="w-full" href="./forgot-password.html" style="font-size: 12px;">
+            <a class="w-full" href="{{ route('member.recovery.overall') }}" style="font-size: 12px;">
               Recovery report overall
             </a>
           </li>
@@ -169,26 +169,26 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('introletter.index') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('introletter.index') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route('introletter.index') }}">Create Introduction letter</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.index') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.index') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route('club.index') }}">
               Manage Clubs
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.create') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.create') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route("club.create") }}">
               Add clubs
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('duration.index') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('duration.index') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route("duration.index") }}">
               Add duration and fees
@@ -235,12 +235,12 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.add') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.add') ? 'text-black' : '' }}"
           >
             <a class="w-full" href="{{ route('card-type.add') }}" style="font-size: 12px;">Add Card</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.index') ? 'text-white' : '' }}"
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.index') ? 'text-black' : '' }}"
           >
             <a class="w-full" href="{{ route('card-type.index') }}" style="font-size: 12px;">
               Manage Card
