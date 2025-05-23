@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\DurationController;
 use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
+use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,11 @@ Route::get("/recovery/{member}/get", [RecoveryController::class, "get"])->name("
 
 Route::get("/recovery/report", [ \App\Http\Controllers\RecoveryController::class, "createReport" ])->name("api.recovery.report");
 Route::get("/recovery/monthly/report", [RecoveryController::class, "getMonthlyReport"])->name("api.recovery.monthly.report");
+
+Route::post("/member/{member}/receipt/create", [ReceiptController::class, "store"])->name("api.member.receipt");
+Route::put("/receipt/{receipt}/update", [ReceiptController::class, "edit"])->name("api.member.receipt.update");
+Route::get("/receipts/get", [ReceiptController::class, "get"])->name("api.member.receipts");
+Route::delete("/receipt/{receipt}/delete", [ReceiptController::class, "delete"])->name("api.member.receipt.delete");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

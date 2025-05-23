@@ -8,10 +8,12 @@ use App\Http\Controllers\DurationController;
 use App\Http\Controllers\IntroletterController;
 use App\Http\Controllers\Members\MemberController;
 use App\Http\Controllers\MembersCardController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    phpinfo();
     return view('welcome');
 });
 
@@ -45,3 +47,7 @@ Route::get("/view-payment-schedule", [RecoveryController::class, "index"])->name
 Route::get("/recovery/{member}/sheet", [\App\Http\Controllers\RecoveryController::class, "getSheet"])->name("member.recovery.sheet");
 Route::get("/recovery/member/report", [\App\Http\Controllers\RecoveryController::class, "getReport"])->name("member.recovery.report");
 Route::get("/recovery/monthly/report", [\App\Http\Controllers\RecoveryController::class, "getOverall"])->name("member.recovery.overall");
+
+Route::get("/member/receipt", [ReceiptController::class, "create"])->name("member.recovery.receipt");
+Route::get("/member/receipts", [ReceiptController::class, "get"])->name("member.recovery.receipts.get");
+Route::get("/member/{receipt}/receipt", [ReceiptController::class, "update"])->name("member.recovery.receipt.update");

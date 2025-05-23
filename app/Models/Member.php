@@ -51,4 +51,7 @@ class Member extends Model
             set: fn($value) => str_replace("+", "", $value)
         );
     }
+    public function receipts() {
+        return $this->hasMany(Receipt::class);
+    }
 }
