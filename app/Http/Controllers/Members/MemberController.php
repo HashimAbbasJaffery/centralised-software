@@ -29,4 +29,7 @@ class MemberController extends Controller
 
         return view("Members.update", compact("member", "spouse_array", "children"));
     }
+    public function getDetails(Member $member) {
+        return view("Members.member_detail", compact("member"));
+    }
 }
