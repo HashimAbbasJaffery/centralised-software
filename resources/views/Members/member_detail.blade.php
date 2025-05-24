@@ -62,13 +62,13 @@
         </div>
       </div>
       <div v-if="tab === 'personal information'">
-        <p><span style="display: inline-block; width: 200px;">Name:</span> {{ $member->member_name }}</p>
+        <p><span style="display: inline-block; width: 200px;">Name:</span> <span editable="true">{{ $member->member_name }}</span></p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Birth:</span> {{ \Carbon\Carbon::parse($member->date_of_birth)->format("d-M-Y") }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px; text-transform: capitalize;">Gender:</span> {{ $member->gender }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px; text-transform: capitalize;">Marital Status:</span> {{ $member->marital_status }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">CNIC/Passport:</span> {{ $member->cnic_passport }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City/Country:</span> {{ $member->city_country }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Blood Group:</span> {{ $member->blood_group }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Blood Group:</span> <span style="text-transform: uppercase;">{{ $member->blood_group }}</span></p>
       </div>
       <div v-if="tab === 'contact information'">
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Phone Number:</span> {{ $member->phone_number }}</p>
@@ -95,7 +95,7 @@
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Payment Status:</span> {{ $member->payment_status }}</p>
       </div>
       <div v-if="tab === 'locker information'">
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Locker Category:</span> {{ $member->locker_category }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Locker Category:</span> <span style="text-transform: uppercase;">{{ $member->locker_category }}</span></p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Locker Number:</span> {{ $member->locker_number }}</p>
       </div>
     </div>
