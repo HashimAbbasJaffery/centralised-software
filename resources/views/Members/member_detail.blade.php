@@ -86,6 +86,7 @@
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Applying:</span> {{ \Carbon\Carbon::parse($member->date_of_applying)->format("d-M-Y") }}</p>
       </div>
       <div v-if="tab === 'payment information'">
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">File Number:</span> {{ $member->file_number }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Form Fee:</span> {{ number_format($member->form_fee) }}/-</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Processing Fee:</span> {{ number_format($member->processing_fee) }}/-</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">First Payment:</span> {{ number_format($member->first_payment) }}/-</p>
