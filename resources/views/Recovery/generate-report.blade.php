@@ -140,7 +140,7 @@ footer{
             </div>
             <div style="width: 33.33%;">
                 <label for="status">
-                    <span class="text-gray-700 dark:text-gray-400">Select Status: 2</span>
+                    <span class="text-gray-700 dark:text-gray-400">Select Status: </span>
                     <select name="status[]" v-model="statuses" id="status" class="choices form-control label" multiple>
                         <option value="all">All</option>
                         <option value="Regular">Regular</option>

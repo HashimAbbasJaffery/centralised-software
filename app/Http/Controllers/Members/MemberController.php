@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Members;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function GuzzleHttp\json_encode;
@@ -11,7 +12,8 @@ use function GuzzleHttp\json_encode;
 class MemberController extends Controller
 {
     public function index() {
-        return view("Members.index");
+        $setting = Setting::first();
+        return view("Members.index", compact("setting"));
     }
     public function create() {
         return view("Members.create");

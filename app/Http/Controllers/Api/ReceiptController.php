@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReceiptRequest;
 use App\Http\Resources\ReceiptResource;
 use App\Jobs\CreateReceipt;
+use App\Mail\ReceiptMail;
 use App\Models\Member;
 use App\Models\Receipt;
 use App\Service\UniqueCodeService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class ReceiptController extends Controller
@@ -57,5 +59,10 @@ class ReceiptController extends Controller
     public function download(Receipt $receipt) {
         $fileName = "Receipt-{$receipt->receipt_id}-{$receipt->member->member_name}.pdf";
         return Storage::disk("local")->download("recovery/receipts/$fileName");
+    }
+    public function mail(Receipt $receipt) {
+        Mail::to("habbas21219@gmail.com")->send(new ReceiptMail($receipt));
+
+        return $this->apiResponse->success("Email has been sent!");
     }
 }

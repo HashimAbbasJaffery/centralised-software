@@ -51,3 +51,4 @@ Route::get("/recovery/monthly/report", [\App\Http\Controllers\RecoveryController
 Route::get("/member/receipt", [ReceiptController::class, "create"])->name("member.recovery.receipt");
 Route::get("/member/receipts", [ReceiptController::class, "get"])->name("member.recovery.receipts.get");
 Route::get("/member/{receipt}/receipt", [ReceiptController::class, "update"])->name("member.recovery.receipt.update");
+

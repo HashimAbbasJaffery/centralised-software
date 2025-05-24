@@ -601,6 +601,8 @@
                   this.formData.append("children", this.children);
                   this.formData.append("phone_numbers", JSON.stringify(this.phone_numbers));
                   this.formData.append("payment_status", this.payment_status);
+                  this.formData.append("locker_category", this.locker_category);
+                  this.formData.append("locker_number", this.locker_number);
                   
                   this.spouses.forEach((spouse, index) => {
                     this.formData.append(`spouses[${index}]`, spouse);

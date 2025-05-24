@@ -49,6 +49,8 @@ class MemberRequest extends FormRequest
             "validity" => [ "required" ],
             "profile_picture" => [ "required" ],
             "payment_status" => [ "required" ],
+            "locker_category" => [ "required" ],
+            "locker_number" => [ "required" ]
         ];
     }
 }

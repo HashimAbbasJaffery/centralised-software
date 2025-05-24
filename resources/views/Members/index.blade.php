@@ -8,6 +8,7 @@
       height: 12px;
     }
   </style>
+  <script src="https://kit.fontawesome.com/3a7e8b6e65.js" crossorigin="anonymous"></script>
   <main id="app" class="h-full pb-16 overflow-y-auto">
     <!-- Remove everything INSIDE this div to a really blank page -->
     
@@ -17,12 +18,25 @@
       >
         Manage Members
       </h2>
-      <a href="{{ route('member.create') }}" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-        Create
-      </a>
+      <div style="display: flex; column-gap: 10px;">
+        <a href="{{ route('member.create') }}" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          Create
+        </a>     
+      <button @click="saveInGoogleDrive" href="{{ route('member.create') }}" style="margin-bottom: 20px; text-align: center; display: flex; align-items: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        <i class="fa-brands fa-google-drive"></i>
+        <p style="margin-left: 10px;">Google Drive</p>
+      </button>
+      @if($setting)
+        <a href="{{ $setting->google_drive_link }}" target="_blank" style="margin-bottom: 20px; text-align: center; display: flex; align-items: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          <i class="fa-brands fa-google-drive"></i>
+          <p style="margin-left: 10px;">Link</p>
+        </a>
+      @endif
+      </div>
       <div style="display: flex; justify-content: space-between;">
         <input v-model="search" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="width: 25%; margin-bottom: 20px;" placeholder="Search">
       </div>
+ 
       <table v-if="members.length > 0 && !is_fetching" class="w-full whitespace-no-wrap">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -152,6 +166,10 @@
         }
       },
       methods: {
+        async saveInGoogleDrive() {
+          const response = await axios.post(route("api.member.save.google.drive"));
+          console.log(response);
+        },
         backCard() {
           window.location = route("card.back", { members: this.child_checkbox });
         },

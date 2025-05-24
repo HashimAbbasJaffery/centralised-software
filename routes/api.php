@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
+use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,9 @@ Route::get("/receipts/get", [ReceiptController::class, "get"])->name("api.member
 Route::delete("/receipt/{receipt}/delete", [ReceiptController::class, "delete"])->name("api.member.receipt.delete");
 
 Route::get("/receipt/{receipt}/download", [ReceiptController::class, "download"])->name("api.member.receipt.download");
+Route::get("/member/{receipt}/mail", [ReceiptController::class, "mail"])->name("api.member.recovery.receipt.mailer");
+
+Route::post("/members/save/google_drive", [GoogleServicesController::class, "save"])->name("api.member.save.google.drive");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

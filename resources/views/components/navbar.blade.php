@@ -118,7 +118,7 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
           >
-            <a class="w-full" href="./forgot-password.html" style="font-size: 12px;">
+            <a class="w-full" href="{{ route('member.recovery.receipts.get') }}" style="font-size: 12px;">
               Recovery payment receipt
             </a>
           </li>
