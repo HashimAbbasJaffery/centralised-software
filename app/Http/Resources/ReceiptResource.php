@@ -20,7 +20,8 @@ class ReceiptResource extends JsonResource
             "paid_amount" => $this->paid_amount,
             "reference_number" => $this->reference_number,
             "payment_method" => $this->payment_method->payment_method,
-            "date" => $this->date
+            "date" => $this->date,
+            "receipt_status" => $this->receipt_status
         ];
     }
 }

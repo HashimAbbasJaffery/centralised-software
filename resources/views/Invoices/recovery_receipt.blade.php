@@ -155,7 +155,7 @@
         <div class="header" style="margin: 0; padding: 0;">
        
             <div style="float: left; margin-bottom: 15px">
-                <h1 class="mt-2" style="font-weight: semibold; margin-bottom: 3px;">RECEIPT</h1>
+                <h1 class="mt-2" style="font-weight: bold; margin-bottom: 3px;">RECEIPT</h1>
                 <span style="line-height: 0px;">
                     <p style="font-size: 15px; margin-top: 0px; font-weight: 400; margin-bottom: 0px; padding-bottom: 0px; margin: 0; height: 10px;">from Gwadar Gymkhana (Pvt) Ltd.</p>
                     <p style="font-size: 8px; margin-top: 0px; padding-top: 0px; margin: 0; padding: 0;">PR120224 - <span style="font-style: italic;">All published prices are in PKR.</span></p>
@@ -174,18 +174,18 @@
         
        <table style="width: 100%; border-collapse: collapse; margin-top: 10px">
             <tr>
-                <td style="width: 70%; border: none; padding: 6px; font-size: 10px; text-transform: capitalize;">
+                <td style="width: 70%; border: none; padding: 6px; font-size: 10px; text-transform: capitalize; vertical-align: middle;">
                     <span style="font-weight: bold">To</span>: <span>{{ $receipt->member->member_name }}</span>
                 </td>
                 
                 <td style="text-align: center; vertical-align: middle; width: 30%; border: none; border-left: 1px solid black; padding: 6px; border-right: 1px solid black; border-bottom: 1px solid black; line-height: 8px; font-size: 10px; text-transform: capitalize; line-height: 10px;" rowspan="2">
                     <span style="font-weight: bold;">Receipt No:</span>
                     <br>
-                    12345
+                    {{ $receipt->receipt_id }}
                 </td>
             </tr>
             <tr>
-                <td style="width: 70%; border-bottom: 1px solid black; border-right: none; padding: 6px; font-size: 10px; text-transform: capitalize;">
+                <td style="width: 70%; border-bottom: 1px solid black; border-right: none; padding: 6px; font-size: 10px; text-transform: capitalize; padding-top: 8px;">
                     <span style="font-weight: bold;">CNIC/Passport No</span>: <span>{{ $receipt->member->cnic_passport }}</span>
                 </td>
             </tr>
@@ -203,7 +203,7 @@
         </table>
         <table style="width: 100%; text-align: center; border-bottom: 1px solid black;">
             <tr style="vertical-align: middle;">
-                <td style="font-size: 20px; font-weight: bold; padding-top: 30px; padding-bottom: 20px;">PAID PKR. {{ $receipt->paid_amount }}/-</td>
+                <td style="font-size: 20px; font-weight: bold; padding-top: 30px; padding-bottom: 20px;">PAID PKR. {{ number_format($receipt->paid_amount) }}/-</td>
             </tr>
         </table>
         
@@ -215,7 +215,7 @@
         </table>
         <table style="width: 100%; border-collapse: collapse; border-bottom: 1px solid black;">
             <tr>
-                <td style="font-weight: bold; padding: 10px; width: 20%; font-size: 10px !important; text-transform: lowercase; text-align: center; line-height: 8px; background: #fff2cc;"><span style="text-transform: uppercase;">T</span>his receipt is electronically generated and valid without a signature or stamp. It is only valid
+                <td style="font-weight: bold; padding: 10px; width: 20%; font-size: 10px !important; text-transform: lowercase; text-align: center; line-height: 11px; background: #fff2cc;"><span style="text-transform: uppercase;">T</span>his receipt is electronically generated and valid without a signature or stamp. It is only valid
 with the above payment reference number for verification</td>
             </tr>
         </table>

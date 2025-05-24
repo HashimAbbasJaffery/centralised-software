@@ -6,26 +6,21 @@ use App\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReceiptRequest;
 use App\Http\Resources\ReceiptResource;
+use App\Jobs\CreateReceipt;
 use App\Models\Member;
 use App\Models\Receipt;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Service\UniqueCodeService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ReceiptController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse, protected UniqueCodeService $uniqueCodeService) {}
     public function store(ReceiptRequest $request, Member $member) {
-        $receipt = $member->receipts()->create($request->validated());
+        $receipt = $member->receipts()->create([ ...$request->validated(), "receipt_id" => $this->uniqueCodeService->generateUniqueCode(6) ]);
 
         $receipt = $receipt->load(["member", "payment_method"]);
-        $pdf = PDF::loadView("Invoices.recovery_receipt", [ "receipt" => $receipt ])
-                    ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper([0, 0, 419.53, 595.28], 'portrait');
-                    
-        $pdfContent = $pdf->output();
-        $filePath = "recovery/receipts/" . $receipt->id . ".pdf";
-        Storage::put($filePath, $pdfContent);
+        dispatch(new CreateReceipt($receipt));
 
         return $this->apiResponse->success("Receipt has been created");
     }
@@ -46,7 +41,7 @@ class ReceiptController extends Controller
                         ->orWhereHas("payment_method", function($q) use ($keyword) {
                             $q->where("payment_method", "like", "%$keyword%");
                         });
-                    })->paginate(8);
+                    })->orderBy("created_at", "desc")->paginate(8);
 
 
         return ReceiptResource::collection($receipts);
@@ -57,5 +52,10 @@ class ReceiptController extends Controller
         $receipt->delete();
 
         return $this->apiResponse->success("Receipt has been deleted");
+    }
+
+    public function download(Receipt $receipt) {
+        $fileName = "Receipt-{$receipt->receipt_id}-{$receipt->member->member_name}.pdf";
+        return Storage::disk("local")->download("recovery/receipts/$fileName");
     }
 }

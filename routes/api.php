@@ -48,6 +48,8 @@ Route::put("/receipt/{receipt}/update", [ReceiptController::class, "edit"])->nam
 Route::get("/receipts/get", [ReceiptController::class, "get"])->name("api.member.receipts");
 Route::delete("/receipt/{receipt}/delete", [ReceiptController::class, "delete"])->name("api.member.receipt.delete");
 
+Route::get("/receipt/{receipt}/download", [ReceiptController::class, "download"])->name("api.member.receipt.download");
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
