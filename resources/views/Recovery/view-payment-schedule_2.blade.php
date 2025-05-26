@@ -7,6 +7,9 @@
             background: #f5f5f5;
             cursor: not-allowed;
         }
+        input:disabled {
+            background: #f5f5f5;
+        }
     </style>
     <main class="h-full pb-16" id="app">
         <div class="container px-6 mx-auto grid">
@@ -101,7 +104,7 @@
                             <input type="text" v-model="row.paid" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" v-model="row.due" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text" v-model="row.due" readonly style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="double-cols padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="text" v-model="row.balance" readonly style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
