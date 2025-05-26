@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('recovery_sheets', function (Blueprint $table) {
             $table->id();
             $table->foreignId("member_id")->constrained("members")->cascadeOnDelete();
-            $table->date("month");
-            $table->date("due_date");
-            $table->string("payment_description");
-            $table->float("current_month_payable");
-            $table->float("late_payment_charges");
-            $table->float("payable");
-            $table->float("paid");
-            $table->float("due_amount");
-            $table->float("due_b_f");
-            $table->float("main_balance");
-            $table->float("total_sum_value");
+            $table->date("month")->nullable();
+            $table->date("due_date")->nullable();
+            $table->string("payment_description")->nullable();
+            $table->float("current_month_payable")->nullable();
+            $table->float("late_payment_charges")->nullable();
+            $table->float("payable")->nullable();
+            $table->float("paid")->nullable();
+            $table->float("due_amount")->nullable();
+            $table->float("due_b_f")->nullable();
+            $table->float("main_balance")->nullable();
+            $table->float("total_sum_value")->nullable();
             $table->timestamps();
         });
     }

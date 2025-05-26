@@ -4,6 +4,8 @@
       width: 100%;
     }
   </style>
+  
+  <script src="https://kit.fontawesome.com/231b67747d.js" crossorigin="anonymous"></script>
   <main id="app" class="h-full pb-16 overflow-y-auto">
     <!-- Remove everything INSIDE this div to a really blank page -->
     
@@ -11,43 +13,25 @@
       <h2
         class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
-        Birthdays
+        Manage Payment Methods
       </h2>
       <div style="display: flex; justify-content: space-between;">
         <input v-model="search" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="width: 25%; margin-bottom: 20px;" placeholder="Search">
       </div>
-      <table v-if="members.length > 0 && !is_fetching" class="w-full whitespace-no-wrap">
+      <table v-if="payment_methods.length > 0" class="w-full whitespace-no-wrap" style="width: 100%; overflow: scroll;">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-            <th class="px-4 py-3">Member Name</th>
-            <th class="px-4 py-3">Membership Number</th>
-            <th class="px-4 py-3">Email</th>
-            <th class="px-4 py-3">Phone Number</th>
+            <th class="px-4 py-3">Payment Methods</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-          <tr v-for="member in members" class="text-gray-700 dark:text-gray-400">
-            <td class="px-4 py-3">
-              <div class="flex items-center text-sm">
-                <!-- Avatar with inset shadow -->
-                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                  <img class="object-cover w-full h-full rounded-full" :src="`/storage/${member.profile_picture}`" alt="" loading="lazy">
-                  <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                </div>
-                <div>
-                  <p class="font-semibold" v-text="member.member_name"></p>
-                  <p class="text-xs text-gray-600 dark:text-gray-400" style="text-transform: capitalize;" v-text="`${member.membership_type} Membership`"></p>
-                </div>
-              </div>
-            </td>
-            <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
-            <td class="px-4 py-3 text-xs" v-text="member.email_address"></td>
-            <td class="px-4 py-3 text-sm" v-text="member.phone_number"></td>
+          <tr v-for="payment_method in payment_methods" class="text-gray-700 dark:text-gray-400">
+            
+            <td class="px-4 py-3 text-sm" v-text="payment_method.payment_method"></td>
           </tr>
         </tbody>
       </table>
-      <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
-      <div v-else-if="!is_fetching && !members.length" class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+      <div v-else class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <p class="text-sm text-gray-600 dark:text-gray-400">
           No Members found!
         </p>
@@ -79,10 +63,9 @@
     const app = Vue.createApp({
       data() {
         return {
-          members: [],
+          payment_methods: [],
           links: [],
-          search: "",
-          is_fetching: true
+          search: ""
         }
       },
       async mounted() {
@@ -90,11 +73,11 @@
         if (savedData) {
           this.$data = Object.assign(this.$data, savedData);
         }
-        this.getContent(route("api.member.birthday"));
+        this.getContent(route("api.payment-methods.index"));
       },
       watch: {
         search(newValue) {
-          this.getContent(route("api.member.birthday", { keyword: newValue }));
+          this.getContent(route("api.payment-methods.index", { keyword: newValue }));
         },
       },
       methods: {
@@ -112,16 +95,18 @@
           this.getContent(url);
         },
         async getContent(url) {
-          this.is_fetching = true;
           const response = await axios.get(url);
-          this.members = response.data.data;
+          console.log(response);
+          this.payment_methods = response.data.data;
           this.links = response.data.meta.links;
-          this.is_fetching = false;
         },
         editMember(id) {
           window.location = route('member.updated', { member: id });
         },
-        async deleteMember(id) {
+        getInvoice(id) {
+          window.location = route("introletter.invoice", { introletter: id });
+        },
+        async deleteIntroletter(id) {
 
           Swal.fire({
             title: "Do you want to move it in trash?",
@@ -129,9 +114,10 @@
             confirmButtonText: "Delete",
           }).then(async (result) => {
             if (result.isConfirmed) {
-              const response = await axios.delete(route("api.member.delete", { member: id }));
+              const response = await axios.delete(route("api.introletter.delete", { introletter: id }));
+              console.log(response);
               if(response.data.status === "200") {
-                this.members = this.members.filter(member => member.id !== id);
+                this.introletters = this.introletters.filter(introletter => introletter.id !== id);
               } 
             }
           });

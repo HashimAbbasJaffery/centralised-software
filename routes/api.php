@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\DurationController;
 use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
+use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
@@ -53,6 +54,8 @@ Route::get("/receipt/{receipt}/download", [ReceiptController::class, "download"]
 Route::get("/member/{receipt}/mail", [ReceiptController::class, "mail"])->name("api.member.recovery.receipt.mailer");
 
 Route::post("/members/save/google_drive", [GoogleServicesController::class, "save"])->name("api.member.save.google.drive");
+
+Route::get("/payment-methods", [PaymentMethodController::class, "get"])->name("api.payment-methods.index");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

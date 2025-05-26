@@ -1,4 +1,13 @@
 <x-layout.app>
+    <style>
+        .recovery-row:nth-child(2n) {
+            background: #f0f0f0;
+        }
+        input:read-only {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+    </style>
     <main class="h-full pb-16" id="app">
         <div class="container px-6 mx-auto grid">
             <h2 class="mt-6 mb-3 text-2xl font-semibold text-gray-700 dark:text-gray-200">View Payment Schedule</h2>
@@ -66,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    <tr class="text-gray-700 dark:text-gray-400" v-for="(row, index) in rows" :key="row.id">
+                    <tr class="text-gray-700 dark:text-gray-400 recovery-row" v-for="(row, index) in rows" :key="row.id">
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input v-model="row.month" style="font-size: 10px;" type="date" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
@@ -94,19 +103,19 @@
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="text" v-model="row.due" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
-                        <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
+                        <td style="double-cols padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="text" v-model="row.balance" readonly style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="text" v-model="row.total_balance" readonly style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px;">
-                            <button @click="addRow" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button @click="addRow" v-if="index === rows.length - 1" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 +
                             </button>
                         </td>
                         <td style="padding-left: 15px;">
-                            <button @click="deleteRow(row.id)" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button @click="deleteRow(row.id)" v-if="index === rows.length - 1" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 -
                             </button>
                         </td>
@@ -177,24 +186,68 @@ const app = Vue.createApp({
         }
     },
   methods: {
+    getNextMonth(yesterday) {
+        const date = new Date(yesterday);
+        date.setMonth(date.getMonth() + 1);
+
+        // Format back to YYYY-MM-DD
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-based
+        const day = String(date.getDate()).padStart(2, '0');
+
+        const newDateStr = `${year}-${month}-${day}`;
+
+        return newDateStr;
+    },
     doCalculation(newRows) {
         let lastDue = 0;
         let balance = this.firstBalance();
+        let yesterday = null;
+        let yesterdaysDueDate = null;
 
         newRows.forEach((row, index) => {
-            const currentPayablePlusLateMonth = parseInt(row.current_month_payable) + parseInt(row.late_month_charges) + parseInt(lastDue);
-            const dues = currentPayablePlusLateMonth - parseInt(row.paid);
-            row.due_amount = lastDue;
-            lastDue = dues;
+            // const currentPayablePlusLateMonth = parseInt(row.current_month_payable) + parseInt(row.late_month_charges) + parseInt(lastDue);
+            // const dues = currentPayablePlusLateMonth - parseInt(row.paid);
+            // row.due_amount = lastDue;
+            // lastDue = dues;
 
-            row.payable = currentPayablePlusLateMonth || "";
-            row.due = dues;
-            row.balance = balance;
-            balance -= row.paid;
+            // row.payable = currentPayablePlusLateMonth || "";
+            // row.due = dues;
+            // row.balance = balance;
+            // balance -= row.paid;
 
-            if(row.late_month_charges) balance += parseInt(row.late_month_charges);
+            // if(row.late_month_charges) balance += parseInt(row.late_month_charges);
             
-            row.total_balance = balance;
+            // row.total_balance = balance;
+
+        const currentPayable = parseInt(row.current_month_payable) || 0;
+
+        const lateCharges = parseInt(row.late_month_charges) || 0;
+        const paid = parseInt(row.paid) || 0;
+
+        const currentPayableWithLate = currentPayable + lateCharges + lastDue;
+        const dues = currentPayableWithLate - paid;
+
+        row.due_amount = lastDue.toLocaleString('en-US');
+        row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
+        row.due = dues.toLocaleString('en-US');
+        row.balance = balance.toLocaleString('en-US');
+        row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
+        
+        if(yesterday) {
+            row.month = this.getNextMonth(yesterday);
+        }
+        if(yesterdaysDueDate) {
+            row.due_date = this.getNextMonth(yesterdaysDueDate);
+        }
+        
+        yesterday = row.month;
+        yesterdaysDueDate = row.due_date;
+
+        lastDue = dues;
+        balance = balance - paid + lateCharges;
+
+
         });
     },
     async saveInDatabase(id) {
@@ -230,6 +283,7 @@ const app = Vue.createApp({
         });
     },
     deleteRow(id) {
+        if(this.rows.length == 1) return;
         this.rows = this.rows.filter(row => row.id != id);
         this.doCalculation(this.rows);
     },

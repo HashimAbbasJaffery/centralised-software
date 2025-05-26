@@ -22,6 +22,9 @@ class RecoveryController extends Controller
             RecoveryResource::collection($member->recovery)
         );
     }
+    public function denormalise($value) {
+        return (int) str_replace(',', '', $value);
+    }
     public function store(Member $member) {
         $rows = request()->rows;
         DB::transaction(function() use($rows, $member) {
@@ -33,14 +36,14 @@ class RecoveryController extends Controller
                     "month" => $row["month"],
                     "due_date" => $row["due_date"],
                     "payment_description" => $row["payment_description"],
-                    "current_month_payable" => $row["current_month_payable"],
-                    "late_payment_charges" => $row["late_month_charges"],
-                    "payable" => $row["payable"],
-                    "paid" => $row["paid"],
-                    "due_amount" => $row["due"],
-                    "due_b_f" => $row["due_amount"],
-                    "main_balance" => $row["balance"],
-                    "total_sum_value" => $row["total_balance"]
+                    "current_month_payable" => $this->denormalise($row["current_month_payable"]),
+                    "late_payment_charges" => $this->denormalise($row["late_month_charges"]),
+                    "payable" => $this->denormalise($row["payable"]),
+                    "paid" => $this->denormalise($row["paid"]),
+                    "due_amount" => $this->denormalise($row["due"]),
+                    "due_b_f" => $this->denormalise($row["due_amount"]),
+                    "main_balance" => $this->denormalise($row["balance"]),
+                    "total_sum_value" => $this->denormalise($row["total_balance"]),
                 ]);
             }
 

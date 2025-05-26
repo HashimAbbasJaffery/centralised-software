@@ -61,7 +61,7 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.birthdays') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route('member.birthdays') }}">
-              birthdays
+              Birthdays
             </a>
           </li>
         </ul>

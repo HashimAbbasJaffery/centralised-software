@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 class PaymentMethodController extends Controller
 {
-    //
+    public function index() {
+        return view("Payment Method.index");
+    }
 }

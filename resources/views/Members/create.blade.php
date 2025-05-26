@@ -279,19 +279,40 @@
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Form Fee</span>
-                    <input type="text" v-model="form_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Form Fee">
-                  </label>
+                    <input
+                        type="text"
+                        :value="Number(form_fee).toLocaleString('en-US')"
+                        @input="form_fee = $event.target.value.replace(/,/g, '')"
+                        placeholder="Form Fee"
+                        style="width: 100% !important; margin-top: 4px !important;"
+                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      />
+                </label>
                 </div>
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Processing Fee</span>
-                    <input type="text" v-model="processing_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Processing Fee">
+                    <input 
+                      type="text" 
+                      :value="Number(processing_fee).toLocaleString('en-US')"
+                      @input="processing_fee = $event.target.value.replace(/,/g, '')"
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="Processing Fee">
                   </label>
                 </div>
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">First Payment</span>
-                    <input type="text" v-model="first_payment" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="First Payment">
+                    <input 
+                      type="text" 
+                      :value="Number(first_payment).toLocaleString('en-US')"
+                      @input="first_payment = $event.target.value.replace(/,/g, '')"
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="First Payment">
                   </label>
                 </div>
               </div>
@@ -299,7 +320,14 @@
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Total Installment</span>
-                    <input type="text" v-model="total_installment" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Total Installment">
+                    <input 
+                      type="text" 
+                      :value="Number(total_installment).toLocaleString('en-US')"
+                      @input="total_installment = $event.target.value.replace(/,/g, '')"
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="Total Installment">
                   </label>
                 </div>
                 <div style="width: 33.33%;">
@@ -491,6 +519,12 @@
                 phone_numbers: [{countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}],
                 formData: new FormData(),
                 cardTypes: [],
+              }
+            },
+            watch: {
+              form_fee(newValue) {
+                this.form_fee = newValue.toLocaleString();
+
               }
             },
             computed: {

@@ -8,6 +8,7 @@ use App\Http\Controllers\DurationController;
 use App\Http\Controllers\IntroletterController;
 use App\Http\Controllers\Members\MemberController;
 use App\Http\Controllers\MembersCardController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use Illuminate\Support\Facades\Route;
@@ -55,3 +56,4 @@ Route::get("/member/{receipt}/receipt", [ReceiptController::class, "update"])->n
 
 Route::get("/member/{member}/get", [MemberController::class, "getDetails"])->name("member.get");
 
+Route::get("/payment-methods", [PaymentMethodController::class, "index"])->name("payment_method.index");

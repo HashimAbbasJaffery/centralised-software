@@ -227,7 +227,7 @@ table, tfoot td{
 	@else
 		<h6 style="font-weight:600; line-height:12px; font-size:12px !important; text-align:right;">PAY DUES BEFORE {{ $formattedDate }}</h6>
 	@endif
-	<h5 style="font-weight:bold; line-height:22px; font-size:30px; text-align:right;">PKR. {{ number_format($to_be_paid_row->payable) }}/-</h5>
+	<h5 style="font-weight:bold; line-height:22px; font-size:30px; text-align:right;">PKR. {{ number_format($to_be_paid_row?->payable ?? "0") }}/-</h5>
     </td>
 </tr>
 </tbody>
@@ -260,15 +260,15 @@ table, tfoot td{
 			<tr class="data page" scope="row">
 		
                 <td style="width:10%;">{{ \Carbon\Carbon::parse($row->month)->format("F, Y") }}</td>
-			    <td style="width:10%;" class="text-right">{{ number_format($row->due_b_f) ? number_format($row->due_b_f) : ""}}</td>
+			    <td style="width:10%;" class="text-right">{{ number_format($row->due_b_f) && !is_null($row?->payable ?? null) && $row->payable > 0 ? number_format($row->due_b_f) : ""}}</td>
 				<td style="width:10%;">{{ \Carbon\Carbon::parse($row->due_date)->format("d M y") }}</td>
 				<td style="width:11%;">{{ $row->payment_description }}</td>
-				<td style="width:9%;" class="text-right">{{ number_format($row->current_month_payable) }}</td>
+				<td style="width:9%;" class="text-right">{{ is_null($row->current_month_payable) ? "" : number_format($row->current_month_payable) }}</td>
 				<td style="width:12%;" class="text-right">{{ number_format($row->late_payment_charges) ? number_format($row->late_payment_charges) : ""}}</td>
-				<td style="width:10%;" class="text-right">{{ number_format($row->payable    ) }}</td>
-				<td style="width:10%;" class="text-right">{{ number_format($row->paid) ? number_format($row->paid) : "" }}</td>
+				<td style="width:10%;" class="text-right">{{ is_null($row->payable) ? "" : number_format($row->payable) }}</td>
+				<td style="width:10%;" class="text-right">{{ is_null($row->paid) || $row->paid == 0 ? "" : number_format($row->paid) }}</td>
 				<td style="width:10%;" class="text-right">{{ number_format($row->due_amount) ? number_format($row->due_amount) : ""}}</td>
-				<td style="width:13%;" class="text-right">{{ number_format($row->total_sum_value) }}</td>
+				<td style="width:13%;" class="text-right">{{ !is_null($row?->payable ?? null) && $row->payable > 0 ? number_format($row->total_sum_value) : "" }}</td>
 			</tr>
             @endforeach
 			</tbody>
