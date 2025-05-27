@@ -67,6 +67,7 @@ class RecoveryController extends Controller
             ->groupByRaw('YEAR(month), MONTH(month), month')
             ->orderByRaw('YEAR(month), MONTH(month)')
             ->get();
+            
         $total_current_month_payable = $recovery->sum("total_current_month_payable");
         $total_paid = $recovery->sum("total_paid");
         return $this->apiResponse->success("Recovery sheet has been fetched!", [$recovery, $total_current_month_payable, $total_paid]);

@@ -57,19 +57,18 @@ class RecoveryController extends Controller
         $statuses = explode(",", request()->statuses);
         
         $members = Member::select("id", "member_name", "membership_number", "phone_number", "alternate_ph_number", "payment_status")
-                        ->whereHas("recovery", function($query) use($startDate, $endDate) {
+                        ->withAndWhereHas("recovery", function($query) use($startDate, $endDate) {
                             $query->whereDate("month", ">=", $startDate)
-                            ->whereDate("due_date", "<=", $endDate);
+                                    ->whereDate("due_date", "<=", $endDate)
+                                    ->orderBy("id", "desc")
+                                    ->limit(1);
                         })
-                        ->withSum("recovery", "payable")
-                        ->withMax("recovery", "payable")
                         ->when(!in_array("all", $statuses), function($query) use($statuses) {
                             $query->whereIn("payment_status", $statuses);
                         })
                         ->get();
-        
-        $sum = $members->sum("recovery_max_payable");
-        return $this->apiResponse->success("Date has been fetched!", [$members, $sum]);
+        // $sum = $members->sum("recovery_max_payable");
+        return $this->apiResponse->success("Date has been fetched!", [$members]);
     }
     public function getOverall() {
         return view("Recovery.overall-report");

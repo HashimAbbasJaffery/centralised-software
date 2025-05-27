@@ -238,32 +238,32 @@ const app = Vue.createApp({
             
             // row.total_balance = balance;
 
-            const currentPayable = parseInt(row.current_month_payable) || 0;
+        const currentPayable = parseInt(row.current_month_payable) || 0;
 
-            const lateCharges = parseInt(row.late_month_charges) || 0;
-            const paid = parseInt(row.paid) || 0;
+        const lateCharges = parseInt(row.late_month_charges) || 0;
+        const paid = parseInt(row.paid) || 0;
 
-            const currentPayableWithLate = currentPayable + lateCharges + lastDue;
-            const dues = currentPayableWithLate - paid;
+        const currentPayableWithLate = currentPayable + lateCharges + lastDue;
+        const dues = currentPayableWithLate - paid;
 
-            row.due_amount = lastDue.toLocaleString('en-US');
-            row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
-            row.due = dues.toLocaleString('en-US');
-            row.balance = balance.toLocaleString('en-US');
-            row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
-            
-            if(yesterday) {
-                row.month = this.getNextMonth(yesterday);
-            }
-            if(yesterdaysDueDate) {
-                row.due_date = this.getNextMonth(yesterdaysDueDate);
-            }
-            
-            yesterday = row.month;
-            yesterdaysDueDate = row.due_date;
+        row.due_amount = lastDue.toLocaleString('en-US');
+        row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
+        row.due = dues.toLocaleString('en-US');
+        row.balance = balance.toLocaleString('en-US');
+        row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
+        
+        if(yesterday) {
+            row.month = this.getNextMonth(yesterday);
+        }
+        if(yesterdaysDueDate) {
+            row.due_date = this.getNextMonth(yesterdaysDueDate);
+        }
+        
+        yesterday = row.month;
+        yesterdaysDueDate = row.due_date;
 
-            lastDue = dues;
-            balance = balance - paid + lateCharges;
+        lastDue = dues;
+        balance = balance - paid + lateCharges;
 
 
         });

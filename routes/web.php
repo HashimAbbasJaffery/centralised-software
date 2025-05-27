@@ -57,3 +57,4 @@ Route::get("/member/{receipt}/receipt", [ReceiptController::class, "update"])->n
 Route::get("/member/{member}/get", [MemberController::class, "getDetails"])->name("member.get");
 
 Route::get("/payment-methods", [PaymentMethodController::class, "index"])->name("payment_method.index");
+Route::get("/payment-method/create", [PaymentMethodController::class, "create"])->name("payment_method.create");

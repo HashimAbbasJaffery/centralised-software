@@ -56,6 +56,9 @@ Route::get("/member/{receipt}/mail", [ReceiptController::class, "mail"])->name("
 Route::post("/members/save/google_drive", [GoogleServicesController::class, "save"])->name("api.member.save.google.drive");
 
 Route::get("/payment-methods", [PaymentMethodController::class, "get"])->name("api.payment-methods.index");
+Route::post("/payment-method/create", [PaymentMethodController::class, "store"])->name("api.payment-methods.create");
+Route::delete("/payment-method/{paymentMethod}/delete", [PaymentMethodController::class, "destroy"])->name("api.payment-methods.delete");
+// Route::put("/payment-method/{paymentMethod}")
 
 Route::get('/user', function (Request $request) {
     return $request->user();

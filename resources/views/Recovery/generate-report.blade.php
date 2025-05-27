@@ -280,7 +280,7 @@ footer{
                                 <td v-text="report.member_name"></td>
                                 <td v-text="report.phone_number"></td>
                                 <td v-text="report.alternate_ph_number"></td>
-                               <td class="text-right pe-2 latest_payable" v-text="report.recovery_max_payable?.toLocaleString() ?? 0">no updated</td>
+                                <td class="text-right pe-2 latest_payable" v-text="report.recovery[0]?.payable.toLocaleString() ?? 'no updated'">no updated</td>
 
                                 <td class="status">
                                     <input v-if="report.payment_status === 'regular'" class="form-control print-status" type="text" style="color: black; background-color: #e9ecef;" value="Regular" readonly>
@@ -359,9 +359,11 @@ footer{
                             statuses: this.statuses.join(",")
                         }
                     });
+                    console.log(response);
+
 
                     this.is_fetching = false;
-                    this.sum = response.data.data[1];
+                    this.sum = 0;
                     this.reports = response.data.data[0];
                 },
                 printReport() {
