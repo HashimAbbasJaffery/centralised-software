@@ -92,16 +92,31 @@
                             <input type="text" v-model="row.payment_description" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" v-model="row.current_month_payable" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text"  
+                                    :value="Number(row.current_month_payable).toLocaleString('en-US')"
+                                    @input="row.current_month_payable = $event.target.value.replace(/,/g, '')"
+                                    style="font-size: 10px;"
+                                    class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                />
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" v-model="row.late_month_charges" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text" 
+                                        :value="row.late_month_charges === null ? '' : Number(row.late_month_charges).toLocaleString('en-US')"
+                                        @input="row.late_month_charges = $event.target.value.replace(/,/g, '')"
+                                        style="font-size: 10px;" 
+                                        class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    />
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="text" v-model="row.payable" style="font-size: 10px;" readonly class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" v-model="row.paid" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
+                            <input type="text"
+                                        :value="row.paid === null ? '' : Number(row.paid).toLocaleString('en-US')"
+                                        @input="row.paid = $event.target.value.replace(/,/g, '')"
+                                        style="font-size: 10px;" 
+                                        class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    />
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
                             <input type="text" v-model="row.due" readonly style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
@@ -223,32 +238,32 @@ const app = Vue.createApp({
             
             // row.total_balance = balance;
 
-        const currentPayable = parseInt(row.current_month_payable) || 0;
+            const currentPayable = parseInt(row.current_month_payable) || 0;
 
-        const lateCharges = parseInt(row.late_month_charges) || 0;
-        const paid = parseInt(row.paid) || 0;
+            const lateCharges = parseInt(row.late_month_charges) || 0;
+            const paid = parseInt(row.paid) || 0;
 
-        const currentPayableWithLate = currentPayable + lateCharges + lastDue;
-        const dues = currentPayableWithLate - paid;
+            const currentPayableWithLate = currentPayable + lateCharges + lastDue;
+            const dues = currentPayableWithLate - paid;
 
-        row.due_amount = lastDue.toLocaleString('en-US');
-        row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
-        row.due = dues.toLocaleString('en-US');
-        row.balance = balance.toLocaleString('en-US');
-        row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
-        
-        if(yesterday) {
-            row.month = this.getNextMonth(yesterday);
-        }
-        if(yesterdaysDueDate) {
-            row.due_date = this.getNextMonth(yesterdaysDueDate);
-        }
-        
-        yesterday = row.month;
-        yesterdaysDueDate = row.due_date;
+            row.due_amount = lastDue.toLocaleString('en-US');
+            row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
+            row.due = dues.toLocaleString('en-US');
+            row.balance = balance.toLocaleString('en-US');
+            row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
+            
+            if(yesterday) {
+                row.month = this.getNextMonth(yesterday);
+            }
+            if(yesterdaysDueDate) {
+                row.due_date = this.getNextMonth(yesterdaysDueDate);
+            }
+            
+            yesterday = row.month;
+            yesterdaysDueDate = row.due_date;
 
-        lastDue = dues;
-        balance = balance - paid + lateCharges;
+            lastDue = dues;
+            balance = balance - paid + lateCharges;
 
 
         });
@@ -277,9 +292,9 @@ const app = Vue.createApp({
             due_date: "",
             payment_description: "",
             current_month_payable: "",
-            late_month_charges: "",
+            late_month_charges: null,
             payable: "",
-            paid: "",
+            paid: null,
             due: "",
             balance: "",
             total_balance: ""
@@ -305,12 +320,14 @@ const app = Vue.createApp({
         const members = response.data.data;
         
         let rows = members.map(member => `
-          <tr>
+          <tr style="width: 80%;">
             <td>${member.member_name}</td>
             <td>${member.cnic_passport}</td>
             <td>${member.membership_number}</td>
             <td>${member.file_number}</td>
-            <td>${member.residential_address}</td>
+            <td>${member.residential_address.length > 20 
+      ? member.residential_address.slice(0, 20) + '...'
+      : member.residential_address}</td>
             <td>
                 <button data-member='${member.id}' class="select-member-button px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                   Select

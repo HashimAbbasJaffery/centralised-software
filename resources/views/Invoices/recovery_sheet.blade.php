@@ -259,16 +259,34 @@ table, tfoot td{
             @foreach($recovery_rows as $row)
 			<tr class="data page" scope="row">
 		
-                <td style="width:10%;">{{ \Carbon\Carbon::parse($row->month)->format("F, Y") }}</td>
-			    <td style="width:10%;" class="text-right">{{ number_format($row->due_b_f) && !is_null($row?->payable ?? null) && $row->payable > 0 ? number_format($row->due_b_f) : ""}}</td>
+                <td style="width:10%;">{{ \Carbon\Carbon::parse($row->month)->format("M, Y") }}</td>
+			    <td style="width:10%;" class="text-right">
+					@if(!is_null($row->late_payment_charges))
+						{{ number_format($row->due_b_f) }}
+					@endif
+				</td>
 				<td style="width:10%;">{{ \Carbon\Carbon::parse($row->due_date)->format("d M y") }}</td>
 				<td style="width:11%;">{{ $row->payment_description }}</td>
-				<td style="width:9%;" class="text-right">{{ is_null($row->current_month_payable) ? "" : number_format($row->current_month_payable) }}</td>
-				<td style="width:12%;" class="text-right">{{ number_format($row->late_payment_charges) ? number_format($row->late_payment_charges) : ""}}</td>
-				<td style="width:10%;" class="text-right">{{ is_null($row->payable) ? "" : number_format($row->payable) }}</td>
-				<td style="width:10%;" class="text-right">{{ is_null($row->paid) || $row->paid == 0 ? "" : number_format($row->paid) }}</td>
-				<td style="width:10%;" class="text-right">{{ number_format($row->due_amount) ? number_format($row->due_amount) : ""}}</td>
-				<td style="width:13%;" class="text-right">{{ !is_null($row?->payable ?? null) && $row->payable > 0 ? number_format($row->total_sum_value) : "" }}</td>
+				<td style="width:9%;" class="text-right">
+					{{ is_null($row->current_month_payable) ? "" : number_format($row->current_month_payable) }}
+				</td>
+				<td style="width:12%;" class="text-right">{{ is_null($row->late_payment_charges) ? "" : number_format($row->late_payment_charges) }}</td>
+				<td style="width:10%;" class="text-right">
+					@if(!is_null($row->late_payment_charges))
+						{{ is_null($row->payable) ? "" : number_format($row->payable) }}
+					@endif
+				</td>
+				<td style="width:10%;" class="text-right">{{ is_null($row->paid) ? "" : number_format($row->paid) }}</td>
+				<td style="width:10%;" class="text-right">
+					@if(!is_null($row->late_payment_charges))
+						{{ number_format($row->due_amount) }}
+					@endif
+				</td>
+				<td style="width:13%;" class="text-right">
+					@if(!is_null($row->late_payment_charges))
+						{{ !is_null($row?->payable ?? null) && $row->payable > 0 ? number_format($row->total_sum_value) : "" }}
+					@endif
+				</td>
 			</tr>
             @endforeach
 			</tbody>

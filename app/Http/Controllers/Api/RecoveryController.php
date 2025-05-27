@@ -37,7 +37,7 @@ class RecoveryController extends Controller
                     "due_date" => $row["due_date"],
                     "payment_description" => $row["payment_description"],
                     "current_month_payable" => $this->denormalise($row["current_month_payable"]),
-                    "late_payment_charges" => $this->denormalise($row["late_month_charges"]),
+                    "late_payment_charges" => is_null($row["late_month_charges"]) ? null : $this->denormalise($row["late_month_charges"]),
                     "payable" => $this->denormalise($row["payable"]),
                     "paid" => $this->denormalise($row["paid"]),
                     "due_amount" => $this->denormalise($row["due"]),

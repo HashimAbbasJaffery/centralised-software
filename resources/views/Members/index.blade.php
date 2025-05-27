@@ -21,11 +21,7 @@
       <div style="display: flex; column-gap: 10px;">
         <a href="{{ route('member.create') }}" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
           Create
-        </a>     
-      <button @click="saveInGoogleDrive" href="{{ route('member.create') }}" style="margin-bottom: 20px; text-align: center; display: flex; align-items: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-        <i class="fa-brands fa-google-drive"></i>
-        <p style="margin-left: 10px;">Google Drive</p>
-      </button>
+        </a>
       @if($setting)
         <a href="{{ $setting->google_drive_link }}" target="_blank" style="margin-bottom: 20px; text-align: center; display: flex; align-items: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
           <i class="fa-brands fa-google-drive"></i>

@@ -22,13 +22,14 @@ class RecoveryController extends Controller
                             ->whereRaw('? BETWEEN `month` AND `due_date`', [$now])
                             ->first();
                             
-
+        $total_balance = $member->form_fee + $member->processing_fee + $member->first_payment + $member->total_installment + $late_payment_charges;
         return view("Invoices.recovery_sheet", compact(
             "recovery_rows",
             "member", 
             "late_payment_charges", 
             "formattedDate",
-            "to_be_paid_row"
+            "to_be_paid_row",
+            "total_balance"
         ));
     }
     public function getReport() {
