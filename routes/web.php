@@ -15,11 +15,30 @@ use App\Http\Controllers\MembersCardController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
+use App\Models\PersonalAccessToken;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     phpinfo();
     return view('welcome');
+});
+
+Route::get("/user/token", function(Request $request) {
+    $user = User::find(1);
+
+    $token = $user->createToken('token');
+
+    dd($token);
+});
+
+Route::get("/add/user", function() {
+    $user = User::create([
+        "name" => "hashim abbas",
+        "email" => "habbas2121@outlook.com",
+        "password" => Hash::make("testing")
+    ]);
 });
 
 Route::get("/", [HomeController::class, "index"])->name("home");

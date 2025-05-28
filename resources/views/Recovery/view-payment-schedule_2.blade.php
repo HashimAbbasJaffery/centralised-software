@@ -149,7 +149,7 @@
             </button>
         </main>
     
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ 
     <script>
 const app = Vue.createApp({
     data() {

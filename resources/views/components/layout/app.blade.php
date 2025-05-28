@@ -71,6 +71,18 @@
           position: fixed;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      // Example: After login, you get token from response
+      const token = localStorage.token; // Replace this dynamically
+
+      // Save token somewhere persistent (localStorage recommended)
+      localStorage.setItem('token', token);
+
+      // Set default Authorization header for all axios requests
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      // Now all axios calls will include the token automatically
+    </script>
     @routes  
   </head>
   <body>
