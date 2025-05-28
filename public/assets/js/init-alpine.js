@@ -47,7 +47,7 @@ function data() {
     isRecoveryMenuOpen: route().current("payment-schedule") || route().current("member.recovery.*"),
     isReciprocalMenuOpen: route().current("club.*") || route().current("duration.*") || route().current("introletter.*"),
     isMembershipCardMenuOpen: route().current("card-type.*"),
-    isComplainsMenuOpen: false,
+    isComplainsMenuOpen: route().current("complain.*") || route().current("complains"),
     togglePagesMenu() {
       this.resetAll("PagesMenu");
       this.isPagesMenuOpen = !this.isPagesMenuOpen

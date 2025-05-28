@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PaymentMethodResource extends JsonResource
+class ComplainResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class PaymentMethodResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "total_receipts" => $this->receipt->count(),
-            "payment_method" => $this->payment_method
+            "member" => $this->member,
+            "complain_type" => $this->complainQuestion->complainType,
+            "complain" => $this->complain
         ];
     }
 }

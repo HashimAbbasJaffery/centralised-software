@@ -288,7 +288,12 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
           >
-            <a class="w-full" href="./login.html" style="font-size: 12px;">Member Complain</a>
+            <a class="w-full" href="{{ route('complains') }}" style="font-size: 12px;">Member Complain</a>
+          </li>
+          <li
+            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+          >
+            <a class="w-full" href="{{ route('complain.complain-types.index') }}" style="font-size: 12px;">Complain Types</a>
           </li>
         </ul>
       </template>

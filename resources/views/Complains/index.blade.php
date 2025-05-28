@@ -1,11 +1,14 @@
 <x-layout.app>
+  <script src="https://kit.fontawesome.com/3a7e8b6e65.js" crossorigin="anonymous"></script>
   <style>
     .iti {
       width: 100%;
     }
+    input[type='checkbox'] {
+      width: 12px;
+      height: 12px;
+    }
   </style>
-  
-  <script src="https://kit.fontawesome.com/231b67747d.js" crossorigin="anonymous"></script>
   <main id="app" class="h-full pb-16 overflow-y-auto">
     <!-- Remove everything INSIDE this div to a really blank page -->
     
@@ -13,47 +16,51 @@
       <h2
         class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
-        Manage Payment Methods
+        Manage Complains
       </h2>
       <div style="display: flex; justify-content: space-between;">
         <input v-model="search" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="width: 25%; margin-bottom: 20px;" placeholder="Search">
       </div>
-        <a @click="create" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-          Create
-        </a>
-      <table v-if="payment_methods.length > 0 && !is_fetching" class="w-full whitespace-no-wrap" style="width: 100%; overflow: scroll;">
+      <table v-if="complains.length > 0 && !is_fetching" class="w-full whitespace-no-wrap">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-            <th class="px-4 py-3">Payment Methods</th>
-            <th class="px-4 py-3">Total Receipts</th>
+            <th class="px-4 py-3">Member Name</th>
+            <th class="px-4 py-3">Passport</th>
+            <th class="px-4 py-3">Complain Type</th>
             <th class="px-4 py-3">Actions</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-          <tr v-for="payment_method in payment_methods" class="text-gray-700 dark:text-gray-400">
-            <td class="px-4 py-3 text-sm" v-text="payment_method.payment_method"></td>
-            <td class="px-4 py-3 text-sm" v-text="payment_method.total_receipts"></td>
-            <td style="display: flex;">
-                <button @click="editPaymentMethod(payment_method.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+          <tr v-for="complain in complains" class="text-gray-700 dark:text-gray-400">
+            <td class="px-4 py-3 text-sm" v-text="complain.member.member_name"></td>
+            <td class="px-4 py-3 text-sm" v-text="complain.member.cnic_passport"></td>
+            <td class="px-4 py-3 text-sm" v-text="complain.complain_type.complain_type"></td>
+            <td class="px-4 py-3">
+              <div class="flex items-center space-x-4 text-sm">
+                <button @click="update(complain.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                   <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                   </svg>
                 </button>
-                <button @click="deletePaymentMethod(payment_method.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                <button @click="deleteMember(complain.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
                   <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                   </svg>
                 </button>
+                <button @click="getMember(complain.id)" class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple">
+                  <i class="fa-solid fa-eye" style="color: #B197FC;"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <span v-else-if="is_fetching" class="loader big purple mx-auto mt-10"></span>
-      <div v-else class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+      <div v-else-if="!is_fetching" class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <p class="text-sm text-gray-600 dark:text-gray-400">
-          No Payment Method Found!
+          No Members found!
         </p>
       </div>
+      <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
     </div>
     <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end" style="color: white; margin-top: 20px;">
       <nav aria-label="Table navigation">
@@ -73,6 +80,7 @@
           </li>
         </ul>
       </nav>
+     
     </span>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -81,25 +89,77 @@
     const app = Vue.createApp({
       data() {
         return {
-          payment_methods: [],
+          complains: [],
           links: [],
           search: "",
-          is_fetching: true
+          parentCheckbox: "",
+          is_fetching: true,
+          child_checkbox: []
         }
+      },
+      created() {
+        const checked_checkboxes = document.querySelectorAll('.child-checkboxes');
+        checked_checkboxes.forEach(checkbox => {
+          checked_checkboxes.checked = false;
+        });
       },
       async mounted() {
         const savedData = JSON.parse(localStorage.getItem('formData'));
         if (savedData) {
           this.$data = Object.assign(this.$data, savedData);
         }
-        this.getContent(route("api.payment-methods.index"));
+
+        // Checking if the url is there is session storage
+        this.getContent(route("api.complains"));
       },
       watch: {
         search(newValue) {
-          this.getContent(route("api.payment-methods.index", { keyword: newValue }));
+          this.getContent(route("api.complains", { keyword: newValue }));
         },
+        parentCheckbox(newValue) {
+          const child_checkboxes = document.querySelectorAll(".child-checkboxes");
+          child_checkboxes.forEach(checkbox => {
+            if(!newValue) this.child_checkbox = [];
+            else this.child_checkbox.push(checkbox.value);
+          });
+        }
       },
       methods: {
+        getMember(complain) {
+          window.location = route("complains.detail", { complain })
+        },
+        async mailTo(id) {
+          const response = await axios.get(route("api.member.recovery.receipt.mailer", { receipt: id }));
+          console.log(response);
+        },
+        async getReceipt(id) {
+          const response = await axios.get(route("api.member.receipt.download", { receipt: id }), { responseType: "blob" });
+          
+          const contentDisposition = response.headers['content-disposition'];
+
+          let fileName = 'receipt.pdf'; // fallback
+
+          if (contentDisposition) {
+            const fileNameMatch = contentDisposition.match(/filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/);
+            if (fileNameMatch && fileNameMatch.length >= 3) {
+              fileName = fileNameMatch[2];
+            }
+          }
+
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', fileName);
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        },
+        backCard() {
+          window.location = route("card.back", { members: this.child_checkbox });
+        },
+        frontCard() {
+          window.location = route("card.front", { members: this.child_checkbox })
+        },
         debounce(func, delay = 300) {
           let timeoutId;
           return function (...args) {
@@ -110,41 +170,12 @@
             }, delay);
           };
         },
-        async deletePaymentMethod(payment_method_id) {
-          Swal.fire({
-              title: 'Are you sure?',
-              text: "You won't be able to revert this!",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Yes, delete it!'
-            }).then(async (result) => {
-              if (result.isConfirmed) {
-                try {
-                  const response = await axios.delete(route("api.payment-methods.delete", { paymentMethod: payment_method_id }));
-
-                  if (response.data.status === "200") {
-                    this.payment_methods = this.payment_methods.filter(
-                      payment_method => payment_method.id != payment_method_id
-                    );
-
-                    Swal.fire(
-                      'Deleted!',
-                      'The payment method has been deleted.',
-                      'success'
-                    );
-                  }
-                } catch (error) {
-
-                }
-              }
-            });
-
+        update(complain_type_id) {
+          window.location = route("complain.complain-types.questions.index", { complainType: complain_type_id });
         },
         create() {
           Swal.fire({
-            title: "Enter new Payment Method",
+            title: "Enter new Complain Type",
             input: "text",
             inputAttributes: {
               autocapitalize: "off"
@@ -152,16 +183,13 @@
             showCancelButton: true,
             confirmButtonText: "Create",
             showLoaderOnConfirm: true,
-            preConfirm: async (payment_method) => {
+            preConfirm: async (complain_type) => {
               try {
-                const apiUrl = `${route('api.payment-methods.create')}`;
-                const response = await axios.post(apiUrl, { payment_method });
+                const apiUrl = `${route('api.complains.complain-types.create')}`;
+                const response = await axios.post(apiUrl, { complain_type });
                 
                 if(response.data.status === "200") {
-                  const id = response.data.data.id;
-                  if(this.payment_methods.length < 8) {
-                    this.payment_methods.push({ payment_method, id });
-                  }
+                  location.reload();
 
                   Swal.close();
                 }
@@ -178,33 +206,34 @@
           });
         },
         changePage(url) {
+          if(!url) return;
+
+          this.parentCheckbox = false;
           this.getContent(url);
         },
         async getContent(url) {
           this.is_fetching = true;
           const response = await axios.get(url);
-          this.payment_methods = response.data.data;
+          console.log(response);
+          sessionStorage.setItem("url", url != null ? url : "");
+          this.complains = response.data.data;
+          this.links = response.data.meta.links;
           this.is_fetching = false;
         },
         editMember(id) {
-          window.location = route('member.updated', { member: id });
+          window.location = route('member.recovery.receipt.update', { receipt: id });
         },
-        getInvoice(id) {
-          window.location = route("introletter.invoice", { introletter: id });
-        },
-        async deleteIntroletter(id) {
-
+        async deleteMember(id) {
           Swal.fire({
-            title: "Do you want to move it in trash?",
+            title: "Do you want to delete it?",
             showCancelButton: true,
             confirmButtonText: "Delete",
           }).then(async (result) => {
             if (result.isConfirmed) {
-              const response = await axios.delete(route("api.introletter.delete", { introletter: id }));
-              console.log(response);
+              const response = await axios.delete(route("api.complain.delete", { complain: id }));
               if(response.data.status === "200") {
-                this.introletters = this.introletters.filter(introletter => introletter.id !== id);
-              } 
+                location.reload();
+              }
             }
           });
         }

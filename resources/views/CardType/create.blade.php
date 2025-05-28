@@ -239,13 +239,26 @@ td h6{
                   <div style="width: 33.33%;">
                     <label class="block text-sm" style="margin-bottom: 20px;">
                       <span class="text-gray-700 dark:text-gray-400">Card Color</span>
-                      <input v-model="card_color" type="color" data-message="cnic_field_message" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                      <input 
+                            v-model="card_color" 
+                            type="color" 
+                            data-message="cnic_field_message" 
+                            class="block w-16 h-10 mt-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 cursor-pointer"
+                            style="width: 100%; padding: 5px;"
+                            >
                     </label>
                   </div>
                   <div style="width: 33.33%;">
                     <label class="block text-sm" style="margin-bottom: 20px;">
                       <span class="text-gray-700 dark:text-gray-400">Shade Color</span>
-                      <input v-model="shade_color" type="color" data-message="cnic_field_message" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                      <input 
+                            v-model="shade_color" 
+                            type="color" 
+                            data-message="cnic_field_message" 
+                            class="block w-16 h-10 mt-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 cursor-pointer"
+                            style="width: 100%; padding: 5px;"
+                          >
+                          
                     </label>
                   </div>
                 </div>

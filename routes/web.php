@@ -4,7 +4,11 @@ use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\BirthdayController;
 use App\Http\Controllers\CardTypeController;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\ComplainController;
+use App\Http\Controllers\ComplainQuestionController;
+use App\Http\Controllers\ComplainTypeController;
 use App\Http\Controllers\DurationController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntroletterController;
 use App\Http\Controllers\Members\MemberController;
 use App\Http\Controllers\MembersCardController;
@@ -18,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get("/", [HomeController::class, "index"])->name("home");
 
 Route::get("/member/create", [MemberController::class, "create"])->name("member.create");
 Route::get("/members", [MemberController::class, "index"])->name("member.manage");
@@ -58,3 +62,11 @@ Route::get("/member/{member}/get", [MemberController::class, "getDetails"])->nam
 
 Route::get("/payment-methods", [PaymentMethodController::class, "index"])->name("payment_method.index");
 Route::get("/payment-method/create", [PaymentMethodController::class, "create"])->name("payment_method.create");
+
+Route::get("/complain-types", [ComplainTypeController::class, "index"])->name("complain.complain-types.index");
+Route::get("/complain/{complainType}/questions", [ComplainQuestionController::class, "index"])->name("complain.complain-types.questions.index");
+Route::get("/complain/{complainType}/question/create", [ComplainQuestionController::class, "create"])->name("complain.complain-types.questions.create");
+Route::get("/complain/{complainQuestion}/question/update", [ComplainQuestionController::class, "update"])->name("complain.complain-types.questions.update");
+
+Route::get("/complains", [ComplainController::class, "get"])->name("complains");
+Route::get("/complain/{complain}/get", [ComplainController::class, "getOne"])->name("complains.detail");

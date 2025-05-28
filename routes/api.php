@@ -3,6 +3,9 @@
 use App\Http\Controllers\Api\BirthdayController;
 use App\Http\Controllers\Api\CardTypeController;
 use App\Http\Controllers\Api\ClubController;
+use App\Http\Controllers\Api\ComplainController;
+use App\Http\Controllers\Api\ComplainQuestionController;
+use App\Http\Controllers\Api\ComplainTypeController;
 use App\Http\Controllers\Api\DurationController;
 use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
@@ -59,6 +62,19 @@ Route::get("/payment-methods", [PaymentMethodController::class, "get"])->name("a
 Route::post("/payment-method/create", [PaymentMethodController::class, "store"])->name("api.payment-methods.create");
 Route::delete("/payment-method/{paymentMethod}/delete", [PaymentMethodController::class, "destroy"])->name("api.payment-methods.delete");
 // Route::put("/payment-method/{paymentMethod}")
+
+Route::get("/complain-types", [ComplainTypeController::class, "index"])->name("api.complains.complain-types.index");
+Route::post("/complain-type/create", [ComplainTypeController::class, "store"])->name("api.complains.complain-types.create");
+Route::delete("/complain-type/{complainType}/delete", [ComplainTypeController::class, "destroy"])->name("api.complains.complain-types.delete");
+Route::put("/complain-type/{complainType}/update", [ComplainTypeController::class, "update"])->name("api.complains.complain-types.update");
+
+Route::get("/complain-type/{complainType}/questions", [ComplainQuestionController::class, "get"])->name("api.complains.complain-type.questions");
+Route::post("/complain-type/{complainType}/question/create", [ComplainQuestionController::class, "store"])->name("api.complains.complain-type.questions.create");
+Route::put("/complain-type/{complainQuestion}/question/update", [ComplainQuestionController::class, "update"])->name("api.complains.complain-type.questions.update");
+Route::delete("/complain-type/{complainQuestion}/question/delete", [ComplainQuestionController::class, "destroy"])->name("api.complains.complain-type.questions.delete");
+
+Route::get("/complains", [ComplainController::class, "index"])->name("api.complains");
+Route::delete("/complain/{complain}/delete", [ComplainController::class, "destroy"])->name("api.complain.delete");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

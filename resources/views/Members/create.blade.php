@@ -139,7 +139,7 @@
             <div v-show="current_step === 3" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Membership Details</h5>
               <div style="display: flex; column-gap: 20px;">
-                <div style="width: 33.33%;">
+                <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Membership Type</span>
                     <select v-model="membership_type" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
@@ -150,20 +150,7 @@
                     </span>
                   </label>
                 </div>
-                <div style="width: 33.33%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400">Membership Status</span>
-                    <select v-model="membership_status" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
-                      <option value="regular">Regular</option>
-                      <option value="defaulter">Defaulter</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
-                    <span style="display: none;" class="member_number_message step_1_message text-xs text-red-600 dark:text-red-400">
-                      Card Type field is required
-                    </span>
-                  </label>
-                </div>
-                <div style="width: 33.33%;">
+                <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">File Number</span>
                     <input v-model="file_number" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="File Number">
@@ -386,10 +373,11 @@
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Membership Card Details</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 50%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
+                  <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Profile Picture</span>
                     <input type="file" @change="handleFileChange" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Profile Picture">
                   </label>
+                  <p class="text-primary" style="margin-bottom: 20px; color: #0d6efd; font-size: 13px;">Expected aspect ratio 4/5</p>
                 </div>
                 <label class="block text-sm" style="margin-bottom: 20px; width: 50%">
                   <span class="text-gray-700 dark:text-gray-400">Card Type</span>
@@ -675,6 +663,7 @@
 
               inputs.forEach(input => {
                 const iti = window.intlTelInput(input, {
+                  initialCountry: "PK",
                   loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"),
                 });
 
