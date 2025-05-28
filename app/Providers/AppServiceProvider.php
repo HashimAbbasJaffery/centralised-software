@@ -27,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
                             ->with([$relation => $constraint]);
             });
 
-            Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+
+        \Illuminate\Support\Facades\Blade::directive('ziggy', function () {
+            return "<?php echo Ziggy::generateRouteList(['api.*']); ?>";
+        });
     }
 }

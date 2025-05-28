@@ -16,7 +16,7 @@
     <script src="{{ asset('/assets/js/init-alpine.js') }}"></script>
     <script src="https://kit.fontawesome.com/231b67747d.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/priyashpatil/phone-input-by-country@0.0.1/cpi.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
@@ -58,7 +58,7 @@
         .loader.big {
           width: 40px;
           height: 40px;
-        } 
+        }
         .loader.small {
           width: 10px;
           height: 10px;
@@ -72,9 +72,16 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    @routes
     <script>
       // Example: After login, you get token from response
       const token = localStorage.token; // Replace this dynamically
+
+
+      if(!localStorage.getItem("token")) {
+        window.location = route("login");
+      } else {
 
       // Save token somewhere persistent (localStorage recommended)
       localStorage.setItem('token', token);
@@ -82,8 +89,8 @@
       // Set default Authorization header for all axios requests
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       // Now all axios calls will include the token automatically
+      }
     </script>
-    @routes  
   </head>
   <body>
     <div
@@ -336,7 +343,7 @@
               </template>
             </li>
           </ul>
-          
+
           <div class="px-6 my-6">
             <button
               class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"

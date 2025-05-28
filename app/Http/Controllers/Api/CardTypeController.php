@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 
 class CardTypeController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function store(CardTypeRequest $request) {
         $card_type = CardType::create($request->validated());
 

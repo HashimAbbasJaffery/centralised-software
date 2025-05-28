@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 
 class ComplainController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function index() {
         $complains = Complain::paginate(8);
 

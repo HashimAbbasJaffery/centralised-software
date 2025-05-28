@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ComplainTypeController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function index() {
-        
+
         $keyword = request()->keyword;
         $complainTypes = ComplainType::where("complain_type", "LIKE", "%$keyword%")->paginate(8);
 

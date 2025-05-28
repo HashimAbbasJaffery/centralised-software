@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class BirthdayController extends Controller
 {
+    public function __construct() {
+        $this->middleware("auth:sanctum");
+    }
     public function index() {
         $today = now();
         $end = now()->addDays(15);

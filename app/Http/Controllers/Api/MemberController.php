@@ -11,7 +11,9 @@ use App\Services\ImageService;
 
 class MemberController extends Controller
 {
-    public function __construct(public ApiResponse $apiResponse, public ImageService $imageService) {}
+    public function __construct(public ApiResponse $apiResponse, public ImageService $imageService) {
+        $this->middleware("auth:sanctum");
+    }
     public function getById(Member $member) {
         return $member;
     }
@@ -23,12 +25,12 @@ class MemberController extends Controller
         $spouses = collect(request()->spouses)->filter()->values();
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
-        
+
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
-        
-        $member = Member::create([ 
-                                                ...$request->validated(), 
-                                                "profile_picture" => $filePath, 
+
+        $member = Member::create([
+                                                ...$request->validated(),
+                                                "profile_picture" => $filePath,
                                                 "phone_number" => $phone_numbers[0]->phoneNumber,
                                                 "phone_number_code" => $phone_numbers[0]->countryCode,
                                                 "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
@@ -65,12 +67,12 @@ class MemberController extends Controller
         $spouses = collect(request()->spouses)->filter()->values();
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
-        
+
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
-        
-        $member->update([ 
-            ...$request->validated(), 
-            "profile_picture" => $filePath, 
+
+        $member->update([
+            ...$request->validated(),
+            "profile_picture" => $filePath,
             "phone_number" => $phone_numbers[0]->phoneNumber,
             "phone_number_code" => $phone_numbers[0]->countryCode,
             "alternate_ph_number" => $phone_numbers[1]->phoneNumber,

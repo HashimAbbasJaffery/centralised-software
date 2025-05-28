@@ -12,13 +12,15 @@ use Illuminate\Support\Facades\DB;
 
 class RecoveryController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function index() {
         return view("Recovery.view-payment-schedule_2");
     }
     public function get(Member $member) {
         return $this->apiResponse->success(
-            "Recovery Data has been fetched!", 
+            "Recovery Data has been fetched!",
             RecoveryResource::collection($member->recovery)
         );
     }
@@ -67,7 +69,7 @@ class RecoveryController extends Controller
             ->groupByRaw('YEAR(month), MONTH(month), month')
             ->orderByRaw('YEAR(month), MONTH(month)')
             ->get();
-            
+
         $total_current_month_payable = $recovery->sum("total_current_month_payable");
         $total_paid = $recovery->sum("total_paid");
         return $this->apiResponse->success("Recovery sheet has been fetched!", [$recovery, $total_current_month_payable, $total_paid]);

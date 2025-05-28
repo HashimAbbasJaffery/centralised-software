@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BirthdayController;
 use App\Http\Controllers\Api\CardTypeController;
 use App\Http\Controllers\Api\ClubController;
@@ -75,6 +76,8 @@ Route::delete("/complain-type/{complainQuestion}/question/delete", [ComplainQues
 
 Route::get("/complains", [ComplainController::class, "index"])->name("api.complains");
 Route::delete("/complain/{complain}/delete", [ComplainController::class, "destroy"])->name("api.complain.delete");
+
+Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

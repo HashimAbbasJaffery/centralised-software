@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 class ClubController extends Controller
 {
 
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function store(ClubRequest $request) {
         $club = Club::create($request->validated());
 

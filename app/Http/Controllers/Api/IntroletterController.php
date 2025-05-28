@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 
 class IntroletterController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function index() {
     $keyword = str_replace(['%', '_'], ['\%', '\_'], request()->keyword);
 

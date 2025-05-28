@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\BirthdayController;
 use App\Http\Controllers\CardTypeController;
@@ -41,6 +42,7 @@ Route::get("/add/user", function() {
     ]);
 });
 
+
 Route::get("/", [HomeController::class, "index"])->name("home");
 
 Route::get("/member/create", [MemberController::class, "create"])->name("member.create");
@@ -67,7 +69,7 @@ Route::get("googlesheet", [GoogleServicesController::class, "save"]);
 Route::get("/card/front", [MembersCardController::class, "index"])->name("card.front");
 Route::get("/card/back", [MembersCardController::class, "back"])->name("card.back");
 
-Route::get("/view-payment-schedule", [RecoveryController::class, "index"])->name("payment-schedule");
+Route::view("/view-payment-schedule", "Recovery.view-payment-schedule_2")->name("payment-schedule");
 Route::get("/recovery/{member}/sheet", [\App\Http\Controllers\RecoveryController::class, "getSheet"])->name("member.recovery.sheet");
 Route::get("/recovery/member/report", [\App\Http\Controllers\RecoveryController::class, "getReport"])->name("member.recovery.report");
 Route::get("/recovery/monthly/report", [\App\Http\Controllers\RecoveryController::class, "getOverall"])->name("member.recovery.overall");
@@ -89,3 +91,6 @@ Route::get("/complain/{complainQuestion}/question/update", [ComplainQuestionCont
 
 Route::get("/complains", [ComplainController::class, "get"])->name("complains");
 Route::get("/complain/{complain}/get", [ComplainController::class, "getOne"])->name("complains.detail");
+
+Route::get("/login", [AuthController::class, "login"])->name("login");
+

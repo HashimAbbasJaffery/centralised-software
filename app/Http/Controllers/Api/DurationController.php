@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 
 class DurationController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function index() {
         $keyword = request()->keyword;
         $duration = Duration::whereLike("months", "%$keyword%")
@@ -36,7 +38,7 @@ class DurationController extends Controller
     }
     public function update(Duration $duration) {
         if(!$duration->exists()) throw new ModelNotFoundException("Duration not found!");
-        
+
         $duration->update([
             "months" => request()->months,
             "fee" => request()->fee

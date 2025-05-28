@@ -92,7 +92,7 @@
                             <input type="text" v-model="row.payment_description" style="font-size: 10px;" class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"/>
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text"  
+                            <input type="text"
                                     :value="Number(row.current_month_payable).toLocaleString('en-US')"
                                     @input="row.current_month_payable = $event.target.value.replace(/,/g, '')"
                                     style="font-size: 10px;"
@@ -100,10 +100,10 @@
                                 />
                         </td>
                         <td style="padding-left: 15px; padding-bottom: 10px; padding-top: 10px;">
-                            <input type="text" 
+                            <input type="text"
                                         :value="row.late_month_charges === null ? '' : Number(row.late_month_charges).toLocaleString('en-US')"
                                         @input="row.late_month_charges = $event.target.value.replace(/,/g, '')"
-                                        style="font-size: 10px;" 
+                                        style="font-size: 10px;"
                                         class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     />
                         </td>
@@ -114,7 +114,7 @@
                             <input type="text"
                                         :value="row.paid === null ? '' : Number(row.paid).toLocaleString('en-US')"
                                         @input="row.paid = $event.target.value.replace(/,/g, '')"
-                                        style="font-size: 10px;" 
+                                        style="font-size: 10px;"
                                         class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     />
                         </td>
@@ -148,8 +148,8 @@
                 <span class="loader"></span>
             </button>
         </main>
-    
- 
+
+
     <script>
 const app = Vue.createApp({
     data() {
@@ -235,7 +235,7 @@ const app = Vue.createApp({
             // balance -= row.paid;
 
             // if(row.late_month_charges) balance += parseInt(row.late_month_charges);
-            
+
             // row.total_balance = balance;
 
         const currentPayable = parseInt(row.current_month_payable) || 0;
@@ -251,14 +251,14 @@ const app = Vue.createApp({
         row.due = dues.toLocaleString('en-US');
         row.balance = balance.toLocaleString('en-US');
         row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
-        
+
         if(yesterday) {
             row.month = this.getNextMonth(yesterday);
         }
         if(yesterdaysDueDate) {
             row.due_date = this.getNextMonth(yesterdaysDueDate);
         }
-        
+
         yesterday = row.month;
         yesterdaysDueDate = row.due_date;
 
@@ -318,14 +318,14 @@ const app = Vue.createApp({
       try {
         const response = await axios.get(route('api.member.all'));
         const members = response.data.data;
-        
+
         let rows = members.map(member => `
           <tr style="width: 80%;">
             <td>${member.member_name}</td>
             <td>${member.cnic_passport}</td>
             <td>${member.membership_number}</td>
             <td>${member.file_number}</td>
-            <td>${member.residential_address.length > 20 
+            <td>${member.residential_address.length > 20
       ? member.residential_address.slice(0, 20) + '...'
       : member.residential_address}</td>
             <td>
