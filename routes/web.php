@@ -40,9 +40,9 @@ Route::get("/user/token", function(Request $request) {
 
 Route::get("/add/user", function() {
     $user = User::create([
-        "name" => "hashim abbas",
-        "email" => "habbas2121@outlook.com",
-        "password" => Hash::make("testing")
+        "name" => "shahmirahs",
+        "email" => "shahmir@gmail.com",
+        "password" => Hash::make("anker@motorola104")
     ]);
 });
 
