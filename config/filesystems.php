@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => "https://gwadargymkhana.com.pk/members/storage/",
+            'url' => "../../public_html/members/storage/",
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
