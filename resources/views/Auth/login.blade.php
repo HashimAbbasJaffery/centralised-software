@@ -100,7 +100,7 @@
             <img
               aria-hidden="true"
               class="object-cover w-full h-full dark:hidden"
-              src="../assets/img/interior.jpg"
+              src="{{ asset('/assets/img/interior.jpg') }}"
               alt="Office"
             />
             <img
