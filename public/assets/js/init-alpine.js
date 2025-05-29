@@ -8,7 +8,7 @@ function data() {
   }
 
   return {
-    dark: getThemeFromLocalStorage(),
+    dark: false,
     toggleTheme() {
       this.dark = !this.dark
       setThemeToLocalStorage(this.dark)
