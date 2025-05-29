@@ -90,14 +90,16 @@ class MemberController extends Controller
 
         $member->children()->delete();
 
-        foreach($children as $child) {
-            if (in_array(null, $child, true)) {
-                continue;
+        if($children) {
+            foreach($children as $child) {
+                if (in_array(null, $child, true)) {
+                    continue;
+                }
+                $member->children()->create([
+                    "child_name" => $child[0],
+                    "date_of_birth" => $child[1]
+                ]);
             }
-            $member->children()->create([
-                "child_name" => $child[0],
-                "date_of_birth" => $child[1]
-            ]);
         }
 
         return $this->apiResponse->success(
