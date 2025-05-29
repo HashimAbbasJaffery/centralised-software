@@ -89,6 +89,7 @@ class MemberController extends Controller
         }
 
         $member->children()->delete();
+
         foreach($children as $child) {
             if (in_array(null, $child, true)) {
                 continue;
