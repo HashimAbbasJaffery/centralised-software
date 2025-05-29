@@ -42,7 +42,7 @@ $client->setScopes([
     Google_Service_Drive::DRIVE,
 ]);
 
-$client->setAuthConfig(env('GOOGLE_SERVICE_ACCOUNT_PATH'));
+$client->setAuthConfig(base_path(env('GOOGLE_SERVICE_ACCOUNT_PATH')));
 $client->setAccessType("offline");
 
 $sheets = new Google_Service_Sheets($client);
