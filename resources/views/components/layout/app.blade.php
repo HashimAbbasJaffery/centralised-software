@@ -90,6 +90,8 @@
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       // Now all axios calls will include the token automatically
       }
+
+      localStorage.setItem("dark", false);
     </script>
   </head>
   <body>
