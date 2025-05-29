@@ -100,7 +100,7 @@
             <img
               aria-hidden="true"
               class="object-cover w-full h-full dark:hidden"
-              src="{{ asset('/assets/img/interior.jpg') }}"
+              src="https://gwadargymkhana.com.pk/members/interior.jpg"
               alt="Office"
             />
             <img
