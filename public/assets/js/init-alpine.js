@@ -4,7 +4,7 @@ function data() {
   }
 
   function setThemeToLocalStorage(value) {
-    window.localStorage.setItem('dark', false)
+  
   }
 
   return {
