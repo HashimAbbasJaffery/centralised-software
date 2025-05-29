@@ -472,7 +472,7 @@
                 date_of_issue: "",
 
                 spouses: @json($spouse_array),
-                children: @json($children),
+                children: [{id: 1, childName: "", dob: ""}],
 
                 form_fee: "{{ $member->form_fee }}",
                 processing_fee: "{{ $member->processing_fee }}",
