@@ -487,7 +487,7 @@
                 profilePictureBase64: "",
 
                 spouses: [[], [], [], []],
-                children: [{id: 1, childName: "", dob: ""}],
+                children: {{ count($children) ? @json($children) : '[{"id":1,"childName":"","dob":""}]' }},
 
                 form_fee: "",
                 processing_fee: "",
