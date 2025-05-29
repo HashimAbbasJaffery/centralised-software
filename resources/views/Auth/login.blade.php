@@ -15,6 +15,13 @@
     ></script>
     <script src="../assets/js/init-alpine.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+
 
     <style>
 
@@ -59,6 +66,18 @@
         .sticky {
           position: fixed;
         }
+        .normal-state {
+          background: #7C3AED;
+        }
+        .normal-state:hover {
+          background: #6D28D9;
+        }
+        .passed-state {
+          background: #16A34A;
+        }
+        .passed-state:hover {
+          background: #15803D
+        }
     </style>
     @routes
     <script>
@@ -72,14 +91,16 @@
   <body>
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900" id="app">
       <div
-        class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800"
+        class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800 animate__animated"
+        :class="{ 'animate__shakeX': failed }"
       >
         <div class="flex flex-col overflow-y-auto md:flex-row">
+          
           <div class="h-32 md:h-auto md:w-1/2">
             <img
               aria-hidden="true"
               class="object-cover w-full h-full dark:hidden"
-              src="../assets/img/login-office.jpeg"
+              src="../assets/img/interior.jpg"
               alt="Office"
             />
             <img
@@ -115,22 +136,17 @@
               </label>
 
               <!-- You should use a button here, as the anchor is only used for the example  -->
-              <button
-                class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                @click="login"
-                v-if="!is_authenticating"
-              >
-                Log in
-              </button>
-
-              <button
-                v-else
-                class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                @click="login"
-                :disabled="true"
-              >
-                <span class="loader normal"></span>
-              </button>
+                <button
+              class="transition-colors duration-300 ease-in-out block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 border border-transparent rounded-lg active:bg-purple-600 focus:outline-none focus:shadow-outline-purple"
+              :class="{ 'normal-state': !passed, 'passed-state': passed }"
+              style="height: 40px;"
+              @click="login"
+              :disabled="is_authenticating"
+            >
+              <span v-if="is_authenticating" class="loader normal"></span>
+              <span v-else-if="!passed">Log in</span>
+              <span v-else>Success</span>
+            </button>
 
               <hr class="my-8" />
 
@@ -150,11 +166,14 @@
             return {
                 username: "",
                 password: "",
-                is_authenticating: false
+                is_authenticating: false,
+                passed: false,
+                failed: false
             }
         },
         methods: {
             async login() {
+              try {
                 this.is_authenticating = true;
                 const response = await axios.post(route("api.login", {
                     username: this.username,
@@ -164,8 +183,25 @@
                 if(response.data.status === "200") {
                     localStorage.setItem("token", response.data.data.token);
                     window.location = route("member.manage");
+                    this.passed = true;
+                    this.failed = false;
                 }
+              } catch(e) {
+                  Toastify({
+                    text: "Invalid Username or Password",
+                    duration: 3000,
+                    gravity: "top", // or "bottom"
+                    position: "right", // or "left", "center"
+                    backgroundColor: "#EF4444", // tailwind green-400
+                  }).showToast();
+                  this.passed = false;
+                  this.failed = true;
+                  setTimeout(() => {
+                    this.failed = false;
+                  }, 1000)
+              } finally {
                 this.is_authenticating = false;
+              }
             }
         },
     }).mount("#app");

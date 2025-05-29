@@ -79,6 +79,8 @@ Route::delete("/complain/{complain}/delete", [ComplainController::class, "destro
 
 Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
 
+Route::post("/logout", [\App\Http\Controllers\Api\Auth\AuthController::class, "logout"])->name("api.logout");
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
