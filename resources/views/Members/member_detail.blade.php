@@ -16,7 +16,7 @@
     <!-- Remove everything INSIDE this div to a really blank page -->
     <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
       <div>
-        <img style="border-radius: 100%; height: 100px; width: 100px;" src="/storage/{{ $member->profile_picture }}"/>
+        <img style="border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $member->profile_picture }}"/>
       </div>
       <div style="margin-left: 10px;">
         <h1 style="font-size: 20px; font-weight: bold;">{{ $member->member_name }}</h1>
