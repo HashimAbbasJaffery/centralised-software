@@ -634,7 +634,7 @@
                 }
               }
             },
-            mounted() {
+            async mounted() {
 
               const cardTypes = await axios.get(route("api.card.all"));
               this.cardTypes = cardTypes.data.data;
