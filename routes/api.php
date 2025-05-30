@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,10 @@ Route::delete("/complain-type/{complainQuestion}/question/delete", [ComplainQues
 
 Route::get("/complains", [ComplainController::class, "index"])->name("api.complains");
 Route::delete("/complain/{complain}/delete", [ComplainController::class, "destroy"])->name("api.complain.delete");
+
+Route::get("/users", [\App\Http\Controllers\Api\UserController::class, "index"])->name("api.users");
+Route::post("/user/create", [\App\Http\Controllers\Api\UserController::class, "store"])->name("api.user.store");
+Route::get("/user/priveleges", [\App\Http\Controllers\Api\UserController::class, "privileges"])->name("api.user.privileges");
 
 Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
 

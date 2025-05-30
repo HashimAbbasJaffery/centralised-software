@@ -18,14 +18,16 @@ class AuthController extends Controller
         $username = request()->username;
         $password = request()->password;
 
-        $user = User::where("name", $username)
+        $user = User::where("username", $username)
                         ->first();
+        
+        $permissions = $user->permissions->map(fn($permission) => $permission->ability)->toArray();
 
         if(!$user || !Hash::check($password, $user->password)) {
             return $this->apiResponse->error(401, "User not found!");
         }
 
-        $token = $user->createToken("api-token")->plainTextToken;
+        $token = $user->createToken("api-token", $permissions)->plainTextToken;
 
         return $this->apiResponse->success("Api token has been created", [ "token" => $token ]);
     }

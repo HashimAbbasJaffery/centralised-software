@@ -100,8 +100,8 @@
       :class="{ 'overflow-hidden': isSideMenuOpen}"
     >
       <!-- Desktop sidebar -->
-        <x-navbar style="width: 20%; width: 230px;" />
-        <x-navbar style="position: fixed; height: 100%; width: 230px;"/>
+        <x-navbar :token="request()->bearerToken()" style="width: 20%; width: 230px;" />
+        <x-navbar :token="request()->bearerToken()" style="position: fixed; height: 100%; width: 230px;"/>
       <!-- Mobile sidebar -->
       <!-- Backdrop -->
       <div
@@ -389,3 +389,4 @@
 </div>
 </body>
 </html>
+

@@ -16,34 +16,60 @@ use App\Http\Controllers\MembersCardController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
+use App\Http\Controllers\UserController;
+use App\Models\Permission;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-Route::get("/test", function() {
-    dd(base_path(env('GOOGLE_SERVICE_ACCOUNT_PATH')));
+Route::get("populate-permissions", function() {
+    $permissions = [ 
+                    "member:add", 
+                    "member:manage", 
+                    "member:birthdays", 
+                    "recovery:payment-schedule", 
+                    "recovery:report-by-members", 
+                    "recovery:payment-receipt", 
+                    "recovery:report-overall", 
+                    "reciprocal:introletters", 
+                    "reciprocal:manage-club", 
+                    "reciprocal:add-club", 
+                    "reciprocal:duration-and-fees", 
+                    "card:add", 
+                    "card:manage", 
+                    "complains:by-member", 
+                    "complains:types" 
+                ];
+    $labels = [
+        "Add member",
+        "Manage member",
+        "Birthdays",
+        "View Payment Schedule",
+        "Recovery Report by Members",
+        "Recovery Payment Receipt",
+        "Recovery Report Overall",
+        "Create Introduction letter",
+        "Manage Clubs",
+        "Add Clubs",
+        "Add duration and fees",
+        "Add Card",
+        "Manage Card",
+        "Member Complain",
+        "Complain Types"
+    ];
+
+    foreach($permissions as $index => $permission) {
+        Permission::create([
+            "ability" => $permissions[$index],
+            "label" => $labels[$index]
+        ]);
+    }
 });
 
 Route::get('/', function () {
     phpinfo();
     return view('welcome');
-});
-
-Route::get("/user/token", function(Request $request) {
-    $user = User::find(1);
-
-    $token = $user->createToken('token');
-
-    dd($token);
-});
-
-Route::get("/add/user", function() {
-    $user = User::create([
-        "name" => "shahmirahs",
-        "email" => "shahmir@gmail.com",
-        "password" => Hash::make("anker@motorola104")
-    ]);
 });
 
 
@@ -97,4 +123,7 @@ Route::get("/complains", [ComplainController::class, "get"])->name("complains");
 Route::get("/complain/{complain}/get", [ComplainController::class, "getOne"])->name("complains.detail");
 
 Route::get("/login", [AuthController::class, "login"])->name("login");
+
+Route::get("/users", [UserController::class, "index"])->name("users");
+Route::get("/user/create", [UserController::class, "create"])->name("user.create");
 

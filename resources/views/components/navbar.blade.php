@@ -1,6 +1,7 @@
 <aside
 class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
 {{ $attributes }}
+id="navbar-app"
 >
 <div class="py-4 text-gray-500 dark:text-gray-400">
   <a
@@ -46,19 +47,19 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.create') ? 'text-black' : '' }}"
+            class="navbar member_add px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.create') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route("member.create") }}">Add member</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.manage') ? 'text-black' : '' }}"
+            class="navbar member_manage px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.manage') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route("member.manage") }}">
               Manage member
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.birthdays') ? 'text-black' : '' }}"
+            class="navbar member_birthdays px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.birthdays') ? 'text-black' : '' }}"
           >
             <a class="w-full" style="font-size: 12px;" href="{{ route('member.birthdays') }}">
               Birthdays
@@ -104,19 +105,19 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           aria-label="submenu"
         >
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="navbar px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
           >
             <a class="w-full" href="{{ route('payment-schedule') }}" style="font-size: 12px;">View Payment Schedule</a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="navbar px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
           >
             <a class="w-full" href="{{ route('member.recovery.report') }}" style="font-size: 12px;">
               Recovery report by members
             </a>
           </li>
           <li
-            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            class="navbar px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
           >
             <a class="w-full" href="{{ route('member.recovery.receipts.get') }}" style="font-size: 12px;">
               Recovery payment receipt
@@ -125,7 +126,7 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
           >
-            <a class="w-full" href="{{ route('member.recovery.overall') }}" style="font-size: 12px;">
+            <a class="navbar w-full" href="{{ route('member.recovery.overall') }}" style="font-size: 12px;">
               Recovery report overall
             </a>
           </li>
@@ -176,21 +177,21 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.index') ? 'text-black' : '' }}"
           >
-            <a class="w-full" style="font-size: 12px;" href="{{ route('club.index') }}">
+            <a class="navbar w-full" style="font-size: 12px;" href="{{ route('club.index') }}">
               Manage Clubs
             </a>
           </li>
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('club.create') ? 'text-black' : '' }}"
           >
-            <a class="w-full" style="font-size: 12px;" href="{{ route("club.create") }}">
+            <a class="navbar w-full" style="font-size: 12px;" href="{{ route("club.create") }}">
               Add clubs
             </a>
           </li>
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('duration.index') ? 'text-black' : '' }}"
           >
-            <a class="w-full" style="font-size: 12px;" href="{{ route("duration.index") }}">
+            <a class="navbar w-full" style="font-size: 12px;" href="{{ route("duration.index") }}">
               Add duration and fees
             </a>
           </li>
@@ -237,12 +238,12 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.add') ? 'text-black' : '' }}"
           >
-            <a class="w-full" href="{{ route('card-type.add') }}" style="font-size: 12px;">Add Card</a>
+            <a class="w-full navbar" href="{{ route('card-type.add') }}" style="font-size: 12px;">Add Card</a>
           </li>
           <li
             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.index') ? 'text-black' : '' }}"
           >
-            <a class="w-full" href="{{ route('card-type.index') }}" style="font-size: 12px;">
+            <a class="w-full navbar" href="{{ route('card-type.index') }}" style="font-size: 12px;">
               Manage Card
             </a>
           </li>
@@ -309,6 +310,13 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
   </ul>
       <ul>
     <li class="relative px-6 py-3">
+      <a href="{{ route('payment_method.index') }}" class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" href="charts.html">
+      <svg style="width: 15px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192l42.7 0c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0L21.3 320C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7l42.7 0C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3l-213.3 0zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352l117.3 0C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7l-330.7 0c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>  <span class="ml-4" style="font-size: 12px;">Users</span>
+      </a>
+    </li>
+  </ul>
+      <ul>
+    <li class="relative px-6 py-3">
       <button onclick="logout()" class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" href="charts.html">
         <svg style="height: 15px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/></svg>
         <span class="ml-4" style="font-size: 12px;">Logout</span>
@@ -327,3 +335,6 @@ class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-
     }
   }
 </script>
+
+
+

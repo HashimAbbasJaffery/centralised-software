@@ -20,7 +20,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        "username",
+        "fullname",
         'password',
     ];
 
@@ -45,5 +46,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function permissions() {
+        return $this->belongsToMany(Permission::class, "user_permission");
+    }
+
+
+    public function givePermissionsToUser(array $permissions) {
+        foreach($permissions as $index => $permission) {
+            $permissions[$index] = (Permission::where("ability", $permission)->first())->id;
+        }
+
+        $this->permissions()->sync($permissions);
     }
 }

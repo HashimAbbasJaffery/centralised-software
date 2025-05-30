@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MemberResource;
 use App\Models\Member;
+use App\Service\UserService;
 use Illuminate\Http\Request;
 
 class BirthdayController extends Controller
 {
-    public function __construct() {
+    public function __construct(protected UserService $user) {
         $this->middleware("auth:sanctum");
     }
     public function index() {
+        $this->user->isAllowedToPerformAction("member:birthdays");
+
         $today = now();
         $end = now()->addDays(15);
         $members = Member::filter()

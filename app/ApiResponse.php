@@ -17,4 +17,7 @@ class ApiResponse
     public function error($code, $message) {
         return response()->json(["status" => $code, "message" => $message], $code);
     }
+    public function forbidden($message = "This actions is forbidden!") {
+        return $this->error(403, $message);
+    }
 }

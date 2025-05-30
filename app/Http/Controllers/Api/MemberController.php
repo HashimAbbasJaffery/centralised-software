@@ -7,21 +7,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MemberRequest;
 use App\Http\Resources\MemberResource;
 use App\Models\Member;
+use App\Models\PersonalAccessToken;
+use App\Service\UserService;
 use App\Services\ImageService;
 
 class MemberController extends Controller
 {
-    public function __construct(public ApiResponse $apiResponse, public ImageService $imageService) {
+    public function __construct(public ApiResponse $apiResponse, public ImageService $imageService, protected UserService $user) {
         $this->middleware("auth:sanctum");
     }
     public function getById(Member $member) {
         return $member;
     }
     public function index() {
+        $this->user->isAllowedToPerformAction("member:manage");
+
         $member = Member::filter()->orderBy("created_at", "desc")->paginate(8);
         return MemberResource::collection($member);
     }
     public function store(MemberRequest $request) {
+        $this->user->isAllowedToPerformAction("member:add");
+
         $spouses = collect(request()->spouses)->filter()->values();
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
