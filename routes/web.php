@@ -64,7 +64,6 @@ Route::get("populate-permissions", function() {
         "Complain Types",
         "Users"
     ];
-    $permission = Permission::destroy();
     foreach($permissions as $index => $permission) {
         Permission::create([
             "ability" => $permissions[$index],
