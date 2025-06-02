@@ -238,16 +238,16 @@
 const app = Vue.createApp({
     data() {
         return {
-          username: "",
-          fullname: "",
+          username: "{{ $user->username }}",
+          fullname: "{{ $user->fullname }}",
           password: "",
-          permissions: []
+          permissions: @json($permissions)
         }
     },
   methods: {
     async submit(e) {
       e.preventDefault();
-      const response = await axios.post(route("api.user.store"), {
+      const response = await axios.put(route("api.user.update", route().params), {
         username: this.username,
         fullname: this.fullname,
         password: this.password,

@@ -18,7 +18,7 @@
       >
         Manage Users
       </h2>
-      <a href="{{ route('member.recovery.receipt') }}" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+      <a href="{{ route('user.create') }}" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
         Create
       </a>
       <div style="display: flex; justify-content: space-between;">
@@ -184,16 +184,15 @@
           window.location = route('member.recovery.receipt.update', { receipt: id });
         },
         async deleteMember(id) {
-
           Swal.fire({
             title: "Do you want to delete it?",
             showCancelButton: true,
             confirmButtonText: "Delete",
           }).then(async (result) => {
             if (result.isConfirmed) {
-              const response = await axios.delete(route("api.member.receipt.delete", { receipt: id }));
+              const response = await axios.delete(route("api.user.delete", { user: id }));
               if(response.data.status === "200") {
-                this.members = this.members.filter(member => member.id !== id);
+                this.users = this.users.filter(user => user.id !== id);
               } 
             }
           });

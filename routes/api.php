@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
+use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -80,7 +81,10 @@ Route::delete("/complain/{complain}/delete", [ComplainController::class, "destro
 
 Route::get("/users", [\App\Http\Controllers\Api\UserController::class, "index"])->name("api.users");
 Route::post("/user/create", [\App\Http\Controllers\Api\UserController::class, "store"])->name("api.user.store");
+Route::put("/user/{user}/update", [\App\Http\Controllers\Api\UserController::class, "update"])->name("api.user.update");
+Route::delete("/user/{user}/delete", [\App\Http\Controllers\Api\UserController::class, "delete"])->name("api.user.delete");
 Route::get("/user/priveleges", [\App\Http\Controllers\Api\UserController::class, "privileges"])->name("api.user.privileges");
+Route::get("/check-token", [TokenController::class, "check"])->name("api.token.check");
 
 Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
 

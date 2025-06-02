@@ -126,4 +126,5 @@ Route::get("/login", [AuthController::class, "login"])->name("login");
 
 Route::get("/users", [UserController::class, "index"])->name("users");
 Route::get("/user/create", [UserController::class, "create"])->name("user.create");
+Route::get("/user/{user}/update", [UserController::class, "update"])->name("user.update");
 

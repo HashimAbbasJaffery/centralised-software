@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<html :class="{ 'theme-dark': dark }" x-data="data()" x-init="initialize()" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -72,7 +72,6 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     @routes
     <script>
       // Example: After login, you get token from response
@@ -95,13 +94,14 @@
     </script>
   </head>
   <body>
+    <p id="test"></p>
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': isSideMenuOpen}"
     >
       <!-- Desktop sidebar -->
-        <x-navbar :token="request()->bearerToken()" style="width: 20%; width: 230px;" />
-        <x-navbar :token="request()->bearerToken()" style="position: fixed; height: 100%; width: 230px;"/>
+      <x-navbar style="width: 20%; width: 230px;"  visible/>
+      <x-navbar style="position: fixed; height: 100%; width: 230px;"/>
       <!-- Mobile sidebar -->
       <!-- Backdrop -->
       <div
