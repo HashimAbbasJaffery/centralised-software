@@ -43,7 +43,8 @@ Route::get("populate-permissions", function() {
                     "card:add", 
                     "card:manage", 
                     "complains:by-member", 
-                    "complains:types" 
+                    "complains:types",
+                    "user:actions"
                 ];
     $labels = [
         "Add member",
@@ -60,7 +61,8 @@ Route::get("populate-permissions", function() {
         "Add Card",
         "Manage Card",
         "Member Complain",
-        "Complain Types"
+        "Complain Types",
+        Users
     ];
 
     foreach($permissions as $index => $permission) {
@@ -71,8 +73,8 @@ Route::get("populate-permissions", function() {
     }
 
     $user = User::create([
-        "username" => "shahmirahs",
-        "fullname" => "Shahmir Ahsanullah",
+        "username" => "hashimabs",
+        "fullname" => "Hashim Abbas",
         "password" => "anker@102"
     ]);
     $user->givePermissionsToUser($permissions);
