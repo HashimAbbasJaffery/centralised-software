@@ -62,9 +62,9 @@ Route::get("populate-permissions", function() {
         "Manage Card",
         "Member Complain",
         "Complain Types",
-        Users
+        "Users"
     ];
-
+    Permission::delete();
     foreach($permissions as $index => $permission) {
         Permission::create([
             "ability" => $permissions[$index],
