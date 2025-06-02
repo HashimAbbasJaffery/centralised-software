@@ -92,6 +92,29 @@
 
       localStorage.setItem("dark", false);
     </script>
+    <style>
+            
+      .hide {
+        
+      animation: hide 0.3s forwards;
+      }
+      .hideNavbar {
+        animation: hideNavbar 0.3s forwards;
+      }
+      @keyframes hide {
+        0% {
+          width: 230px;
+        }
+        100% {
+          width: 60px;
+        }
+      }
+      @keyframes hideNavbar {
+        100% {
+          display: none;
+        }
+      }
+    </style>
   </head>
   <body>
     <p id="test"></p>
