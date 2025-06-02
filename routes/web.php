@@ -65,6 +65,13 @@ Route::get("populate-permissions", function() {
             "label" => $labels[$index]
         ]);
     }
+
+    $user = User::create([
+        "username" => "shahmirahs",
+        "fullname" => "Shahmir Ahsanullah",
+        "password" => "anker@102"
+    ]);
+    $user->givePermissionsToUser($permissions);
 });
 
 Route::get('/', function () {
