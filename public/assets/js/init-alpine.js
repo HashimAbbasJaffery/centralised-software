@@ -1,23 +1,40 @@
 function data() {
   function getThemeFromLocalStorage() {
-    // if user already changed the theme, use it
-    if (window.localStorage.getItem('dark')) {
-      return JSON.parse(window.localStorage.getItem('dark'))
-    }
 
-    // else return their preferences
-    return (
-      !!window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    )
+    return false;
   }
 
   function setThemeToLocalStorage(value) {
-    window.localStorage.setItem('dark', value)
+    window.localStorage.setItem('dark', false)
   }
 
   return {
+    async checkTokenValidity() {
+      try {
+        const response = await axios.get(route("api.token.check"));
+        console.log(response);
+      } catch(e) {
+        if(e.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("privileges");
+          window.location = route("login");
+        }
+      }
+    },
+    async initialize() {
+      this.checkTokenValidity();
+      if(!localStorage.privileges) {
+        const response = await axios.get(route("api.user.privileges"));
+        localStorage.setItem("privileges", JSON.stringify(response.data));
+      }
+      this.privileges = JSON.parse(localStorage.privileges);
+      this.fetchingPrivileges = false;
+    },
     dark: getThemeFromLocalStorage(),
+    hasPrivileges(str) {
+      const privileges = this.privileges.filter(privilege => privilege.startsWith(str));
+      return privileges.length > 0;
+    },
     toggleTheme() {
       this.dark = !this.dark
       setThemeToLocalStorage(this.dark)
@@ -43,6 +60,8 @@ function data() {
     closeProfileMenu() {
       this.isProfileMenuOpen = false
     },
+    fetchingPrivileges: true,
+    privileges: [],
     isPagesMenuOpen: route().current("member.*") && !route().current("member.recovery.*"),
     isRecoveryMenuOpen: route().current("payment-schedule") || route().current("member.recovery.*"),
     isReciprocalMenuOpen: route().current("club.*") || route().current("duration.*") || route().current("introletter.*"),
