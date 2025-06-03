@@ -119,6 +119,39 @@ footer{
 }
 
 }
+.choices__item--selectable[data-value='cleared']:not(.choices__item--choice) {
+    background: #27241b !important;
+    border: none;
+}
+.choices__item--selectable[data-value='level1']:not(.choices__item--choice) {
+    background: #bbd5d2 !important;
+    border: none;
+    color: black;
+}
+.choices__item--selectable[data-value='level2']:not(.choices__item--choice) {
+    background: #fef000 !important;
+    border: none;
+    color: black;
+}
+.choices__item--selectable[data-value='level3']:not(.choices__item--choice) {
+    background: #ff9c07 !important;
+    border: none;
+    color: black;
+}
+.choices__item--selectable[data-value='level4']:not(.choices__item--choice) {
+    background: #a60411 !important;
+    border: none;
+}
+.choices__item--selectable[data-value='re-regularized']:not(.choices__item--choice) {
+    background: #661416 !important;
+    border: none;
+}
+.choices__item--selectable[data-value='Regular']:not(.choice__item--choice) {
+    background: #e9ecef !important;
+    border: none;
+    color: black;
+}
+
     </style>
     <div id="app" class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Recovery Report</h2>
@@ -311,7 +344,7 @@ footer{
                 return {
                     start_date: "",
                     end_date: "",
-                    sum: "",
+                    sum: 0,
                     is_fetching: false,
                     fetched: true,
                     statuses: ["regular"],
@@ -363,8 +396,10 @@ footer{
 
 
                     this.is_fetching = false;
-                    this.sum = 0;
                     this.reports = response.data.data[0];
+                    response.data.data[0].forEach(res => {
+                        this.sum += res.recovery[0].payable;
+                    })
                 },
                 printReport() {
                     window.print();

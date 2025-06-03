@@ -335,6 +335,91 @@
               </div>
             </div>
             <div v-show="current_step === 7" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Professional Details</h5>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Company Name</span>
+                    <input
+                        v-model="company_name"
+                        type="text"
+                        placeholder="e.g Visionary Group"
+                        data-message="company_name" 
+                        style="width: 100% !important; margin-top: 4px !important;"
+                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      />
+                </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Company Designation</span>
+                    <input
+                        v-model="company_designation"
+                        type="text"
+                        placeholder="e.g COO"
+                        style="width: 100% !important; margin-top: 4px !important;"
+                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      />
+                </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Type of Profession</span>
+                    <input 
+                      v-model="profession"
+                      type="text" 
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="Executive Leadership">
+                  </label>
+                </div>
+              </div>
+              <div v-show="membership_with_extra_details == membership_type" style="display: flex; column-gap: 20px;">
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400" style="margin-bottom: 20px;">Office Phone Number</span>
+                    <br>
+                    <input type="hidden" v-model="phone_numbers[2].countryCode" />
+                    <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
+                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="0" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
+                    <span style="display: none;" class="phone_field_message text-xs text-red-600 dark:text-red-400">
+                      Phone number field is required
+                    </span>
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Country</span>
+                    <input type="text" v-model="installment_month" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">City</span>
+                    <input type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
+                  </label>
+                </div>
+              </div>
+                     <div v-show="membership_with_extra_details == membership_type" style="display: flex; column-gap: 20px;">
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Work Email</span>
+                    <input type="text" v-model="installment_month" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
+                  </label>
+                </div>
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Office Address</span>
+                    <input type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
+                  </label>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
+            <div v-show="current_step === 8" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Emergency and Health Information</h5>
               <div style="display: flex; column-gap: 20px;">
                 <label class="block text-sm" style="margin-bottom: 20px; width: 50%">
@@ -369,7 +454,7 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div v-show="current_step === 8" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div v-show="current_step === 9" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Membership Card Details</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 50%;">
@@ -412,7 +497,7 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div v-show="current_step === 9" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div v-show="current_step === 10" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Locker Details</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 50%;">
@@ -504,6 +589,12 @@
                 locker_category: "a",
                 locker_number: "",
 
+                company_name: "",
+                company_designation: "",
+                profession: "",
+                office_ph_number: "",
+                membership_with_extra_details: null,
+
                 phone_numbers: [{countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}],
                 formData: new FormData(),
                 cardTypes: [],
@@ -561,7 +652,7 @@
                 return doesntHaveErrors;
               },
               next() {
-                if(!this.validate_inputs()) return;
+                // if(!this.validate_inputs()) return;
                 this.current_step++;
               },
               previous() {
@@ -625,6 +716,9 @@
                   this.formData.append("payment_status", this.payment_status);
                   this.formData.append("locker_category", this.locker_category);
                   this.formData.append("locker_number", this.locker_number);
+                  this.formData.append("company_name", this.company_name);
+                  this.formData.append("company_designation", this.company_designation);
+                  this.formData.append("profession", this.profession);
                   
                   this.spouses.forEach((spouse, index) => {
                     this.formData.append(`spouses[${index}]`, spouse);
@@ -651,6 +745,7 @@
             async mounted() {
 
               const cardTypes = await axios.get(route("api.card.all"));
+              this.membership_with_extra_details = cardTypes.data.data.filter(cardType => cardType.card_name === 'corporate' || cardType.card_name === 'Corporate')?.[0].id;
               this.cardTypes = cardTypes.data.data;
               this.membership_type = this.cardTypes[0].id;
 

@@ -9,7 +9,7 @@ id="navbar-app"
       class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
       href="#"
     >
-      Windmill
+      GwadarGymkhana
     </a>
     <template x-if="hasPrivileges('member')">
       <ul class="mt-6" style="height: 100%;">
@@ -193,7 +193,7 @@ id="navbar-app"
               <li
                 class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('introletter.index') ? 'text-black' : '' }}"
               >
-                <a class="w-full" style="font-size: 12px;" href="{{ route('introletter.index') }}">Create Introduction letter</a>
+                <a class="w-full" style="font-size: 12px;" href="{{ route('introletter.index') }}">Manage Introduction letter</a>
               </li>
             </template>
             <template x-if="privileges.includes('reciprocal:manage-club')">

@@ -117,7 +117,6 @@
     </style>
   </head>
   <body>
-    <p id="test"></p>
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': isSideMenuOpen}"
@@ -154,7 +153,7 @@
             class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
             href="#"
           >
-            Windmill
+            GwadarGymkhana
           </a>
           <ul>
             <li class="relative px-6 py-3">

@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ComplainTypeController;
 use App\Http\Controllers\Api\DurationController;
 use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
+use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get("/member/all", [MemberController::class, "getAllMembers"])->name("api.member.all");
 Route::get("/member/{member}/get", [MemberController::class, "getById"])->name("api.member.getById");
 Route::get("/members/all", [MemberController::class, "getAll"])->name("api.member.all");
 Route::get("/members", [MemberController::class, "index"])->name("api.member.index");
@@ -89,6 +91,8 @@ Route::get("/check-token", [TokenController::class, "check"])->name("api.token.c
 Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
 
 Route::post("/logout", [\App\Http\Controllers\Api\Auth\AuthController::class, "logout"])->name("api.logout");
+
+Route::get("/{membership}/get", [MembershipController::class, "getByMembershipName"])->name("api.membership.get");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

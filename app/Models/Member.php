@@ -60,4 +60,7 @@ class Member extends Model
             dispatch(new SaveInGoogleDrive());
         });
     }
+    public function profession() {
+        return $this->hasOne(Profession::class);
+    }
 }

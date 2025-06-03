@@ -51,6 +51,8 @@ return new class extends Migration
             $table->string("card_type");
             $table->date("date_of_issue")->default(now());
             $table->date("validity")->default(now());
+
+
             $table->timestamps();
             $table->softDeletes();
         });

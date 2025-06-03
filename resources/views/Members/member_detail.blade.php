@@ -32,31 +32,37 @@
             <!-- Sidebar Tabs -->
       <div class="tabs">
         <div style="margin-bottom: 20px;">
-          <button @click="tab = 'personal information'" :class="{'bg-purple-600 text-white': tab === 'personal information'}" style="width: 170px; text-align: left;" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          <button @click="tab = 'personal information'" :class="{'bg-purple-600 text-white': tab === 'personal information'}" style="width: 200px; text-align: left;" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
             Personal Information
           </button>
         </div>
 
         <div @click="tab = 'contact information'" style="margin-bottom: 20px;">
-          <button style="width: 170px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'contact information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          <button style="width: 200px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'contact information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
             Contact Information
           </button>
         </div>
 
+        <div @click="tab = 'professional information'" style="margin-bottom: 20px;">
+          <button style="width: 200px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'professional information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            Professional Information
+          </button>
+        </div>
+
         <div @click="tab = 'membership information'" style="margin-bottom: 20px;">
-          <button style="width: 170px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'membership information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          <button style="width: 200px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'membership information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
             Membership
           </button>
         </div>
 
         <div @click="tab = 'payment information'" style="margin-bottom: 20px;">
-          <button style="width: 170px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'payment information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          <button style="width: 200px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'payment information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
             Payments
           </button>
         </div>
 
         <div @click="tab = 'locker information'" style="margin-bottom: 20px;">
-          <button style="width: 170px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'locker information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          <button style="width: 200px; text-align: left;" :class="{'bg-purple-600 text-white': tab === 'locker information'}" class="tab-button px-3 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
             Locker
           </button>
         </div>
@@ -75,6 +81,19 @@
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> {{ $member->alternate_ph_number }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span> {{ $member->emergency_contact }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Email Address:</span> {{ $member->email_address }}</p>
+      </div>
+      <div v-if="tab === 'professional information'">
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Company Name:</span> {{ $member->profession->company_name }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Designation:</span> {{ $member->profession->designation }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Profession:</span> {{ $member->profession->type_of_profession }}</p>
+        @if($member->membership->card_name === "Corporate" || $member->membership->card_name === 'corporate')
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Office Address:</span> {{ $member->profession->office_address }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Office Phone Number:</span> {{ $member->profession->office_phone_number }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Country:</span> {{ $member->profession->country }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City:</span> {{ $member->profession->city }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Work Email:</span> {{ $member->profession->work_email }}</p>
+        
+        @endif
       </div>
       <div v-if="tab === 'membership information'">
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Membership Type:</span> {{ $member->membership->card_name }}</p>

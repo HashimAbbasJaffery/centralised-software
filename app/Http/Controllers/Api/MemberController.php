@@ -10,6 +10,7 @@ use App\Models\Member;
 use App\Models\PersonalAccessToken;
 use App\Service\UserService;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -34,32 +35,42 @@ class MemberController extends Controller
 
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
 
-        $member = Member::create([
-                                                ...$request->validated(),
-                                                "profile_picture" => $filePath,
-                                                "phone_number" => $phone_numbers[0]->phoneNumber,
-                                                "phone_number_code" => $phone_numbers[0]->countryCode,
-                                                "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
-                                                "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
-                                                "emergency_contact" => $phone_numbers[2]->phoneNumber,
-                                                "emergency_contact_code" => $phone_numbers[2]->countryCode
-                                            ]);
+        DB::transaction(function() use($request, $phone_numbers, $filePath, $spouses, $children){
 
-        foreach($spouses as $spouse) {
-            $member->spouses()->create([
-                "spouse_name" => $spouse
+            $member = Member::create([
+                        ...$request->validated(),
+                        "profile_picture" => $filePath,
+                        "phone_number" => $phone_numbers[0]->phoneNumber,
+                        "phone_number_code" => $phone_numbers[0]->countryCode,
+                        "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
+                        "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
+                        "emergency_contact" => $phone_numbers[2]->phoneNumber,
+                        "emergency_contact_code" => $phone_numbers[2]->countryCode
+                    ]);
+
+            $member->profession()->create([
+                ...$request->validated(),
+                "designation" => $request->company_designation,
+                "type_of_profession" => $request->profession
             ]);
-        }
 
-        foreach($children as $child) {
-            if (in_array(null, $child, true)) {
-                continue;
+            foreach($spouses as $spouse) {
+                $member->spouses()->create([
+                    "spouse_name" => $spouse
+                ]);
             }
-            $member->children()->create([
-                "child_name" => $child[0],
-                "date_of_birth" => $child[1]
-            ]);
-        }
+
+            foreach($children as $child) {
+                if (in_array(null, $child, true)) {
+                    continue;
+                }
+                $member->children()->create([
+                    "child_name" => $child[0],
+                    "date_of_birth" => $child[1]
+                ]);
+            }
+
+        });
 
         return $this->apiResponse->success(
             message: "Member has been created successfully!"
@@ -114,6 +125,11 @@ class MemberController extends Controller
     }
     public function getAll() {
         $members = Member::orderByDesc("created_at")->get();
+
+        return MemberResource::collection($members);
+    }
+    public function getAllMembers() {
+        $members = Member::whereNotIn("payment_status", [ "level4", "level3" ])->get();
 
         return MemberResource::collection($members);
     }
