@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentMethodController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function get(Request $request) {
         $keyword = $request->keyword;
         $paymentMethods = PaymentMethod::whereLike("payment_method", "%$keyword%")->get();

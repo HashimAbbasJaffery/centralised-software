@@ -143,12 +143,7 @@
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Membership Type</span>
                     <select v-model="membership_type" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
-                      <option value="permanent">Permanent</option>
-                      <option value="permanent+">Permanent+</option>
-                      <option value="founder">Founder</option>
-                      <option value="corporate-applicant">Corporate Applicant</option>
-                      <option value="permanent se">Permanent SE</option>
-                      <option value="temporary">Temporary</option>
+                      <option v-for="cardType in cardTypes" :value="cardType.id" v-text="cardType.card_name"></option>
                     </select>
                     <span style="display: none;" class="membership_type_field_message step_3_message text-xs text-red-600 dark:text-red-400">
                       Membership Type is required
@@ -445,7 +440,7 @@
           </div>
           
         </main>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+         
         <script>
           const app = Vue.createApp({
             data() {
@@ -477,7 +472,7 @@
                 date_of_issue: "",
 
                 spouses: @json($spouse_array),
-                children: @json($children),
+                children: [{id: 1, childName: "", dob: ""}],
 
                 form_fee: "{{ $member->form_fee }}",
                 processing_fee: "{{ $member->processing_fee }}",
@@ -499,7 +494,8 @@
                                   {countryCode: "{{ $member->alternate_ph_number_code }}", phoneNumber: "{{ $member->alternate_ph_number }}"}, 
                                   {countryCode: "{{ $member->emergency_contact_code }}", phoneNumber: "{{ $member->emergency_contact }}"}
                                 ],
-                formData: new FormData()
+                formData: new FormData(),
+                cardTypes: [],
               }
             },
             computed: {
@@ -610,6 +606,8 @@
                   this.formData.append("children", this.children);
                   this.formData.append("phone_numbers", JSON.stringify(this.phone_numbers));
                   this.formData.append("payment_status", this.payment_status);
+                  this.formData.append("locker_number", this.locker_number);
+                  this.formData.append("locker_category", this.locker_category);
                   
                   this.spouses.forEach((spouse, index) => {
                     this.formData.append(`spouses[${index}]`, spouse);
@@ -636,7 +634,12 @@
                 }
               }
             },
-            mounted() {
+            async mounted() {
+
+              const cardTypes = await axios.get(route("api.card.all"));
+              this.cardTypes = cardTypes.data.data;
+              this.membership_type = this.cardTypes[0].id;
+
               const stepForms = document.querySelectorAll(".step-form");
               this.total_steps = stepForms.length;
 

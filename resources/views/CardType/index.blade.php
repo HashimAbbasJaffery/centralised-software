@@ -86,7 +86,7 @@
       </nav>
     </span>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   
   <script>
     console.log(route('api.member.index'));
     const app = Vue.createApp({

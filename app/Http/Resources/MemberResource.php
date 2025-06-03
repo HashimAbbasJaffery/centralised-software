@@ -21,7 +21,9 @@ class MemberResource extends JsonResource
             "gender" => $this->gender,
             "marital_status" => $this->marital_status,
             "cnic_passport" => $this->cnic_passport,
+            "phone_number_code" => $this->phone_number_code,
             "phone_number" => $this->phone_number,
+            "phone_number_without_code" => preg_replace('/^\+' . preg_quote($this->phone_number_code, '/') . '/','',$this->phone_number),
             "alternate_ph_number" => $this->alternate_ph_number,
             "email_address" => $this->email_address,
             "residential_address" => $this->residential_address,
@@ -44,7 +46,9 @@ class MemberResource extends JsonResource
             "date_of_issue" => $this->date_of_issue,
             "validity" => $this->validity,
             "spouses" => $this->spouses,
-            "children" => $this->children
+            "children" => $this->children,
+            "locker_category" => $this->locker_category,
+            "locker_number" => $this->locker_number
         ];
     }
 }

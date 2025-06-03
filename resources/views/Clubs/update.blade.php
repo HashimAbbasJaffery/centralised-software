@@ -47,7 +47,7 @@
  </div>
           
         </main>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+         
         <script>
 Vue.component('v-select', VueSelect.VueSelect)
 

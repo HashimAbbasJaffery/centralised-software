@@ -2,9 +2,11 @@
 
 namespace App\View\Components;
 
+use App\Service\UserService;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Request;
 
 class Navbar extends Component
 {
@@ -13,7 +15,6 @@ class Navbar extends Component
      */
     public function __construct()
     {
-        //
     }
 
     /**

@@ -50,7 +50,10 @@ class MemberRequest extends FormRequest
             "profile_picture" => [ "required" ],
             "payment_status" => [ "required" ],
             "locker_category" => [ "required" ],
-            "locker_number" => [ "required" ]
+            "locker_number" => [ "required" ],
+            "company_name" => [ "required" ],
+            "company_designation" => [ "required" ],
+            "profession" => [ "required" ]
         ];
     }
 }

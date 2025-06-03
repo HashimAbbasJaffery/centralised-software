@@ -7,51 +7,70 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MemberRequest;
 use App\Http\Resources\MemberResource;
 use App\Models\Member;
+use App\Models\PersonalAccessToken;
+use App\Service\UserService;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
-    public function __construct(public ApiResponse $apiResponse, public ImageService $imageService) {}
+    public function __construct(public ApiResponse $apiResponse, public ImageService $imageService, protected UserService $user) {
+        $this->middleware("auth:sanctum");
+    }
     public function getById(Member $member) {
         return $member;
     }
     public function index() {
+        $this->user->isAllowedToPerformAction("member:manage");
+
         $member = Member::filter()->orderBy("created_at", "desc")->paginate(8);
         return MemberResource::collection($member);
     }
     public function store(MemberRequest $request) {
+        $this->user->isAllowedToPerformAction("member:add");
+
         $spouses = collect(request()->spouses)->filter()->values();
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
-        
+
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
-        
-        $member = Member::create([ 
-                                                ...$request->validated(), 
-                                                "profile_picture" => $filePath, 
-                                                "phone_number" => $phone_numbers[0]->phoneNumber,
-                                                "phone_number_code" => $phone_numbers[0]->countryCode,
-                                                "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
-                                                "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
-                                                "emergency_contact" => $phone_numbers[2]->phoneNumber,
-                                                "emergency_contact_code" => $phone_numbers[2]->countryCode
-                                            ]);
 
-        foreach($spouses as $spouse) {
-            $member->spouses()->create([
-                "spouse_name" => $spouse
+        DB::transaction(function() use($request, $phone_numbers, $filePath, $spouses, $children){
+
+            $member = Member::create([
+                        ...$request->validated(),
+                        "profile_picture" => $filePath,
+                        "phone_number" => $phone_numbers[0]->phoneNumber,
+                        "phone_number_code" => $phone_numbers[0]->countryCode,
+                        "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
+                        "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
+                        "emergency_contact" => $phone_numbers[2]->phoneNumber,
+                        "emergency_contact_code" => $phone_numbers[2]->countryCode
+                    ]);
+
+            $member->profession()->create([
+                ...$request->validated(),
+                "designation" => $request->company_designation,
+                "type_of_profession" => $request->profession
             ]);
-        }
 
-        foreach($children as $child) {
-            if (in_array(null, $child, true)) {
-                continue;
+            foreach($spouses as $spouse) {
+                $member->spouses()->create([
+                    "spouse_name" => $spouse
+                ]);
             }
-            $member->children()->create([
-                "child_name" => $child[0],
-                "date_of_birth" => $child[1]
-            ]);
-        }
+
+            foreach($children as $child) {
+                if (in_array(null, $child, true)) {
+                    continue;
+                }
+                $member->children()->create([
+                    "child_name" => $child[0],
+                    "date_of_birth" => $child[1]
+                ]);
+            }
+
+        });
 
         return $this->apiResponse->success(
             message: "Member has been created successfully!"
@@ -65,12 +84,12 @@ class MemberController extends Controller
         $spouses = collect(request()->spouses)->filter()->values();
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
-        
+
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
-        
-        $member->update([ 
-            ...$request->validated(), 
-            "profile_picture" => $filePath, 
+
+        $member->update([
+            ...$request->validated(),
+            "profile_picture" => $filePath,
             "phone_number" => $phone_numbers[0]->phoneNumber,
             "phone_number_code" => $phone_numbers[0]->countryCode,
             "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
@@ -87,11 +106,17 @@ class MemberController extends Controller
         }
 
         $member->children()->delete();
-        foreach($children as $child) {
-            $member->children()->create([
-                "child_name" => $child[0],
-                "date_of_birth" => $child[1]
-            ]);
+
+        if($children) {
+            foreach($children as $child) {
+                if (in_array(null, $child, true)) {
+                    continue;
+                }
+                $member->children()->create([
+                    "child_name" => $child[0],
+                    "date_of_birth" => $child[1]
+                ]);
+            }
         }
 
         return $this->apiResponse->success(
@@ -100,6 +125,11 @@ class MemberController extends Controller
     }
     public function getAll() {
         $members = Member::orderByDesc("created_at")->get();
+
+        return MemberResource::collection($members);
+    }
+    public function getAllMembers() {
+        $members = Member::whereNotIn("payment_status", [ "level4", "level3" ])->get();
 
         return MemberResource::collection($members);
     }

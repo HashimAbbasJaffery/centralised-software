@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ComplainQuestionController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse) {}
+    public function __construct(protected ApiResponse $apiResponse) {
+        $this->middleware("auth:sanctum");
+    }
     public function get(ComplainType $complainType) {
         return ComplainQuestionResource::collection($complainType->questions()->paginate(8));
     }
@@ -48,7 +50,7 @@ class ComplainQuestionController extends Controller
         }
 
         $validator = Validator::make(request()->all(), $rules);
-        
+
         if($validator->fails()) {
             return $validator->getMessageBag();
         }

@@ -21,6 +21,7 @@
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <th class="px-4 py-3">Member Name</th>
             <th class="px-4 py-3">Membership Number</th>
+            <th class="px-4 py-3">Birthdate</th>
             <th class="px-4 py-3">Email</th>
             <th class="px-4 py-3">Phone Number</th>
           </tr>
@@ -31,7 +32,7 @@
               <div class="flex items-center text-sm">
                 <!-- Avatar with inset shadow -->
                 <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                  <img class="object-cover w-full h-full rounded-full" :src="`/storage/${member.profile_picture}`" alt="" loading="lazy">
+                  <img class="object-cover w-full h-full rounded-full" :src="`https://gwadargymkhana.com.pk/members/storage/${member.profile_picture}`" alt="" loading="lazy">
                   <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                 </div>
                 <div>
@@ -41,6 +42,7 @@
               </div>
             </td>
             <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
+            <td class="px-4 py-3 text-sm" v-text="formatDate(member.date_of_birth)"></td>
             <td class="px-4 py-3 text-xs" v-text="member.email_address"></td>
             <td class="px-4 py-3 text-sm" v-text="member.phone_number"></td>
           </tr>
@@ -73,7 +75,7 @@
       </nav>
     </span>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   
   <script>
     console.log(route('api.member.index'));
     const app = Vue.createApp({
@@ -98,6 +100,9 @@
         },
       },
       methods: {
+        formatDate(date) {
+          return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }).replace(' ', '-').replace(' ', '-') 
+        },
         debounce(func, delay = 300) {
           let timeoutId;
           return function (...args) {

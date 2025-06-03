@@ -19,8 +19,11 @@
         Manage Members
       </h2>
       <div style="display: flex; column-gap: 10px;">
-        <a href="{{ route('member.create') }}" style="width: 10%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        <a href="{{ route('member.create') }}" style="margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
           Create
+        </a>
+        <a @click="createToWati" style=" margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          Export for wati broadcast <sub>(defaulter and cancelled excluded)</sub>
         </a>
       @if($setting)
         <a href="{{ $setting->google_drive_link }}" target="_blank" style="margin-bottom: 20px; text-align: center; display: flex; align-items: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -36,26 +39,20 @@
       <table v-if="members.length > 0 && !is_fetching" class="w-full whitespace-no-wrap">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-            <th style="width: 2%;">
-              <input style="margin-left: 10px;" :checked="false" v-model="parentCheckbox" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" type="checkbox" />
-            </th>
             <th class="px-4 py-3">Member Name</th>
             <th class="px-4 py-3">Membership Number</th>
-            <th class="px-4 py-3">Email</th>
-            <th class="px-4 py-3">Phone Number</th>
+            <th class="px-4 py-3">File Number</th>
+            <th class="px-4 py-3">Locker Number</th>
             <th class="px-4 py-3">Actions</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
           <tr v-for="member in members" class="text-gray-700 dark:text-gray-400">
-            <td style="width: 1%;">
-              <input style="margin-left: 10px;" :checked="false" :value="member.id" v-model="child_checkbox" class="child-checkboxes text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" type="checkbox" />
-            </td>
             <td class="px-4 py-3">
               <div class="flex items-center text-sm">
                 <!-- Avatar with inset shadow -->
                 <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                  <img class="object-cover w-full h-full rounded-full" :src="`/storage/${member.profile_picture}`" alt="" loading="lazy">
+                  <img class="object-cover w-full h-full rounded-full" :src="`https://gwadargymkhana.com.pk/members/storage/${member.profile_picture}`" alt="" loading="lazy">
                   <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                 </div>
                 <div>
@@ -65,8 +62,8 @@
               </div>
             </td>
             <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
-            <td class="px-4 py-3 text-xs" v-text="member.email_address"></td>
-            <td class="px-4 py-3 text-sm" v-text="member.phone_number"></td>
+            <td class="px-4 py-3 text-xs" v-text="member.file_number"></td>
+            <td class="px-4 py-3 text-sm" style="text-transform: uppercase;" v-text="`${member.locker_category}${member.locker_number}`"></td>
             <td class="px-4 py-3">
               <div class="flex items-center space-x-4 text-sm">
                 <button @click="editMember(member.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
@@ -93,14 +90,14 @@
         </p>
       </div>
       <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
-      <div v-if="!is_fetching && members.length > 0" style="display: flex; column-gap: 10px;">
+      {{-- <div v-if="!is_fetching && members.length > 0" style="display: flex; column-gap: 10px;">
         <a @click="frontCard" style="margin-top: 20px; width: 20%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
           View Selected (Front)
         </a>
         <a @click="backCard" style="margin-top: 20px; width: 20%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
           View Selected (Back)
         </a>
-      </div>
+      </div> --}}
     </div>
     <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end" style="color: white; margin-top: 20px;">
       <nav aria-label="Table navigation">
@@ -123,7 +120,7 @@
      
     </span>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   
   <script>
     console.log(route('api.member.index'));
     const app = Vue.createApp({
@@ -165,6 +162,24 @@
         }
       },
       methods: {
+        async createToWati() {
+          const response = await axios.get(route('api.member.all'));
+          const members = response.data.data;
+          const header = "Name,CountryCode,Phone,AllowBroadcast,AllowSMS,Attribute 1,Attribute 2\n";
+          const rows = members.map(row => `${row.member_name},${row.phone_number_code},${row.phone_number_without_code},TRUE,TRUE`).join("\n");
+          const csvContent = header + rows;
+
+          // Create download link
+          const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+          const url = URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.setAttribute("href", url);
+          link.setAttribute("download", `${(new Date()).toISOString().split("T")[0]}.csv`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
         async saveInGoogleDrive() {
           const response = await axios.post(route("api.member.save.google.drive"));
           console.log(response);

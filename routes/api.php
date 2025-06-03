@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BirthdayController;
 use App\Http\Controllers\Api\CardTypeController;
 use App\Http\Controllers\Api\ClubController;
@@ -9,13 +10,17 @@ use App\Http\Controllers\Api\ComplainTypeController;
 use App\Http\Controllers\Api\DurationController;
 use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
+use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
+use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get("/member/all", [MemberController::class, "getAllMembers"])->name("api.member.all");
 Route::get("/member/{member}/get", [MemberController::class, "getById"])->name("api.member.getById");
 Route::get("/members/all", [MemberController::class, "getAll"])->name("api.member.all");
 Route::get("/members", [MemberController::class, "index"])->name("api.member.index");
@@ -75,6 +80,19 @@ Route::delete("/complain-type/{complainQuestion}/question/delete", [ComplainQues
 
 Route::get("/complains", [ComplainController::class, "index"])->name("api.complains");
 Route::delete("/complain/{complain}/delete", [ComplainController::class, "destroy"])->name("api.complain.delete");
+
+Route::get("/users", [\App\Http\Controllers\Api\UserController::class, "index"])->name("api.users");
+Route::post("/user/create", [\App\Http\Controllers\Api\UserController::class, "store"])->name("api.user.store");
+Route::put("/user/{user}/update", [\App\Http\Controllers\Api\UserController::class, "update"])->name("api.user.update");
+Route::delete("/user/{user}/delete", [\App\Http\Controllers\Api\UserController::class, "delete"])->name("api.user.delete");
+Route::get("/user/priveleges", [\App\Http\Controllers\Api\UserController::class, "privileges"])->name("api.user.privileges");
+Route::get("/check-token", [TokenController::class, "check"])->name("api.token.check");
+
+Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
+
+Route::post("/logout", [\App\Http\Controllers\Api\Auth\AuthController::class, "logout"])->name("api.logout");
+
+Route::get("/{membership}/get", [MembershipController::class, "getByMembershipName"])->name("api.membership.get");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

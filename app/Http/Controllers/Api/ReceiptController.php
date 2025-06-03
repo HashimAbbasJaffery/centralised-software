@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ReceiptController extends Controller
 {
-    public function __construct(protected ApiResponse $apiResponse, protected UniqueCodeService $uniqueCodeService) {}
+    public function __construct(protected ApiResponse $apiResponse, protected UniqueCodeService $uniqueCodeService) {
+        $this->middleware("auth:sanctum");
+    }
     public function store(ReceiptRequest $request, Member $member) {
         $receipt = $member->receipts()->create([ ...$request->validated(), "receipt_id" => $this->uniqueCodeService->generateUniqueCode(6) ]);
 
@@ -33,7 +35,7 @@ class ReceiptController extends Controller
     }
     public function get() {
         $keyword = request()->keyword;
- 
+
         $receipts = Receipt::where(function ($query) use ($keyword) {
                         $query->whereHas("member", function($q) use ($keyword) {
                             $q->where("member_name", "like", "%$keyword%");

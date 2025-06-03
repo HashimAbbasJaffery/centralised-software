@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<html :class="{ 'theme-dark': dark }" x-data="data()" x-init="initialize()" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +16,7 @@
     <script src="{{ asset('/assets/js/init-alpine.js') }}"></script>
     <script src="https://kit.fontawesome.com/231b67747d.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/priyashpatil/phone-input-by-country@0.0.1/cpi.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
@@ -58,7 +58,7 @@
         .loader.big {
           width: 40px;
           height: 40px;
-        } 
+        }
         .loader.small {
           width: 10px;
           height: 10px;
@@ -71,7 +71,50 @@
           position: fixed;
         }
     </style>
-    @routes  
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    @routes
+    <script>
+      // Example: After login, you get token from response
+      const token = localStorage.token; // Replace this dynamically
+
+
+      if(!localStorage.getItem("token")) {
+        window.location = route("login");
+      } else {
+
+      // Save token somewhere persistent (localStorage recommended)
+      localStorage.setItem('token', token);
+
+      // Set default Authorization header for all axios requests
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      // Now all axios calls will include the token automatically
+      }
+
+      localStorage.setItem("dark", false);
+    </script>
+    <style>
+            
+      .hide {
+        
+      animation: hide 0.3s forwards;
+      }
+      .hideNavbar {
+        animation: hideNavbar 0.3s forwards;
+      }
+      @keyframes hide {
+        0% {
+          width: 230px;
+        }
+        100% {
+          width: 60px;
+        }
+      }
+      @keyframes hideNavbar {
+        100% {
+          display: none;
+        }
+      }
+    </style>
   </head>
   <body>
     <div
@@ -79,8 +122,8 @@
       :class="{ 'overflow-hidden': isSideMenuOpen}"
     >
       <!-- Desktop sidebar -->
-        <x-navbar style="width: 20%; width: 230px;" />
-        <x-navbar style="position: fixed; height: 100%; width: 230px;"/>
+      <x-navbar style="width: 20%; width: 230px;"  visible/>
+      <x-navbar style="position: fixed; height: 100%; width: 230px;"/>
       <!-- Mobile sidebar -->
       <!-- Backdrop -->
       <div
@@ -110,7 +153,7 @@
             class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
             href="#"
           >
-            Windmill
+            GwadarGymkhana
           </a>
           <ul>
             <li class="relative px-6 py-3">
@@ -324,7 +367,7 @@
               </template>
             </li>
           </ul>
-          
+
           <div class="px-6 my-6">
             <button
               class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
@@ -368,3 +411,4 @@
 </div>
 </body>
 </html>
+

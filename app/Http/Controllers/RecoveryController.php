@@ -67,8 +67,13 @@ class RecoveryController extends Controller
                             $query->whereIn("payment_status", $statuses);
                         })
                         ->get();
-        // $sum = $members->sum("recovery_max_payable");
-        return $this->apiResponse->success("Date has been fetched!", [$members]);
+        
+        $sum = 0;
+        // $members->each(function($member) use ($sum){
+        //     $sum += $member->recovery->payable;
+        // });
+
+        return $this->apiResponse->success("Date has been fetched!", [$members, $sum]);
     }
     public function getOverall() {
         return view("Recovery.overall-report");
