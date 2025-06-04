@@ -759,7 +759,7 @@
             async mounted() {
 
               const cardTypes = await axios.get(route("api.card.all"));
-              this.membership_with_extra_details = cardTypes.data.data.filter(cardType => cardType.card_name === 'corporate' || cardType.card_name === 'Corporate')?.[0].id;
+              this.membership_with_extra_details = cardTypes.data.data.filter(cardType => cardType.card_name === 'corporate' || cardType.card_name === 'Corporate')?.[0]?.id ?? null;
               this.cardTypes = cardTypes.data.data;
               this.membership_type = this.cardTypes[0].id;
 

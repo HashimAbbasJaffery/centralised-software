@@ -20,9 +20,15 @@ use App\Http\Controllers\UserController;
 use App\Models\Permission;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+Route::get("/tree", function() {
+    $pdf = Pdf::loadView("Invoices.member_tree")
+                ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('A4', 'portrait');
+   return $pdf->stream();
+});
 
 Route::get("/test", function() {
     dd("Test");

@@ -69,7 +69,7 @@ class MemberRequest extends FormRequest
 
         foreach($extra_fields as $extra_field) {
             $validator->sometimes($extra_field, 'required', function() use($corporateType) {
-                return (int)$corporateType->id === (int)$this->membership_type;
+                return (int)$corporateType?->id === (int)$this->membership_type;
             });
         }
     }
