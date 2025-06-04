@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\CardType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class MemberRequest extends FormRequest
 {
@@ -47,7 +49,6 @@ class MemberRequest extends FormRequest
             "card_type" => [ "required" ],
             "date_of_issue" => [ "required" ],
             "validity" => [ "required" ],
-            "profile_picture" => [ "required" ],
             "payment_status" => [ "required" ],
             "locker_category" => [ "required" ],
             "locker_number" => [ "required" ],
@@ -55,5 +56,21 @@ class MemberRequest extends FormRequest
             "company_designation" => [ "required" ],
             "profession" => [ "required" ]
         ];
+    }
+    public function withValidator($validator) {
+        $corporateType = CardType::where("card_name", "corporate")->orWhere("card_name", "Corporate")->first();
+        $extra_fields = [
+            "office_address",
+            "office_phone_number",
+            "country",
+            "city",
+            "work_email"
+        ];
+
+        foreach($extra_fields as $extra_field) {
+            $validator->sometimes($extra_field, 'required', function() use($corporateType) {
+                return (int)$corporateType->id === (int)$this->membership_type;
+            });
+        }
     }
 }

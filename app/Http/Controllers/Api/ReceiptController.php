@@ -29,7 +29,9 @@ class ReceiptController extends Controller
         return $this->apiResponse->success("Receipt has been created");
     }
     public function edit(ReceiptRequest $request, Receipt $receipt) {
-        $receipt->update([...$request->validated(), "member_id" => $request->member_id]);
+        $receipt->update([...$request->validated(), "member_id" => $request->member_id, "receipt_status" => "in_progress"]);
+
+        dispatch(new CreateReceipt($receipt));
 
         return $this->apiResponse->success("Receipt has been updated");
     }

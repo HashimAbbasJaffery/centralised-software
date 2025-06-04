@@ -382,7 +382,7 @@
                     <br>
                     <input type="hidden" v-model="phone_numbers[2].countryCode" />
                     <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
-                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="0" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
+                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="3" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
                     <span style="display: none;" class="phone_field_message text-xs text-red-600 dark:text-red-400">
                       Phone number field is required
                     </span>
@@ -391,13 +391,13 @@
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Country</span>
-                    <input type="text" v-model="installment_month" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
+                    <input type="text" v-model="office_country" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
                   </label>
                 </div>
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">City</span>
-                    <input type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
+                    <input type="text" v-model="office_city" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
                   </label>
                 </div>
               </div>
@@ -405,13 +405,13 @@
                 <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Work Email</span>
-                    <input type="text" v-model="installment_month" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
+                    <input type="text" v-model="work_email" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
                   </label>
                 </div>
                 <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Office Address</span>
-                    <input type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
+                    <input type="text" v-model="office_address" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
                   </label>
                 </div>
               </div>
@@ -593,9 +593,18 @@
                 company_designation: "",
                 profession: "",
                 office_ph_number: "",
+                office_country: "",
+                office_city: "",
+                work_email: "",
+                office_address: "",
                 membership_with_extra_details: null,
 
-                phone_numbers: [{countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}, {countryCode: "", phoneNumber: ""}],
+                phone_numbers: [
+                  {countryCode: "", phoneNumber: ""}, 
+                  {countryCode: "", phoneNumber: ""}, 
+                  {countryCode: "", phoneNumber: ""},
+                  {countryCode: "", phoneNumber: ""},
+                ],
                 formData: new FormData(),
                 cardTypes: [],
               }
@@ -719,6 +728,11 @@
                   this.formData.append("company_name", this.company_name);
                   this.formData.append("company_designation", this.company_designation);
                   this.formData.append("profession", this.profession);
+                  this.formData.append("office_phone_number", this.office_ph_number);
+                  this.formData.append("country", this.office_country);
+                  this.formData.append("city", this.office_city);
+                  this.formData.append("work_email", this.work_email);
+                  this.formData.append("office_address", this.office_address);
                   
                   this.spouses.forEach((spouse, index) => {
                     this.formData.append(`spouses[${index}]`, spouse);
@@ -774,6 +788,7 @@
                 const phones = document.querySelectorAll(".phone")
                 
                 const updatePhoneNumber = (iti, input) => {
+                  console.log(input.dataset.index);
                   const countryData = iti.getSelectedCountryData();
                   this.phone_numbers[input.dataset.index]["countryCode"] = countryData.dialCode;
                   this.phone_numbers[input.dataset.index]["phoneNumber"] = iti.getNumber().replace(/^\+/, '');

@@ -139,7 +139,7 @@
             <div v-show="current_step === 3" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Membership Details</h5>
               <div style="display: flex; column-gap: 20px;">
-                <div style="width: 33.33%;">
+                <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Membership Type</span>
                     <select v-model="membership_type" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
@@ -150,20 +150,7 @@
                     </span>
                   </label>
                 </div>
-                <div style="width: 33.33%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400">Membership Status</span>
-                    <select v-model="membership_status" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
-                      <option value="regular">Regular</option>
-                      <option value="defaulter">Defaulter</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
-                    <span style="display: none;" class="member_number_message step_1_message text-xs text-red-600 dark:text-red-400">
-                      Card Type field is required
-                    </span>
-                  </label>
-                </div>
-                <div style="width: 33.33%;">
+                <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">File Number</span>
                     <input v-model="file_number" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="File Number">
@@ -279,19 +266,40 @@
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Form Fee</span>
-                    <input type="text" v-model="form_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Form Fee">
-                  </label>
+                    <input
+                        type="text"
+                        :value="Number(form_fee).toLocaleString('en-US')"
+                        @input="form_fee = $event.target.value.replace(/,/g, '')"
+                        placeholder="Form Fee"
+                        style="width: 100% !important; margin-top: 4px !important;"
+                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      />
+                </label>
                 </div>
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Processing Fee</span>
-                    <input type="text" v-model="processing_fee" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Processing Fee">
+                    <input 
+                      type="text" 
+                      :value="Number(processing_fee).toLocaleString('en-US')"
+                      @input="processing_fee = $event.target.value.replace(/,/g, '')"
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="Processing Fee">
                   </label>
                 </div>
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">First Payment</span>
-                    <input type="text" v-model="first_payment" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="First Payment">
+                    <input 
+                      type="text" 
+                      :value="Number(first_payment).toLocaleString('en-US')"
+                      @input="first_payment = $event.target.value.replace(/,/g, '')"
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="First Payment">
                   </label>
                 </div>
               </div>
@@ -299,7 +307,14 @@
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Total Installment</span>
-                    <input type="text" v-model="total_installment" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Total Installment">
+                    <input 
+                      type="text" 
+                      :value="Number(total_installment).toLocaleString('en-US')"
+                      @input="total_installment = $event.target.value.replace(/,/g, '')"
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="Total Installment">
                   </label>
                 </div>
                 <div style="width: 33.33%;">
@@ -320,6 +335,91 @@
               </div>
             </div>
             <div v-show="current_step === 7" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Professional Details</h5>
+              <div style="display: flex; column-gap: 20px;">
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Company Name</span>
+                    <input
+                        v-model="company_name"
+                        type="text"
+                        placeholder="e.g Visionary Group"
+                        data-message="company_name" 
+                        style="width: 100% !important; margin-top: 4px !important;"
+                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      />
+                </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Company Designation</span>
+                    <input
+                        v-model="company_designation"
+                        type="text"
+                        placeholder="e.g COO"
+                        style="width: 100% !important; margin-top: 4px !important;"
+                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      />
+                </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Type of Profession</span>
+                    <input 
+                      v-model="profession"
+                      type="text" 
+                      style="width: 100% !important; margin-top: 4px !important;" 
+                      data-message="email_message" 
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      placeholder="Executive Leadership">
+                  </label>
+                </div>
+              </div>
+              <div v-show="membership_with_extra_details == membership_type" style="display: flex; column-gap: 20px;">
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400" style="margin-bottom: 20px;">Office Phone Number</span>
+                    <br>
+                    <input type="hidden" v-model="phone_numbers[2].countryCode" />
+                    <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
+                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="3" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
+                    <span style="display: none;" class="phone_field_message text-xs text-red-600 dark:text-red-400">
+                      Phone number field is required
+                    </span>
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Country</span>
+                    <input type="text" v-model="office_country" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
+                  </label>
+                </div>
+                <div style="width: 33.33%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">City</span>
+                    <input type="text" v-model="office_city" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
+                  </label>
+                </div>
+              </div>
+                     <div v-show="membership_with_extra_details == membership_type" style="display: flex; column-gap: 20px;">
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Work Email</span>
+                    <input type="text" v-model="work_email" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Country">
+                  </label>
+                </div>
+                <div style="width: 50%;">
+                  <label class="block text-sm" style="margin-bottom: 20px;">
+                    <span class="text-gray-700 dark:text-gray-400">Office Address</span>
+                    <input type="text" v-model="office_address" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="City">
+                  </label>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
+              </div>
+            </div>
+            <div v-show="current_step === 8" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Emergency and Health Information</h5>
               <div style="display: flex; column-gap: 20px;">
                 <label class="block text-sm" style="margin-bottom: 20px; width: 50%">
@@ -340,10 +440,9 @@
                 </label>
                 <div style="width: 50%;">
                   <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">Emergency Contact</span>
-                    
                     <input type="hidden" v-model="phone_numbers[2].countryCode" />
                     <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
+                    <span class="text-gray-700 dark:text-gray-400">Emergency Contact</span>
                     <input type="text" v-model="emergency_contact" data-index="2" style="width: 100% !important; margin-top: 4px !important;" data-message="emergency_contact" class="phone step_7 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Emergency Contact">
                   </label>
                   <span style="display: none;" class="emergency_contact text-xs text-red-600 dark:text-red-400">
@@ -355,14 +454,15 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div v-show="current_step === 8" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div v-show="current_step === 9" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Membership Card Details</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 50%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
+                  <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Profile Picture</span>
                     <input type="file" @change="handleFileChange" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Profile Picture">
                   </label>
+                  <p class="text-primary" style="margin-bottom: 20px; color: #0d6efd; font-size: 13px;">Expected aspect ratio 4/5</p>
                 </div>
                 <label class="block text-sm" style="margin-bottom: 20px; width: 50%">
                   <span class="text-gray-700 dark:text-gray-400">Card Type</span>
@@ -397,7 +497,7 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div v-show="current_step === 9" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div v-show="current_step === 10" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Locker Details</h5>
               <div style="display: flex; column-gap: 20px;">
                 <div style="width: 50%;">
@@ -462,17 +562,17 @@
                 phone_number_code: "{{ $member->phone_number_code }}",
                 alt_phone_number_code: "{{ $member->alternate_ph_number_code }}",
 
-                membership_type: "{{ $member->membership_type }}",
+                membership_type: "{{ $member->membership->id }}",
                 membership_number: "{{ $member->membership_number }}",
                 membership_status: "{{ $member->membership_status }}",
                 file_number: "{{ $member->file_number }}",
                 date_of_applying: "{{ $member->date_of_applying }}",
                 validity: "{{ $member->validity }}",
+                date_of_issue: "{{ $member->date_of_issue }}",
                 profilePictureBase64: "",
-                date_of_issue: "",
 
-                spouses: @json($spouse_array),
-                children: [{id: 1, childName: "", dob: ""}],
+                spouses: @json($member->spouses()->pluck("spouse_name")),
+                children: @json($children),
 
                 form_fee: "{{ $member->form_fee }}",
                 processing_fee: "{{ $member->processing_fee }}",
@@ -486,16 +586,33 @@
 
                 card_type: "{{ $member->card_type }}",
 
-                locker_category: "a",
-                locker_number: "",
+                locker_category: "{{ $member->locker_category }}",
+                locker_number: "{{ $member->locker_number }}",
+
+                company_name: "{{ $member->profession->company_name }}",
+                company_designation: "{{ $member->profession->designation }}",
+                profession: "{{ $member->profession->type_of_profession }}",
+                office_ph_number: "{{ $member->profession->office_phone_number }}",
+                office_country: "{{ $member->profession->country }}",
+                office_city: "{{ $member->profession->city }}",
+                work_email: "{{ $member->profession->work_email }}",
+                office_address: "{{ $member->profession->office_address }}",
+                membership_with_extra_details: null,
 
                 phone_numbers: [
-                                  {countryCode: "{{ $member->phone_number_code }}", phoneNumber: "{{ $member->phone_number }}"}, 
-                                  {countryCode: "{{ $member->alternate_ph_number_code }}", phoneNumber: "{{ $member->alternate_ph_number }}"}, 
-                                  {countryCode: "{{ $member->emergency_contact_code }}", phoneNumber: "{{ $member->emergency_contact }}"}
-                                ],
+                  {countryCode: "{{ $member->phone_number_code }}", phoneNumber: "{{ str_replace('+', '', $member->phone_number) }}"}, 
+                  {countryCode: "{{ $member->alternate_ph_number_code }}", phoneNumber: "{{ str_replace('+', '', $member->alternate_ph_number) }}"}, 
+                  {countryCode: "{{ $member->emergency_contact_code }}", phoneNumber: "{{ str_replace('+', '', $member->emergency_contact) }}"},
+                  {countryCode: "92", phoneNumber: "{{ str_replace('+', '', $member->profession->office_phone_number) }}"},
+                ],
                 formData: new FormData(),
                 cardTypes: [],
+              }
+            },
+            watch: {
+              form_fee(newValue) {
+                this.form_fee = newValue.toLocaleString();
+
               }
             },
             computed: {
@@ -544,7 +661,7 @@
                 return doesntHaveErrors;
               },
               next() {
-                if(!this.validate_inputs()) return;
+                // if(!this.validate_inputs()) return;
                 this.current_step++;
               },
               previous() {
@@ -606,8 +723,17 @@
                   this.formData.append("children", this.children);
                   this.formData.append("phone_numbers", JSON.stringify(this.phone_numbers));
                   this.formData.append("payment_status", this.payment_status);
-                  this.formData.append("locker_number", this.locker_number);
                   this.formData.append("locker_category", this.locker_category);
+                  this.formData.append("locker_number", this.locker_number);
+                  this.formData.append("company_name", this.company_name);
+                  this.formData.append("company_designation", this.company_designation);
+                  this.formData.append("profession", this.profession);
+                  this.formData.append("office_phone_number", this.office_ph_number);
+                  this.formData.append("country", this.office_country);
+                  this.formData.append("city", this.office_city);
+                  this.formData.append("work_email", this.work_email);
+                  this.formData.append("office_address", this.office_address);
+                  this.formData.append("_method", "PUT")
                   
                   this.spouses.forEach((spouse, index) => {
                     this.formData.append(`spouses[${index}]`, spouse);
@@ -620,13 +746,9 @@
               },
               async submit() {
                 this.getData();
-
-                for (let pair of this.formData.entries()) {
-                    console.log(pair[0]+ ', '+ pair[1]); 
-                }
-                const response = await axios.post(route("api.member.update", { member: route().params.member, _method: "PUT" }), this.formData, {
+                const response = await axios.post(route("api.member.update", route().params), this.formData, {
                     headers: {
-                      'Content-Type': 'multipart/form-data',
+                      'Content-Type': 'multipart/form-data',  // Explicitly set the content-type header
                     }
                 });
                 if(response.data.status === "200") {
@@ -637,6 +759,7 @@
             async mounted() {
 
               const cardTypes = await axios.get(route("api.card.all"));
+              this.membership_with_extra_details = cardTypes.data.data.filter(cardType => cardType.card_name === 'corporate' || cardType.card_name === 'Corporate')?.[0].id;
               this.cardTypes = cardTypes.data.data;
               this.membership_type = this.cardTypes[0].id;
 
@@ -649,6 +772,7 @@
 
               inputs.forEach(input => {
                 const iti = window.intlTelInput(input, {
+                  initialCountry: "PK",
                   loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"),
                 });
 
@@ -664,6 +788,7 @@
                 const phones = document.querySelectorAll(".phone")
                 
                 const updatePhoneNumber = (iti, input) => {
+                  console.log(input.dataset.index);
                   const countryData = iti.getSelectedCountryData();
                   this.phone_numbers[input.dataset.index]["countryCode"] = countryData.dialCode;
                   this.phone_numbers[input.dataset.index]["phoneNumber"] = iti.getNumber().replace(/^\+/, '');

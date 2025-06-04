@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Http\Requests\MemberRequest;
 use App\Jobs\SaveInGoogleDrive;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Request;
@@ -62,5 +64,30 @@ class Member extends Model
     }
     public function profession() {
         return $this->hasOne(Profession::class);
+    }
+    public function attachProfession(MemberRequest $request) {
+         $this->profession()->create([
+            ...$request->validated(),
+            "designation" => $request->company_designation,
+            "type_of_profession" => $request->profession,
+        ]);
+    }
+    public function attachSpouses($spouses) {
+        foreach($spouses as $spouse) {
+            $this->spouses()->create([
+                "spouse_name" => $spouse
+            ]);
+        }
+    }
+    public function attachChildren($children) {
+        foreach($children as $child) {
+            if (in_array(null, $child, true)) {
+                continue;
+            }
+            $this->children()->create([
+                "child_name" => $child[0],
+                "date_of_birth" => $child[1]
+            ]);
+        }
     }
 }

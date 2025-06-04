@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+
 class ImageService
 {
     /**
@@ -13,6 +15,9 @@ class ImageService
     }
 
     public function upload($image) {
+        if(!$image) {
+            throw new NotFoundResourceException("Image not found");
+        }
         $imagePath = $image->store('profile_pictures', 'public'); // Save in storage/app/public/profile_pictures
         return $imagePath;
     }

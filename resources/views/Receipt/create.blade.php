@@ -202,8 +202,15 @@ const app = Vue.createApp({
           `,
           width: 1000,
           didOpen: () => {
-            $('#swal-datatable').DataTable();
-
+            let table = $('#swal-datatable').DataTable();
+            table.on("draw", function() {
+                document.querySelectorAll('.select-member-button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const memberData = JSON.parse(e.currentTarget.getAttribute('data-member'));
+                        self.select(memberData);
+                    });
+                });
+            });
               document.querySelectorAll('.select-member-button').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const memberData = JSON.parse(e.currentTarget.getAttribute('data-member'));

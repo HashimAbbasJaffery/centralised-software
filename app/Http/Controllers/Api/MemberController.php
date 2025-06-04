@@ -34,7 +34,7 @@ class MemberController extends Controller
         $phone_numbers = json_decode(request()->phone_numbers);
 
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
-
+       
         DB::transaction(function() use($request, $phone_numbers, $filePath, $spouses, $children){
 
             $member = Member::create([
@@ -47,28 +47,11 @@ class MemberController extends Controller
                         "emergency_contact" => $phone_numbers[2]->phoneNumber,
                         "emergency_contact_code" => $phone_numbers[2]->countryCode
                     ]);
-
-            $member->profession()->create([
-                ...$request->validated(),
-                "designation" => $request->company_designation,
-                "type_of_profession" => $request->profession
-            ]);
-
-            foreach($spouses as $spouse) {
-                $member->spouses()->create([
-                    "spouse_name" => $spouse
-                ]);
-            }
-
-            foreach($children as $child) {
-                if (in_array(null, $child, true)) {
-                    continue;
-                }
-                $member->children()->create([
-                    "child_name" => $child[0],
-                    "date_of_birth" => $child[1]
-                ]);
-            }
+            
+            $member->attachProfession($request);
+            $member->attachSpouses($spouses);
+            $member->attachChildren($children);
+                    
 
         });
 
@@ -85,39 +68,35 @@ class MemberController extends Controller
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
 
-        $filePath = $this->imageService->upload(request()->file("profile_picture"));
+        $filePath = null;
+        if(request()->hasFile("profile_picture")) {
+            $filePath = $this->imageService->upload(request()->file("profile_picture"));
+        }
 
-        $member->update([
+        $data = [
             ...$request->validated(),
-            "profile_picture" => $filePath,
             "phone_number" => $phone_numbers[0]->phoneNumber,
             "phone_number_code" => $phone_numbers[0]->countryCode,
             "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
             "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
             "emergency_contact" => $phone_numbers[2]->phoneNumber,
             "emergency_contact_code" => $phone_numbers[2]->countryCode
-        ]);
-
-        $member->spouses()->delete();
-        foreach($spouses as $spouse) {
-            $member->spouses()->create([
-                "spouse_name" => $spouse
-            ]);
+        ];
+        if(is_null($filePath)) {
+            $data[] = [ "profile_picture" => $filePath ];
         }
 
-        $member->children()->delete();
-
-        if($children) {
-            foreach($children as $child) {
-                if (in_array(null, $child, true)) {
-                    continue;
-                }
-                $member->children()->create([
-                    "child_name" => $child[0],
-                    "date_of_birth" => $child[1]
-                ]);
-            }
-        }
+        DB::transaction(function() use ($data, $request, $spouses, $children, $member) {
+            $member->update($data);
+    
+            $member->attachProfession($request);
+    
+            $member->spouses()->delete();
+            $member->attachSpouses($spouses);
+    
+            $member->children()->delete();
+            $member->attachChildren($children);
+        });
 
         return $this->apiResponse->success(
             message: "Member has been updated successfully!"
