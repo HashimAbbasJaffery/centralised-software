@@ -6,6 +6,7 @@ use App\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PaymentMethodResource;
 use App\Models\PaymentMethod;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +21,10 @@ class PaymentMethodController extends Controller
         $paymentMethods = PaymentMethod::whereLike("payment_method", "%$keyword%")->get();
 
         return PaymentMethodResource::collection($paymentMethods);
+    }
+
+    public function getAndPaginate(Request $request) {
+        
     }
 
     public function store(Request $request) {

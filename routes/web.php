@@ -17,12 +17,19 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Http\Controllers\UserController;
+use App\Jobs\CreateFamilySheet;
+use App\Models\Member;
 use App\Models\Permission;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+
+Route::get("/create/tree", function() {
+    $member = Member::latest()->first();
+    dispatch(new CreateFamilySheet($member));
+});
 
 Route::get("/tree", function() {
     $pdf = Pdf::loadView("Invoices.member_tree")
@@ -110,7 +117,6 @@ Route::get("/durations", [DurationController::class, "index"])->name("duration.i
 
 Route::get("/introletters", [IntroletterController::class, "index"])->name("introletter.index");
 Route::get("/introletter/{introletter}/invoice", [IntroletterController::class, "invoice"])->name("introletter.invoice");
-
 
 Route::get("googlesheet", [GoogleServicesController::class, "save"]);
 

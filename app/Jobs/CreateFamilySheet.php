@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Models\Member;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Storage;
+
+class CreateFamilySheet implements ShouldQueue
+{
+    use Queueable;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct(public Member $member)
+    {
+        //
+    }
+
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
+    {
+        $pdf = Pdf::loadView("Invoices.member_tree", [ "member" => $this->member ])
+            ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+            ->setPaper("A4", "portrait");
+   
+        $pdfContent = $pdf->output();
+        $fileName = "File";
+        $filePath = "/members/FamilySheet/" . $fileName . ".pdf";
+        Storage::put($filePath, $pdfContent);
+
+    }
+}

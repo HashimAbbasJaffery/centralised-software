@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,10 @@ Route::post("/payment-method/create", [PaymentMethodController::class, "store"])
 Route::delete("/payment-method/{paymentMethod}/delete", [PaymentMethodController::class, "destroy"])->name("api.payment-methods.delete");
 // Route::put("/payment-method/{paymentMethod}")
 
+Route::get("/test", function(Request $request) {
+    
+});
+
 Route::get("/complain-types", [ComplainTypeController::class, "index"])->name("api.complains.complain-types.index");
 Route::post("/complain-type/create", [ComplainTypeController::class, "store"])->name("api.complains.complain-types.create");
 Route::delete("/complain-type/{complainType}/delete", [ComplainTypeController::class, "destroy"])->name("api.complains.complain-types.delete");
@@ -88,8 +93,9 @@ Route::delete("/user/{user}/delete", [\App\Http\Controllers\Api\UserController::
 Route::get("/user/priveleges", [\App\Http\Controllers\Api\UserController::class, "privileges"])->name("api.user.privileges");
 Route::get("/check-token", [TokenController::class, "check"])->name("api.token.check");
 
-Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
+Route::get("/user", [TokenController::class, "check_token"])->name("api.token.check-user");
 
+Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
 Route::post("/logout", [\App\Http\Controllers\Api\Auth\AuthController::class, "logout"])->name("api.logout");
 
 Route::get("/{membership}/get", [MembershipController::class, "getByMembershipName"])->name("api.membership.get");

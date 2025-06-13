@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Requests\MemberRequest;
+use App\Jobs\CreateFamilySheet;
 use App\Jobs\SaveInGoogleDrive;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Collection;
@@ -60,6 +61,7 @@ class Member extends Model
     public static function booted() {
         static::created(function($member) {
             dispatch(new SaveInGoogleDrive());
+            dispatch(new CreateFamilySheet($member));
         });
     }
     public function profession() {

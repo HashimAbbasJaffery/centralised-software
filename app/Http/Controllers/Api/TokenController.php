@@ -20,4 +20,15 @@ class TokenController extends Controller
         }
         return $this->apiResponse->success(200, "Token is valid!");
     }
+
+    public function check_token() {
+        $token = request()->bearerToken();
+
+        $access_token = PersonalAccessToken::findToken($token);
+        if(!$access_token) {
+            return $this->apiResponse->error(401, "Token has been expired");
+        }
+        
+        return $this->apiResponse->success(200, "Token is valid!");
+    }
 }
