@@ -52,6 +52,7 @@ return new class extends Migration
             $table->date("date_of_issue")->default(now());
             $table->date("validity")->default(now());
 
+            $table->boolean("has_receipt_created")->default(false);
 
             $table->timestamps();
             $table->softDeletes();

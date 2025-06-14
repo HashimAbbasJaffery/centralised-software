@@ -11,6 +11,7 @@ use App\Models\PersonalAccessToken;
 use App\Service\UserService;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 class MemberController extends Controller
 {
@@ -28,8 +29,8 @@ class MemberController extends Controller
     }
     public function store(MemberRequest $request) {
         $this->user->isAllowedToPerformAction("member:add");
-
-        $spouses = collect(request()->spouses)->filter()->values();
+        
+        $spouses = request()->spouses;
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
 

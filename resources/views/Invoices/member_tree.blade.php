@@ -140,10 +140,10 @@
                     </tr>
                     <tr>
                         <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">CNIC/Passport: </span>42201-1805406-5
+                            <span style="font-weight: 500;">CNIC/Passport: </span>{{ $spouse->cnic }}
                         </td>
                         <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">Date of Birth: </span>20/02/1990
+                            <span style="font-weight: 500;">Date of Birth: </span>{{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d/m/Y") }}
                         </td>
                     </tr>
                 </table>
@@ -151,13 +151,13 @@
                 <table style="width: 339.84pt; border-collapse: collapse;">
                     <tr>
                         <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Date of Issue:</span> 20/02/1990
+                            <span style="font-weight: 500;">Date of Issue:</span> {{ \Carbon\Carbon::parse($member->date_of_issue)->format("d/m/Y") }}
                         </td>
                         <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Validity:</span> 20/02/1990
+                            <span style="font-weight: 500;">Validity:</span> {{ \Carbon\Carbon::parse($member->validity)->format("d/m/Y") }}
                         </td>
                         <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Blood Group:</span> B+
+                            <span style="font-weight: 500;">Blood Group:</span> {{ $member->blood_group }}
                         </td>
                     </tr>
                 </table>

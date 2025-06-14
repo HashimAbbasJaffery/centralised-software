@@ -75,6 +75,8 @@
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">CNIC/Passport:</span> {{ $member->cnic_passport }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City/Country:</span> {{ $member->city_country }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Blood Group:</span> <span style="text-transform: uppercase;">{{ $member->blood_group }}</span></p>
+
+      
       </div>
       <div v-if="tab === 'contact information'">
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Phone Number:</span> {{ $member->phone_number }}</p>

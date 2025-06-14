@@ -7,6 +7,42 @@
       width: 12px;
       height: 12px;
     }
+    
+
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    45deg,
+    #dc2626 25%,
+    #b91c1c 25%,
+    #b91c1c 50%,
+    #dc2626 50%,
+    #dc2626 75%,
+    #b91c1c 75%,
+    #b91c1c 100%
+  );
+  background-size: 40px 40px;
+  animation: moveStripes 1s linear infinite;
+}
+
+@keyframes moveStripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
   </style>
   <script src="https://kit.fontawesome.com/3a7e8b6e65.js" crossorigin="anonymous"></script>
   <main id="app" class="h-full pb-16 overflow-y-auto">
@@ -43,6 +79,7 @@
             <th class="px-4 py-3">Membership Number</th>
             <th class="px-4 py-3">File Number</th>
             <th class="px-4 py-3">Locker Number</th>
+            <th class="px-4 py-3">Progress</th>
             <th class="px-4 py-3">Actions</th>
           </tr>
         </thead>
@@ -64,6 +101,14 @@
             <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
             <td class="px-4 py-3 text-xs" v-text="member.file_number"></td>
             <td class="px-4 py-3 text-sm" style="text-transform: uppercase;" v-text="`${member.locker_category}${member.locker_number}`"></td>
+            <td class="px-4 py-3 text-sm">
+              <div class="progress-container" v-if="!Boolean(member.sheet_status)">
+                <div class="progress-bar"></div>
+              </div>
+              <div v-else class="bg-green-500">
+                Created
+              </div>
+            </td>
             <td class="px-4 py-3">
               <div class="flex items-center space-x-4 text-sm">
                 <button @click="editMember(member.id)" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
@@ -90,14 +135,6 @@
         </p>
       </div>
       <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
-      {{-- <div v-if="!is_fetching && members.length > 0" style="display: flex; column-gap: 10px;">
-        <a @click="frontCard" style="margin-top: 20px; width: 20%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-          View Selected (Front)
-        </a>
-        <a @click="backCard" style="margin-top: 20px; width: 20%; margin-bottom: 20px; text-align: center;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-          View Selected (Back)
-        </a>
-      </div> --}}
     </div>
     <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end" style="color: white; margin-top: 20px;">
       <nav aria-label="Table navigation">

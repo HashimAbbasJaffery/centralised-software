@@ -48,7 +48,8 @@ class MemberResource extends JsonResource
             "spouses" => $this->spouses,
             "children" => $this->children,
             "locker_category" => $this->locker_category,
-            "locker_number" => $this->locker_number
+            "locker_number" => $this->locker_number,
+            "sheet_status" => $this->has_receipt_created
         ];
     }
 }

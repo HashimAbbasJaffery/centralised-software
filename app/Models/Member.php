@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Request;
 
 class Member extends Model
@@ -76,8 +77,17 @@ class Member extends Model
     }
     public function attachSpouses($spouses) {
         foreach($spouses as $spouse) {
+            $directory = "uploads/spouses_picture";
+            $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
+            Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
             $this->spouses()->create([
-                "spouse_name" => $spouse
+                "spouse_name" => $spouse["name"],
+                "cnic" => $spouse["cnic"],
+                "date_of_birth" => $spouse["date_of_birth"],
+                "date_of_issue" => $spouse["date_of_issue"],
+                "validity" => $spouse["validity"],
+                "blood_group" => $spouse["blood_group"],
+                "picture" => $directory . "/" . $fileName
             ]);
         }
     }

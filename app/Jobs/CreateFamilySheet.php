@@ -34,5 +34,8 @@ class CreateFamilySheet implements ShouldQueue
         $filePath = "/members/FamilySheet/" . $fileName . ".pdf";
         Storage::put($filePath, $pdfContent);
 
+        $this->member->has_receipt_created = true;
+        $this->member->save();
+
     }
 }

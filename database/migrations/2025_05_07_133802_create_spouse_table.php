@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('spouse', function (Blueprint $table) {
             $table->id();
             $table->string("spouse_name");
+            $table->string("cnic");
+            $table->date("date_of_birth");
+            $table->date("date_of_issue");
+            $table->date("validity");
+            $table->string("blood_group");
+            $table->string("picture");
             $table->foreignId("member_id")->constrained("members")->cascadeOnDelete();
             $table->timestamps();
         });
