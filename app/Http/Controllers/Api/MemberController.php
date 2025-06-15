@@ -29,13 +29,13 @@ class MemberController extends Controller
     }
     public function store(MemberRequest $request) {
         $this->user->isAllowedToPerformAction("member:add");
-        
+
         $spouses = request()->spouses;
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
 
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
-       
+
         DB::transaction(function() use($request, $phone_numbers, $filePath, $spouses, $children){
 
             $member = Member::create([
@@ -48,11 +48,11 @@ class MemberController extends Controller
                         "emergency_contact" => $phone_numbers[2]->phoneNumber,
                         "emergency_contact_code" => $phone_numbers[2]->countryCode
                     ]);
-            
+
             $member->attachProfession($request);
             $member->attachSpouses($spouses);
             $member->attachChildren($children);
-                    
+
 
         });
 
@@ -89,12 +89,12 @@ class MemberController extends Controller
 
         DB::transaction(function() use ($data, $request, $spouses, $children, $member) {
             $member->update($data);
-    
+
             $member->attachProfession($request);
-    
+
             $member->spouses()->delete();
             $member->attachSpouses($spouses);
-    
+
             $member->children()->delete();
             $member->attachChildren($children);
         });

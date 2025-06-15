@@ -93,12 +93,17 @@ class Member extends Model
     }
     public function attachChildren($children) {
         foreach($children as $child) {
-            if (in_array(null, $child, true)) {
-                continue;
-            }
+            $directory = "uploads/children_pictures";
+            $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
+            Storage::disk("public")->putFileAs($directory, $child["profile_pic"], $fileName);
             $this->children()->create([
-                "child_name" => $child[0],
-                "date_of_birth" => $child[1]
+                "child_name" => $child["name"],
+                "date_of_birth" => $child["date_of_birth"],
+                "cnic" => $child["cnic"],
+                "date_of_issue" => $child["date_of_issue"],
+                "validity" => $child["validity"],
+                "blood_group" => $child["blood_group"],
+                "profile_pic" => $directory ."/" . $fileName
             ]);
         }
     }

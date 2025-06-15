@@ -41,21 +41,21 @@ Route::get("/test", function() {
     dd("Test");
 });
 Route::get("populate-permissions", function() {
-    $permissions = [ 
-        "member:add", 
-        "member:manage", 
-        "member:birthdays", 
-        "recovery:payment-schedule", 
-        "recovery:report-by-members", 
-        "recovery:payment-receipt", 
-        "recovery:report-overall", 
-        "reciprocal:introletters", 
-        "reciprocal:manage-club", 
-        "reciprocal:add-club", 
-        "reciprocal:duration-and-fees", 
-        "card:add", 
-        "card:manage", 
-        "complains:by-member", 
+    $permissions = [
+        "member:add",
+        "member:manage",
+        "member:birthdays",
+        "recovery:payment-schedule",
+        "recovery:report-by-members",
+        "recovery:payment-receipt",
+        "recovery:report-overall",
+        "reciprocal:introletters",
+        "reciprocal:manage-club",
+        "reciprocal:add-club",
+        "reciprocal:duration-and-fees",
+        "card:add",
+        "card:manage",
+        "complains:by-member",
         "complains:types",
         "user:actions"
     ];
