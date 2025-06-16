@@ -133,19 +133,19 @@
 <body onload="window.print();">
 <div class="container-fluid">
     <div class="row p-0 mx-2">
-            @foreach($members as $member)
+            @foreach($member_collection as $member)
                             <div class="col-sm-6 p-0">
                             
-                            <div class="card card-custom mx-1 mt-3 card-custom-{{ $member->id }}" style="background-color: {{ $member->membership->card_color }};">
+                            <div class="card card-custom mx-1 mt-3 card-custom-{{ $member['id'] }}" style="background-color: {{ $member['card_color'] }};">
                             <style>
-                                .card-custom-{{ $member->id }}::before,
-                                .card-custom-{{ $member->id }}::after {
-                                    background: {{ $member->membership->card_color }} !important;
+                                .card-custom-{{ $member['id'] }}::before,
+                                .card-custom-{{ $member['id'] }}::after {
+                                    background: {{ $member['card_color'] }} !important;
                                     filter: brightness(1.3);
                                 }
                             </style>
-                            <div class="before-left" style="background-color: {{ $member->membership->card_color }} !important; filter: brightness(1.3)"></div>
-                            <div class="after-right" style="background-color: {{ $member->membership->card_color }} !important; filter: brightness(1.3)"></div>
+                            <div class="before-left" style="background-color: {{ $member['card_color'] }} !important; filter: brightness(1.3)"></div>
+                            <div class="after-right" style="background-color: {{ $member['card_color'] }} !important; filter: brightness(1.3)"></div>
                             <div class="card-body">
                                 <table style="width:100%">
                                     <tr>
@@ -153,31 +153,31 @@
                                             <table class="membership-details" style="width: 100%;">
                                                 <tr class="members_info">
                                                     <td>NIC No:</td>
-                                                    <td>{{ $member->cnic_passport }}</td>
+                                                    <td>{{ $member["cnic_passport"] }}</td>
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Membership Type:</td>
-                                                    <td>{{ $member->membership->card_name }}</td>
+                                                    <td>{{ $member["card_name"] }}</td>
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Membership No:</td>
-                                                    <td>{{ $member->membership_number }}</td>
+                                                    <td>{{ $member["membership_number"] }}</td>
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Blood Group:</td>
-                                                    <td>{{ $member->blood_group ?? "-" }}</td>
+                                                    <td>{{ $member["blood_group"] ?? "-" }}</td>
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Emergency No:</td>
-                                                    <td>{{ $member->emergency_contact }}</td>
+                                                    <td>{{ $member["emergency_contact"] }}</td>
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Date of Issue:</td>
-                                                    <td><?= date('d-M-y', strtotime($member->date_of_issue)); ?></td>
+                                                    <td><?= date('d-M-y', strtotime($member["date_of_issue"])); ?></td>
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Validity:</td>
-                                                    <td><?= date('d-M-y', strtotime($member->validity)); ?></td>
+                                                    <td><?= date('d-M-y', strtotime($member["validity"])); ?></td>
                                                 </tr>
                                             </table>
                                             <table class="membership-details mt-3" style="width: 100%;">
@@ -193,8 +193,8 @@
                                             </table>
                                         </td>
                                         <td style="width: 36%; text-align: center; position: relative; top: 10px;">
-                                            <img src="https://gwadargymkhana.com.pk/members/storage/{{ $member->profile_picture }}" alt="<?= htmlspecialchars($member['members_name']); ?>" style="width:50%; height:65px;">
-                                            <p class="members_info mt-1">{{ $member->member_name }}</p>
+                                            <img src="{{ storage_path($member['profile_picture']) }}" alt="<?= htmlspecialchars($member['member_name']); ?>" style="width:50%; height:65px;">
+                                            <p class="members_info mt-1">{{ $member["member_name"] }}</p>
                                             <div class="bg-white mx-auto" style="height: 40px; width: 80%; border-radius: 3px;">
                                                 <img src="{{ asset('/assets/img/sign_logo.png') }}" alt="" class="img-fluid" style="height: 40px;">
                                             </div>

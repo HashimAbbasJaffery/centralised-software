@@ -281,6 +281,13 @@ id="navbar-app"
                 <a class="w-full navbar" href="{{ route('card-type.add') }}" style="font-size: 12px;">Add Card</a>
               </li>
             </template>
+            <template x-if="privileges.includes('card:add')">
+              <li
+                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('card-type.add') ? 'text-black' : '' }}"
+              >
+                <a class="w-full navbar" href="{{ route('membership.cards') }}" style="font-size: 12px;">Membership Cards</a>
+              </li>
+            </template>
             </ul>
           </template>
         </li>

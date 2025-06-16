@@ -92,7 +92,6 @@
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Country:</span> {{ $member->profession->country }}</p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City:</span> {{ $member->profession->city }}</p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Work Email:</span> {{ $member->profession->work_email }}</p>
-        
         @endif
       </div>
       <div v-if="tab === 'membership information'">

@@ -154,30 +154,30 @@ td h6{
 <body onload="window.print();">
     <div class="container-fluid">
     <div class="row p-0 mx-2">
-        @foreach($members as $member)
+        @foreach($member_collection as $member)
                 <div class="col-sm-6 p-0">
-                    <div class="card card-custom-front card-custom-front-{{ $member->id }} mx-1 mt-3" style="background-color: {{ $member->membership->card_color }}; position: relative;">
+                    <div class="card card-custom-front card-custom-front-{{ $member["id"] }} mx-1 mt-3" style="background-color: {{ $member["card_color"] }}; position: relative;">
                                 <style>
-                                    .card-custom-front-{{ $member->id }}::before,
-                                    .card-custom-front-{{ $member->id }}::after {
-                                        background: {{ $member->membership->card_color }} !important;
+                                    .card-custom-front-{{ $member["id"] }}::before,
+                                    .card-custom-front-{{ $member["id"] }}::after {
+                                        background: {{ $member["card_color"] }} !important;
                                         filter: brightness(1.3);
                                     }
                                 </style>
-                                <div class="building-images" style="z-index: 0; position: absolute; background-color: {{ $member->membership->shade_color }}">&nbsp;</div>
-                                <div class="before-left" style="z-index: 100; background-color: {{ $member->membership->card_color }} !important; filter: brightness(1.3)"></div>
-                                <div class="after-right" style="z-index: 100; background-color: {{ $member->membership->card_color }} !important; filter: brightness(1.3)"></div>
+                                <div class="building-images" style="z-index: 0; position: absolute; background-color: {{ $member['shade_color'] }}">&nbsp;</div>
+                                <div class="before-left" style="z-index: 100; background-color: {{ $member['card_color'] }} !important; filter: brightness(1.3)"></div>
+                                <div class="after-right" style="z-index: 100; background-color: {{ $member['card_color'] }} !important; filter: brightness(1.3)"></div>
                                 <div class="card-body" style="z-index: 100;">
                                     <table style="width:100%">
                                     <tr>
-                                        @if($member->card_type === "Provisional Membership")
+                                        @if($member["card_type"] === "Provisional Membership")
                                             <td style="width: 65%;">
                                                 <img src="{{ asset("/assets/img/card_logo_.png") }}" alt="Card Logo" class="img-fluid" style="width: 70%; margin-top:-20px; position: relative; left: 20px;">
                                             </td>
                                             <td style="width: 35%; text-align: right;">
-                                                <h6>{{ $member->card_type }}</h6>
+                                                <h6>{{ $member["card_type"] }}</h6>
                                             </td>
-                                        @elseif($member->card_type === "cleared")
+                                        @elseif($member["card_type"] === "cleared")
                                             <td colspan="2" class="text-center">
                                                 <img src="{{ asset("/assets/img/gg_logo.png") }}" alt="Card Logo" class="img-fluid" style="height:50px;">
                                             </td>
@@ -185,11 +185,11 @@ td h6{
                                     </tr>
 
                                         <tr>
-                                        <td colspan="2"><h6 class="text-center" style="margin: 38px 0px; font-size: 11.72pt">{{ $member->membership->card_name }}</h6></td>
+                                        <td colspan="2"><h6 class="text-center" style="margin: 38px 0px; font-size: 11.72pt">{{ $member["card_name"] }}</h6></td>
                                         </tr>
                                         <tr>
-                                            <td><h6 class="text-start">{{ $member->member_name }}</h6></td>
-                                            <td><h6 class="text-end">{{ $member->membership_number }}</h6></td>
+                                            <td><h6 class="text-start">{{ $member["member_name"] }}</h6></td>
+                                            <td><h6 class="text-end">{{ $member["membership_number"] }}</h6></td>
                                         </tr>
                                     </table>
                                 </div>

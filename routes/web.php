@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntroletterController;
 use App\Http\Controllers\Members\MemberController;
 use App\Http\Controllers\MembersCardController;
+use App\Http\Controllers\MembershipCardController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
@@ -108,6 +109,7 @@ Route::get("/member/birthday", [BirthdayController::class, "index"])->name("memb
 Route::get("/membership-card/add-card", [CardTypeController::class, "create"])->name("card-type.add");
 Route::get("/membership-cards", [CardTypeController::class, "index"])->name("card-type.index");
 Route::get("/membership-card/{cardType}/update", [CardTypeController::class, "update"])->name("card-type.update");
+Route::get("/members/membership-cards", [MembershipCardController::class, "index"])->name("membership.cards");
 
 Route::get("/club/create", [ClubController::class, "create"])->name("club.create");
 Route::get("/clubs", [ClubController::class, "index"])->name("club.index");
