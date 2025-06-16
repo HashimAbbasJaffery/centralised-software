@@ -33,8 +33,10 @@ Route::get("/create/tree", function() {
 });
 
 Route::get("/tree", function() {
-    $pdf = Pdf::loadView("Invoices.member_tree")
-                ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('A4', 'portrait');
+    $member = Member::latest()->first();
+    $pdf = Pdf::loadView("Invoices.member_tree", [
+        "member" => $member
+    ])->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('A4', 'portrait');
     return $pdf->stream();
 });
 
@@ -152,4 +154,5 @@ Route::get("/login", [AuthController::class, "login"])->name("login");
 Route::get("/users", [UserController::class, "index"])->name("users");
 Route::get("/user/create", [UserController::class, "create"])->name("user.create");
 Route::get("/user/{user}/update", [UserController::class, "update"])->name("user.update");
+
 

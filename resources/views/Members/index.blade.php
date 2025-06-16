@@ -124,6 +124,9 @@
                 <button @click="getMember(member.id)" class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple">
                   <i class="fa-solid fa-eye" style="color: #B197FC;"></i>
                 </button>
+                <button @click="getMember(member.id)" class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple">
+                  <i class="fa-solid fa-eye" style="color: #B197FC;"></i>
+                </button>
               </div>
             </td>
           </tr>

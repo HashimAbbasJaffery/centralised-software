@@ -20,7 +20,7 @@
             <table style="width: 100%;">
                 <tr>
                     <td style="text-transform: uppercase; line-height: 11pt; padding-bottom: 8pt;">
-                        <h1 style="font-weight: 500; font-size: 12pt; margin-bottom: 0px; padding-bottom: 0px;">applicant’s</h1>
+                        <h1 style="font-weight: 500; font-size: 12pt; margin-bottom: 0px; padding-bottom: 0px;">applicant's</h1>
                         <p style="font-weight: normal; font-size: 12pt; margin-bottom: 0px; padding-bottom: 0px;">information record</p>
                     </td>
                     <td style="text-align: right; padding-bottom: 16pt;">
@@ -30,7 +30,11 @@
             </table>
         </header>
         <div style="width: 339.84pt;">
-            <table style="width: 339.84pt; border-collapse: collapse;">
+            <table style="width: 100%; border-collapse: collapse;">
+    <tr>
+        {{-- Left Side: Tables --}}
+        <td style="width: 339.84pt; vertical-align: top;">
+            <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                     <td colspan="2" style="height: 35.28pt; border: 0.2px solid black; font-size: 12pt; padding-left: 5pt; vertical-align: middle;">
                         <span style="font-weight: 500;">Fullname: </span>{{ $member->member_name }}
@@ -45,19 +49,35 @@
                     </td>
                 </tr>
             </table>
-            <table style="width: 339.84pt; border-collapse: collapse;">
+
+            <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                     <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
                         <span style="font-weight: 500;">Gender:</span> <span style="text-transform: uppercase;">{{ $member->gender }}</span>
                     </td>
                     <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                        <span style="font-weight: 500;">Blood Group:</span> <span style="text-transform: uppercase;">{{ $member->blood_group }}
+                        <span style="font-weight: 500;">Blood Group:</span> <span style="text-transform: uppercase;">{{ $member->blood_group }}</span>
                     </td>
                     <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
                         <span style="font-weight: 500;">Marital Status:</span> <span style="text-transform: capitalize;">{{ $member->marital_status }}</span>
                     </td>
                 </tr>
             </table>
+        </td>
+
+        {{-- Right Side: Image --}}
+        <td style="width: 110.88pt; text-align: center; vertical-align: top;" border="0">
+            @php
+                $path = public_path('storage/' . $member->profile_picture);
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            @endphp
+            <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
+        </td>
+
+    </tr>
+</table>
 
             <table style="width: 450.72pt; border-collapse: collapse; margin-top: 30pt;">
                 <tr>
@@ -100,7 +120,11 @@
                     <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Applying: </span>{{ \Carbon\Carbon::parse($member->date_of_applying)->format("d/m/Y") }}</td>
                     <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Issue: </span>{{ \Carbon\Carbon::parse($member->date_of_issue)->format("d/m/Y") }}</td>
                     <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Validity: </span>{{ \Carbon\Carbon::parse($member->validity)->format("d/m/Y") }}</td>
-                    <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
+                    @if($member->card_type)
+                        <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>Not for Families</td>
+                    @else
+                        <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
+                    @endif
                 </tr>
             </table>
 
@@ -132,67 +156,107 @@
             </table>
 
             @foreach ($member->spouses as $spouse)
-                <table style="width: 339.84pt; margin-top: 30pt; border-collapse: collapse;">
-                    <tr style="width: 100%;">
-                        <td colspan="2" style="font-size: 10pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">First spouse full name: </span>{{ $spouse->spouse_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">CNIC/Passport: </span>{{ $spouse->cnic }}
-                        </td>
-                        <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">Date of Birth: </span>{{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d/m/Y") }}
-                        </td>
-                    </tr>
-                </table>
+              <table style="width: 100%; border-collapse: collapse; margin-top: 30pt;">
+    <tr>
+        {{-- Left Side: Spouse Tables --}}
+        <td style="width: 339.84pt; vertical-align: top;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td colspan="2" style="font-size: 10pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
+                        <span style="font-weight: 500;">First spouse full name: </span>{{ $spouse->spouse_name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
+                        <span style="font-weight: 500;">CNIC/Passport: </span>{{ $spouse->cnic }}
+                    </td>
+                    <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
+                        <span style="font-weight: 500;">Date of Birth: </span>{{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d/m/Y") }}
+                    </td>
+                </tr>
+            </table>
 
-                <table style="width: 339.84pt; border-collapse: collapse;">
-                    <tr>
-                        <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Date of Issue:</span> {{ \Carbon\Carbon::parse($member->date_of_issue)->format("d/m/Y") }}
-                        </td>
-                        <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Validity:</span> {{ \Carbon\Carbon::parse($member->validity)->format("d/m/Y") }}
-                        </td>
-                        <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Blood Group:</span> {{ $member->blood_group }}
-                        </td>
-                    </tr>
-                </table>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
+                        <span style="font-weight: 500;">Date of Issue:</span> {{ \Carbon\Carbon::parse($member->date_of_issue)->format("d/m/Y") }}
+                    </td>
+                    <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
+                        <span style="font-weight: 500;">Validity:</span> {{ \Carbon\Carbon::parse($member->validity)->format("d/m/Y") }}
+                    </td>
+                    <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
+                        <span style="font-weight: 500;">Blood Group:</span> {{ $member->blood_group }}
+                    </td>
+                </tr>
+            </table>
+        </td>
+
+        {{-- Right Side: Optional Image or Empty --}}
+        <td style="width: 110.88pt; text-align: center; vertical-align: top;" border="0">
+            @php
+                $path = public_path('storage/' . $spouse->picture);
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            @endphp
+            <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
+        </td>
+    </tr>
+</table>
+
 
             @endforeach
 
             @foreach($member->children as $child)
-                <table style="width: 339.84pt; margin-top: 30pt; border-collapse: collapse;">
-                    <tr style="width: 100%;">
-                        <td colspan="2" style="font-size: 10pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">First child full name: </span>{{ $child->child_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">CNIC/Passport: </span>42201-1805406-5
-                        </td>
-                        <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                            <span style="font-weight: 500;">Date of Birth: </span>20/02/1990
-                        </td>
-                    </tr>
-                </table>
-                <table style="width: 339.84pt; border-collapse: collapse;">
-                    <tr>
-                        <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Date of Issue:</span> 20/02/1990
-                        </td>
-                        <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Validity:</span> 20/02/1990
-                        </td>
-                        <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
-                            <span style="font-weight: 500;">Blood Group:</span> B+
-                        </td>
-                    </tr>
-                </table>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 30pt;">
+    <tr>
+        {{-- Left Side: Child Details --}}
+        <td style="width: 339.84pt; vertical-align: top;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td colspan="2" style="font-size: 10pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
+                        <span style="font-weight: 500;">First child full name: </span>{{ $child->child_name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
+                        <span style="font-weight: 500;">CNIC/Passport: </span>42201-1805406-5
+                    </td>
+                    <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
+                        <span style="font-weight: 500;">Date of Birth: </span>20/02/1990
+                    </td>
+                </tr>
+            </table>
+
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
+                        <span style="font-weight: 500;">Date of Issue:</span> 20/02/1990
+                    </td>
+                    <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
+                        <span style="font-weight: 500;">Validity:</span> 20/02/1990
+                    </td>
+                    <td style="width: 33.33%; border: 0.2px solid black; font-size: 8pt; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt; border-top: none;">
+                        <span style="font-weight: 500;">Blood Group:</span> B+
+                    </td>
+                </tr>
+            </table>
+        </td>
+
+            
+        {{-- Right Side: Optional Image or Empty --}}
+        <td style="width: 110.88pt; text-align: center; vertical-align: top;" border="0">
+            @php
+                $path = public_path('storage/' . $child->profile_pic);
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            @endphp
+            <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
+        </td>
+    </tr>
+</table>
+
             @endforeach
 
         </div>

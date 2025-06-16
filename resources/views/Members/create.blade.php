@@ -547,6 +547,7 @@
                   <span class="text-gray-700 dark:text-gray-400">Card Type</span>
                   <select v-model="card_type" data-message="marital_field_message" class="step_8 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                     <option value="Provisional Membership">Provisional Membership</option>
+                    <option value="Family Not Allowed">Family Not Allowed</option>
                     <option value="cleared">Cleared</option>
                   </select>
                 </label>

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Request;
 
@@ -76,6 +77,7 @@ class Member extends Model
         ]);
     }
     public function attachSpouses($spouses) {
+        if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
             $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
@@ -92,6 +94,7 @@ class Member extends Model
         }
     }
     public function attachChildren($children) {
+        if(!count($children)) return;
         foreach($children as $child) {
             $directory = "uploads/children_pictures";
             $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();

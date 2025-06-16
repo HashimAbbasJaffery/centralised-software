@@ -181,6 +181,13 @@ td h6{
                                             <td colspan="2" class="text-center">
                                                 <img src="{{ asset("/assets/img/gg_logo.png") }}" alt="Card Logo" class="img-fluid" style="height:50px;">
                                             </td>
+                                        @else 
+                                            <td style="width: 65%;">
+                                                <img src="{{ asset("/assets/img/card_logo_.png") }}" alt="Card Logo" class="img-fluid" style="width: 70%; margin-top:-20px; position: relative; left: 20px;">
+                                            </td>
+                                            <td style="width: 35%; text-align: right;">
+                                                <h6>Not Valid <br /> For Family</h6>
+                                            </td>
                                         @endif
                                     </tr>
 

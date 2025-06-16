@@ -32,6 +32,14 @@ class MemberController extends Controller
 
         $spouses = request()->spouses;
         $children = request()->children;
+
+        $children = collect($children)->filter(function($child) {
+            return !in_array(null, $child, true);
+        });
+        $spouses = collect($spouses)->filter(function($spouse) {
+            return !in_array(null, $spouse, true);
+        });
+
         $phone_numbers = json_decode(request()->phone_numbers);
 
         $filePath = $this->imageService->upload(request()->file("profile_picture"));
