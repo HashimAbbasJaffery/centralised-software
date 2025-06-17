@@ -107,32 +107,43 @@
                     <td style="width: 43.45%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">E-mail: </span>{{ $member->email_address }}</td>
                 </tr>
             </table>
+            <div>
 
-            <table style="width: 450.72pt; border-collapse: collapse; margin-top: 30pt;">
-                <tr>
-                    <td style="height: 35.28pt; padding-top: 5pt; width: 43.92%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Membership type: </span><span style="text-transform: capitalize">Permanent SE</span></td>
-                    <td style="height: 35.28pt; padding-top: 5pt; width: 31.46%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Membership No: </span>{{ $member->membership_number }}</td>
-                    <td style="width: 24.62%;">&nbsp;</td>
-                </tr>
-            </table>
-            <table style="width: 450.72pt; border-collapse: collapse;">
-                <tr>
-                    <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">File Number: </span>{{ $member->file_number }}</td>
-                    <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Category: </span><span style="text-transform: uppercase;">{{ $member->locker_category }}</span></td>
-                    <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Number: </span>{{ $member->locker_number }}</td>
-                    <td style="width: 24.62%;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Applying: </span>{{ \Carbon\Carbon::parse($member->date_of_applying)->format("d/m/Y") }}</td>
-                    <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Issue: </span>{{ \Carbon\Carbon::parse($member->date_of_issue)->format("d/m/Y") }}</td>
-                    <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Validity: </span>{{ \Carbon\Carbon::parse($member->validity)->format("d/m/Y") }}</td>
-                    @if($member->card_type)
-                        <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>Not for Families</td>
-                    @else
-                        <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
-                    @endif
-                </tr>
-            </table>
+            <div style="position: relative">
+                <table style="width: 450.72pt; border-collapse: collapse; margin-top: 30pt; position: relative;">
+                    <tr>
+                        <td style="height: 35.28pt; padding-top: 5pt; width: 43.92%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Membership type: </span><span style="text-transform: capitalize">Permanent SE</span></td>
+                        <td style="height: 35.28pt; padding-top: 5pt; width: 31.46%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Membership No: </span>{{ $member->membership_number }}</td>
+                        <td style="width: 24.62%; border: 0.2px solid black; border-bottom: none; text-align: center; vertical-align: middle; height: 35.28pt;">
+                            <div>
+                                <div style="display: inline-block; vertical-align: middle; line-height: 1.3;">
+                                    <p style="font-size: 8pt; margin: 0;">Payment status:</p>
+                                    <p style="font-size: 12pt; margin: 0;">Re-Regularized</p>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+                <table style="width: 450.72pt; border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">File Number: </span>{{ $member->file_number }}</td>
+                        <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Category: </span><span style="text-transform: uppercase;">{{ $member->locker_category }}</span></td>
+                        <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Number: </span>{{ $member->locker_number }}</td>
+                        <td style="width: 24.62%; border: 0.2px solid black; border-top: none;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Applying: </span>{{ \Carbon\Carbon::parse($member->date_of_applying)->format("d/m/Y") }}</td>
+                        <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Issue: </span>{{ \Carbon\Carbon::parse($member->date_of_issue)->format("d/m/Y") }}</td>
+                        <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Validity: </span>{{ \Carbon\Carbon::parse($member->validity)->format("d/m/Y") }}</td>
+                        @if($member->card_type)
+                            <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>Not for Families</td>
+                        @else
+                            <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
+                        @endif
+                    </tr>
+                </table>
+            </div>
 
             
             <table style="width: 450.72pt; border-collapse: collapse; margin-top: 30pt;">
@@ -268,5 +279,4 @@
 
         </div>
     </body>
-    <script></script>
 </html>
