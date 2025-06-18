@@ -92,13 +92,66 @@
                     <td style="width: 33.33%; font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Emergency Number: </span>{{ $member->emergency_contact }}</td>
                 </tr>
             </table>
+            @php 
+            function splitTextByWidth($text, $fontPath, $fontSize, $maxWidthPt) {
+                $words = explode(' ', $text);
+                $line1 = '';
+                $line2 = '';
+
+                foreach ($words as $i => $word) {
+                    $testLine = trim($line1 . ' ' . $word);
+
+                    $box = imagettfbbox($fontSize, 0, $fontPath, $testLine);
+                    $testWidth = abs($box[2] - $box[0]);
+
+                    if ($testWidth > $maxWidthPt) {
+                        // If first line already has content, break here
+                        if (!empty($line1)) {
+                            $line2 = implode(' ', array_slice($words, $i));
+                            break;
+                        } else {
+                            // Word too long to fit alone — just force break (rare)
+                            $line1 = $word;
+                            $line2 = implode(' ', array_slice($words, $i + 1));
+                            break;
+                        }
+                    }
+
+                    $line1 = $testLine;
+                }
+
+                return [$line1, $line2];
+            }
+
+
+            $addressOnly = $member->residential_address;
+            $prefix = "Residential address: ";
+
+            $fontPathRegular = storage_path('fonts/Roboto-Regular.ttf');
+            $fontPathMedium = storage_path('fonts/Roboto-Medium.ttf'); // font-weight: 500
+            $fontSize = 8; // pt
+            $cellWidthPt = 450.72;
+
+            // Measure the bold prefix with bold font
+            $prefixBox = imagettfbbox($fontSize, 0, $fontPathMedium, $prefix);
+            $prefixWidthPt = abs($prefixBox[2] - $prefixBox[0]);
+
+            // Convert remaining width to pt
+            $remainingPt = ($cellWidthPt - $prefixWidthPt) + 150;
+
+            // Now split remaining text
+            list($line1, $line2) = splitTextByWidth($addressOnly, $fontPathRegular, $fontSize, $remainingPt);
+
+            @endphp
             <table style="width: 450.72pt; border-collapse: collapse;">
                 <tr>
-                    <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Residential address: </span>{{ $member->residential_address }}</td>
+                    <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Residential address: </span>{{ $line1 }}</td>
                 </tr>
-                <tr>
-                    <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;">opposite Kashmir Road</td>
-                </tr>
+                @if($line2)
+                    <tr>
+                        <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;">{{ $line2 }}</td>
+                    </tr>
+                @endif
             </table>
             <table style="width: 450.72pt; border-collapse: collapse;">
                 <tr>
@@ -117,8 +170,20 @@
                         <td style="width: 24.62%; border: 0.2px solid black; border-bottom: none; text-align: center; vertical-align: middle; height: 35.28pt;">
                             <div>
                                 <div style="display: inline-block; vertical-align: middle; line-height: 1.3;">
-                                    <p style="font-size: 8pt; margin: 0;">Payment status:</p>
-                                    <p style="font-size: 12pt; margin: 0;">Re-Regularized</p>
+                                    <p style="font-size: 8pt; margin: 0; padding-top: 40px;">Payment status:</p>
+                                    {{-- @if($member->payment_status === "level1")
+                                        <p style="font-size: 12pt; margin: 0;">Payment Request</p>
+                                    @elseif($member->payment_status === "level2")
+                                        <p style="font-size: 12pt; margin: 0;">Payment Reminder</p>
+                                    @elseif($member->payment_status === "level3")
+                                        <p style="font-size: 12pt; margin: 0;">Final Notice</p>
+                                    @elseif($member->payment_status === "level4")
+                                        <p style="font-size: 12pt; margin: 0;">Cancelled</p>
+                                    @elseif($member->payment_status === "level5")
+                                        <p style="font-size: 12pt; margin: 0;">Re-Regularized</p>
+                                    @else
+                                        <p style="font-size: 12pt; margin: 0;">Cleared</p>
+                                    @endif --}}
                                 </div>
                             </div>
                         </td>
@@ -130,7 +195,9 @@
                         <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">File Number: </span>{{ $member->file_number }}</td>
                         <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Category: </span><span style="text-transform: uppercase;">{{ $member->locker_category }}</span></td>
                         <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Number: </span>{{ $member->locker_number }}</td>
-                        <td style="width: 24.62%; border: 0.2px solid black; border-top: none;">&nbsp;</td>
+                        <td style="width: 24.62%; border: 0.2px solid black; border-top: none; vertical-align: top; position: relative;">
+                            <p style="font-size: 12pt; margin: 0; text-align: center;">Payment Request</p>
+                        </td>
                     </tr>
                     <tr>
                         <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Applying: </span>{{ \Carbon\Carbon::parse($member->date_of_applying)->format("d/m/Y") }}</td>
@@ -145,6 +212,26 @@
                 </table>
             </div>
 
+            @php
+                $addressOnly = $member->profession->office_address;
+                $prefix = "Company address: ";
+
+                $fontPathRegular = storage_path('fonts/Roboto-Regular.ttf');
+                $fontPathMedium = storage_path('fonts/Roboto-Medium.ttf'); // font-weight: 500
+                $fontSize = 8; // pt
+                $cellWidthPt = 450.72;
+
+                // Measure the bold prefix with bold font
+                $prefixBox = imagettfbbox($fontSize, 0, $fontPathMedium, $prefix);
+                $prefixWidthPt = abs($prefixBox[2] - $prefixBox[0]);
+
+                // Convert remaining width to pt
+                $remainingPt = ($cellWidthPt - $prefixWidthPt) + 150;
+
+                // Now split remaining text
+                list($line1, $line2) = splitTextByWidth($addressOnly, $fontPathRegular, $fontSize, $remainingPt);
+
+            @endphp
             
             <table style="width: 450.72pt; border-collapse: collapse; margin-top: 30pt;">
                 <tr>
@@ -156,22 +243,23 @@
                     <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Work phone number: </span>{{ $member->profession->office_phone_number ?? "N/A" }}</td>
                 </tr>
             </table>
-            <table style="width: 450.72pt; border-collapse: collapse;">
+            <table style="width: 450.72pt; border-collapse: collapse; font-feature-settings: 'tnum';">
                 <tr>
-                    <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Company address: </span>{{ $member->profession->office_address ?? "N/A" }}</td>
+                    <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Company address: </span>{{ !$line1 ? "N/A" : $line1 }}</td>
                 </tr>
-                <tr>
-                    <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;">opposite Kashmir Road</td>
-                </tr>
+                @if($line2)
+                    <tr>
+                        <td style="width: 100%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 3pt; padding-bottom: 5pt;">{{ $line2 }}</td>
+                    </tr>
+                @endif
             </table>
             <table style="width: 450.72pt; border-collapse: collapse;">
                 <tr>
                     <td style="width: 32.9%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Country: </span>{{ $member->profession->country ?? "N/A" }}</td>
                     <td style="width: 23.64%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">City: </span>{{ $member->profession->city ?? "N/A" }}</td>
-                    <td style="width: 43.45%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">E-mail: </span>{{ $memenr->profession->work_email ?? "N/A" }}</td>
+                    <td style="width: 43.45%; font-size: 8pt; border: 0.2px solid black; border-top: none; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">E-mail: </span>{{ $member->profession->work_email ?? "N/A" }}</td>
                 </tr>
             </table>
-
             @foreach ($member->spouses as $spouse)
             <div class="no-break">
               <table style="width: 100%; border-collapse: collapse; margin-top: 30pt;">
@@ -181,7 +269,7 @@
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                     <td colspan="2" style="font-size: 10pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                        <span style="font-weight: 500;">First spouse full name: </span>{{ $spouse->spouse_name }}
+                        <span style="font-weight: 500;">{{ Illuminate\Support\Str::ordinalWord($loop->index + 1) }} spouse full name: </span>{{ $spouse->spouse_name }}
                     </td>
                 </tr>
                 <tr>
@@ -233,7 +321,7 @@
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                     <td colspan="2" style="font-size: 10pt; border: 0.2px solid black; padding-left: 5pt; vertical-align: middle; padding-top: 4pt; padding-bottom: 5pt;">
-                        <span style="font-weight: 500;">First child full name: </span>{{ $child->child_name }}
+                        <span style="font-weight: 500;">{{ Illuminate\Support\Str::ordinalWord($loop->index + 1) }} child full name: </span>{{ $child->child_name }}
                     </td>
                 </tr>
                 <tr>
