@@ -22,6 +22,7 @@ class CreateFamilySheet implements ShouldQueue
 
     /**
      * Execute the job.
+     * 
      */
     public function handle(): void
     {
@@ -30,7 +31,7 @@ class CreateFamilySheet implements ShouldQueue
             ->setPaper("A4", "portrait");
    
         $pdfContent = $pdf->output();
-        $fileName = "File";
+        $fileName = $this->member->member_name . "-" . $this->member->id;
         $filePath = "/members/FamilySheet/" . $fileName . ".pdf";
         Storage::put($filePath, $pdfContent);
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ComplainController;
 use App\Http\Controllers\Api\ComplainQuestionController;
 use App\Http\Controllers\Api\ComplainTypeController;
 use App\Http\Controllers\Api\DurationController;
+use App\Http\Controllers\Api\FamilySheetController;
 use App\Http\Controllers\Api\IntroletterController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\MembershipController;
@@ -99,6 +100,9 @@ Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "lo
 Route::post("/logout", [\App\Http\Controllers\Api\Auth\AuthController::class, "logout"])->name("api.logout");
 
 Route::get("/{membership}/get", [MembershipController::class, "getByMembershipName"])->name("api.membership.get");
+
+
+Route::get("/member/{member}/sheet", [FamilySheetController::class, "get"])->name("download.family-sheet");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

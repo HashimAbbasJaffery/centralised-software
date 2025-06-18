@@ -17,6 +17,9 @@ class Member extends Model
 {
     use SoftDeletes;
     protected $guarded = [ "id", "created_at", "updated_at" ];
+    protected $casts = [
+        "has_receipt_created" => "boolean"
+    ];
     protected $with = [ "membership" ];
     public function spouses() {
         return $this->hasMany(Spouse::class);

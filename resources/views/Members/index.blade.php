@@ -122,10 +122,10 @@
                   </svg>
                 </button>
                 <button @click="getMember(member.id)" class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple">
-                  <i class="fa-solid fa-eye" style="color: #B197FC;"></i>
+                  <i class="fa-solid fa-eye" style="color: rgba(126, 58, 242, var(--text-opacity));"></i>
                 </button>
-                <button @click="getMember(member.id)" class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple">
-                  <i class="fa-solid fa-eye" style="color: #B197FC;"></i>
+                <button v-if="Boolean(member.sheet_status)" @click="getFamilySheet(member.id)" class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple">
+                  <i class="fa-solid fa-sheet-plastic" style="color: rgba(126, 58, 242, var(--text-opacity));"></i>
                 </button>
               </div>
             </td>
@@ -202,6 +202,9 @@
         }
       },
       methods: {
+        getFamilySheet(id) {
+          window.location = route("download.family-sheet", { member: id });
+        },
         async createToWati() {
           const response = await axios.get(route('api.member.all'));
           const members = response.data.data;

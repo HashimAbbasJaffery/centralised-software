@@ -93,35 +93,6 @@
                 </tr>
             </table>
             @php 
-            function splitTextByWidth($text, $fontPath, $fontSize, $maxWidthPt) {
-                $words = explode(' ', $text);
-                $line1 = '';
-                $line2 = '';
-
-                foreach ($words as $i => $word) {
-                    $testLine = trim($line1 . ' ' . $word);
-
-                    $box = imagettfbbox($fontSize, 0, $fontPath, $testLine);
-                    $testWidth = abs($box[2] - $box[0]);
-
-                    if ($testWidth > $maxWidthPt) {
-                        // If first line already has content, break here
-                        if (!empty($line1)) {
-                            $line2 = implode(' ', array_slice($words, $i));
-                            break;
-                        } else {
-                            // Word too long to fit alone — just force break (rare)
-                            $line1 = $word;
-                            $line2 = implode(' ', array_slice($words, $i + 1));
-                            break;
-                        }
-                    }
-
-                    $line1 = $testLine;
-                }
-
-                return [$line1, $line2];
-            }
 
 
             $addressOnly = $member->residential_address;
@@ -140,7 +111,7 @@
             $remainingPt = ($cellWidthPt - $prefixWidthPt) + 150;
 
             // Now split remaining text
-            list($line1, $line2) = splitTextByWidth($addressOnly, $fontPathRegular, $fontSize, $remainingPt);
+            list($line1, $line2) = \App\Helpers\Helpers::splitTextByWidth($addressOnly, $fontPathRegular, $fontSize, $remainingPt);
 
             @endphp
             <table style="width: 450.72pt; border-collapse: collapse;">
@@ -171,19 +142,6 @@
                             <div>
                                 <div style="display: inline-block; vertical-align: middle; line-height: 1.3;">
                                     <p style="font-size: 8pt; margin: 0; padding-top: 40px;">Payment status:</p>
-                                    {{-- @if($member->payment_status === "level1")
-                                        <p style="font-size: 12pt; margin: 0;">Payment Request</p>
-                                    @elseif($member->payment_status === "level2")
-                                        <p style="font-size: 12pt; margin: 0;">Payment Reminder</p>
-                                    @elseif($member->payment_status === "level3")
-                                        <p style="font-size: 12pt; margin: 0;">Final Notice</p>
-                                    @elseif($member->payment_status === "level4")
-                                        <p style="font-size: 12pt; margin: 0;">Cancelled</p>
-                                    @elseif($member->payment_status === "level5")
-                                        <p style="font-size: 12pt; margin: 0;">Re-Regularized</p>
-                                    @else
-                                        <p style="font-size: 12pt; margin: 0;">Cleared</p>
-                                    @endif --}}
                                 </div>
                             </div>
                         </td>
@@ -196,7 +154,19 @@
                         <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Category: </span><span style="text-transform: uppercase;">{{ $member->locker_category }}</span></td>
                         <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Number: </span>{{ $member->locker_number }}</td>
                         <td style="width: 24.62%; border: 0.2px solid black; border-top: none; vertical-align: top; position: relative;">
-                            <p style="font-size: 12pt; margin: 0; text-align: center;">Payment Request</p>
+                            @if($member->payment_status === "level1")
+                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Request</p>
+                            @elseif($member->payment_status === "level2")
+                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Reminder</p>
+                            @elseif($member->payment_status === "level3")
+                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Final Notice</p>
+                            @elseif($member->payment_status === "level4")
+                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Cancelled</p>
+                            @elseif($member->payment_status === "level5")
+                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Re-Regularized</p>
+                            @else
+                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Cleared</p>
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -229,7 +199,7 @@
                 $remainingPt = ($cellWidthPt - $prefixWidthPt) + 150;
 
                 // Now split remaining text
-                list($line1, $line2) = splitTextByWidth($addressOnly, $fontPathRegular, $fontSize, $remainingPt);
+                list($line1, $line2) = \App\Helpers\Helpers::splitTextByWidth($addressOnly, $fontPathRegular, $fontSize, $remainingPt);
 
             @endphp
             
