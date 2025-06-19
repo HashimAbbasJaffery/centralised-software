@@ -226,8 +226,8 @@ table, tfoot td{
 			<table>
 				<tbody>
 				<tr>
-    <td class="main_table" style="width:33%; vertical-align: top;">
-        <h6 style="font-weight:600; margin: 0; font-size:12px; text-align:left; margin-bottom: 5pt;">PAY ONLINE:</h6>
+    <td class="main_table" style="width:33%; vertical-align: top; margin-top: 20pt;">
+        <h6 style="font-weight:600; margin: 0; font-size:12px; text-align:left; margin-bottom: 5pt; margin-top: 25pt;">PAY ONLINE:</h6>
         <img src="http://127.0.0.1:8000/assets/img/visa-mastercard.png" alt="" class="img-fluid" width="110">
         <p style="font-size:10px; color: #0000EE; margin: 0;" class="print_link">https://gwadargymkhana.com.pk/pay-online/</p>
     </td>
@@ -241,7 +241,7 @@ table, tfoot td{
 
     <td class="main_table" style="width:33%; vertical-align: top; text-align:right;">
         @if($member->payment_status === "level3" || $member->payment_status === "level4")
-            <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt; margin-top: 25pt;">PAY OUTSTANDING DUES IMMEDIATELY</h6>
+            <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt; margin-top: 25pt; text-align: right;">PAY OUTSTANDING DUES IMMEDIATELY</h6>
         @else
             <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt;  margin-top: 25pt;">PAY DUES BEFORE {{ $formattedDate }}</h6>
         @endif
@@ -271,7 +271,7 @@ table, tfoot td{
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="10" class="text-right balance">
+                    <td colspan="10" class="text-right balance" style="text-align: right;">
                         {{ number_format($member->form_fee + $member->processing_fee + $member->first_payment + $member->total_installment) }}
                     </td>
                 </tr>
@@ -279,29 +279,29 @@ table, tfoot td{
 			<tr class="data page" scope="row">
 		
                 <td style="width:10%;">{{ \Carbon\Carbon::parse($row->month)->format("M, Y") }}</td>
-			    <td style="width:10%;" class="text-right">
+			    <td style="width:10%;" class="text-right" style="text-align: right;">
 					@if(!is_null($row->late_payment_charges))
 						{{ number_format($row->due_b_f) }}
 					@endif
 				</td>
 				<td style="width:10%;">{{ \Carbon\Carbon::parse($row->due_date)->format("d M y") }}</td>
 				<td style="width:11%;">{{ $row->payment_description }}</td>
-				<td style="width:9%;" class="text-right">
+				<td style="width:9%;" class="text-right" style="text-align: right;">
 					{{ is_null($row->current_month_payable) ? "" : number_format($row->current_month_payable) }}
 				</td>
-				<td style="width:12%;" class="text-right">{{ is_null($row->late_payment_charges) ? "" : number_format($row->late_payment_charges) }}</td>
-				<td style="width:10%;" class="text-right">
+				<td style="width:12%;" class="text-right" style="text-align: right;">{{ is_null($row->late_payment_charges) ? "" : number_format($row->late_payment_charges) }}</td>
+				<td style="width:10%;" style="text-align: right" class="text-right">
 					@if(!is_null($row->late_payment_charges))
 						{{ is_null($row->payable) ? "" : number_format($row->payable) }}
 					@endif
 				</td>
 				<td style="width:10%;" class="text-right">{{ is_null($row->paid) ? "" : number_format($row->paid) }}</td>
-				<td style="width:10%;" class="text-right">
+				<td style="width:10%;" style="text-align: right;" class="text-right">
 					@if(!is_null($row->late_payment_charges))
 						{{ number_format($row->due_amount) }}
 					@endif
 				</td>
-				<td style="width:13%;" class="text-right">
+				<td style="width:13%; text-align: right;;" class="text-right">
 					@if(!is_null($row->late_payment_charges))
 						{{ !is_null($row?->payable ?? null) && $row->payable > 0 ? number_format($row->total_sum_value) : "" }}
 					@endif

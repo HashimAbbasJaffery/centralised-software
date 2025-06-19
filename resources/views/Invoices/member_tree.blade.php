@@ -42,7 +42,7 @@
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
                         <td colspan="2" style="height: 35.28pt; border: 0.2px solid black; font-size: 12pt; padding-left: 5pt; vertical-align: middle;">
-                            <span style="font-weight: 500;">Fullname: </span>{{ $member->member_name }}
+                            <span style="font-weight: 500;">Full name: </span>{{ $member->member_name }}
                         </td>
                     </tr>
                     <tr>

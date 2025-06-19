@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RecoveryResource;
+use App\Jobs\PrepareRecoveryData;
 use App\Models\Member;
 use App\Models\RecoverySheet;
 use App\Service\UserService;
@@ -50,7 +51,9 @@ class RecoveryController extends Controller
                 ]);
             }
 
+            
         });
+        PrepareRecoveryData::dispatch($member);
 
         return $this->apiResponse->success("Recovery Sheet has been created/updated");
     }

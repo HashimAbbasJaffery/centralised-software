@@ -14,7 +14,7 @@ class PrepareRecoveryData implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(public Member $member)
     {
         //
     }
@@ -24,7 +24,7 @@ class PrepareRecoveryData implements ShouldQueue
      */
     public function handle(): void
     {
-        $member = Member::latest()->first();
+        $member = $this->member;
         $recovery_rows = $member->recovery;
         $late_payment_charges = $recovery_rows->sum("late_payment_charges");
 
