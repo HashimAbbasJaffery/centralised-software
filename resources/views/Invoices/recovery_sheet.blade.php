@@ -4,10 +4,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{{ $member->member_name . " " . date("d-m-Y") }}</title>
-	
+	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <style>
-	
+	* {
+		font-family: "Roboto";
+	}
+	body {
+		padding-left: 20pt;
+		padding-right: 20pt;
+	}
 /* .footer, .footer-space {
   height: 100px;
 } */
@@ -125,6 +131,7 @@ table, tfoot td{
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+
   <div class="page-footer">
 	<table>
 	<tr>
@@ -142,29 +149,37 @@ table, tfoot td{
 <div class="row">
 
 <div class="col-xs-12">
-			
-    		<div class="row" style="padding-top: 10px;">
-				<div class="col-xs-4" style=" text-align:left;">
-				<img src="{{ asset('/assets/img/logo.png') }}" alt="" class="img-fluid" width="150">
-				<h4>Managed by: <span style="font-weight:bold;">{{ 'test' }}</span></h4>
+			<div style="width: 100%; padding-top: 10px;">
+
+				<!-- Left Column -->
+				<div style="width: 33.33%; float: left; text-align: left; line-height: 1pt;">
+					<img src="http://127.0.0.1:8000/assets/img/logo.png" alt="" width="150">
+					<h4>Managed by: <span style="font-weight: bold;">shahmirahs</span></h4>
 				</div>
-				<div class="col-xs-5">
-				<h2 style="font-weight:bold; line-height:0px">MEMBER'S</h2>
-				<h2 style="line-height:0px;">PAYMENT SCHEDULE</h2>
+
+				<!-- Middle Column -->
+				<div style="width: 33.33%; float: left; line-height: 10pt; margin-top: 10pt;">
+					<h2 style="font-weight: bold; margin: 0; padding-bottom: 0px; margin-bottom: 0px;">MEMBER'S</h2>
+					<h2 style="margin: 0;">PAYMENT SCHEDULE</h2>
 				</div>
-				<div class="col-xs-3" style=" text-align:right;">
-				<h2 style="font-weight:bold; line-height:0px;">MONTH</h2>
-				<h2 style="line-height:0px;">{{ \Carbon\Carbon::now()->format('M Y') }}</h2>
+
+				<!-- Right Column -->
+				<div style="width: 33.33%; float: left; text-align: right; line-height: 10pt; margin-top: 10pt;">
+					<h2 style="font-weight: bold; margin: 0; padding-bottom: 0px; margin-bottom: 0px;">MONTH</h2>
+					<h2 style="margin: 0;">Jun 2025</h2>
 				</div>
-				
+
+				<!-- Clear floats -->
+				<div style="clear: both;"></div>
 			</div>
+			
 			<div class="register_table one">
 			<table style="margin:10px 0px;">
 				<tbody>
 				<tr>
 					<td class="main_table" style="width:45%;"><span>NAME: </span>{{ $member->member_name }}</td>
 					<td class="main_table text-left" style="width:27.5%;"><span>MIF NO: </span>{{ $member->file_number }}</td>
-					<td class="main_table text-right" style="width:27.5%;"><span>MEMBERSHIP NO: </span>{{ $member->membership_number }}</td>
+					<td class="main_table" style="width:27.5%; text-align: right;"><span>MEMBERSHIP NO: </span>{{ $member->membership_number }}</td>
 				</tr>
 				</tbody>
 			</table>
@@ -172,8 +187,8 @@ table, tfoot td{
 				<tbody>
 				<tr>
 					<td class="main_table" style="width:30%;"><span>CNIC NO: </span> {{ $member->cnic_passport }}</td>
-					<td class="main_table text-right" style="width:35%;"><span>PHONE NO(PRIMARY): </span> {{ $member->phone_number }}</td>
-					<td class="main_table text-right" style="width:35%;"><span>PHONE NO(ALTERNATE): </span> {{ $member->alternate_ph_number }}</td>
+					<td class="main_table text-right" style="width:35%; text-align: center;"><span>PHONE NO(PRIMARY): </span> {{ $member->phone_number }}</td>
+					<td class="main_table text-right" style="width:35%; text-align: right;"><span>PHONE NO(ALTERNATE): </span> {{ $member->alternate_ph_number }}</td>
 				</tr>
 				</tbody>
 			</table>
@@ -208,28 +223,32 @@ table, tfoot td{
 			</div>	
 
 
-			<table style="margin-top:30px;">
+			<table>
 				<tbody>
 				<tr>
-					<td class="main_table" style="width:33%;">
-					<h6 style="font-weight:600; line-height:0px; font-size:12px; text-align:left;">PAY ONLINE:</h6>
-					<img src="{{ asset('/assets/img/visa-mastercard.png') }}" alt="" class="img-fluid" width="110">
-					<p style="font-size:10px; color: #0000EE;" class="print_link">https://gwadargymkhana.com.pk/pay-online/</p>
-				</td>
-					<td class="main_table" style="width:33%; text-align:right;">
-					<h6 style="font-weight:600; line-height:8px; font-size:12px !important; text-align:right;">TOTAL LATE PAYMENT CHARGES:</h6>
+    <td class="main_table" style="width:33%; vertical-align: top;">
+        <h6 style="font-weight:600; margin: 0; font-size:12px; text-align:left; margin-bottom: 5pt;">PAY ONLINE:</h6>
+        <img src="http://127.0.0.1:8000/assets/img/visa-mastercard.png" alt="" class="img-fluid" width="110">
+        <p style="font-size:10px; color: #0000EE; margin: 0;" class="print_link">https://gwadargymkhana.com.pk/pay-online/</p>
+    </td>
 
-        <h5 style="line-height: 22px; font-size: 18px; text-align: right;">PKR {{ number_format($late_payment_charges) }}/-</h5>
+	<td class="main_table" style="width:33%; vertical-align: top; text-align:right; padding: 0; margin: 0; ">
+		<div style="display: inline-block; vertical-align: top; text-align: right;">
+			<h6 style="font-weight:600; margin: 0; padding: 0; font-size:12px; line-height: 14px; margin-top: 20pt;">TOTAL LATE PAYMENT CHARGES:</h6>
+			<h5 style="margin: 0; padding: 0; line-height: 30px; font-size: 18px;">PKR {{ number_format($late_payment_charges) }}/-</h5>
+		</div>
+	</td>
 
-<td class="main_table" style="width:33%; text-align:right;">    
-	@if($member->payment_status === "level3" || $member->payment_status === "level4"):
-	    <h6 style="font-weight:600; line-height:12px; font-size:12px !important; text-align:right;">PAY OUTSTANDING DUES IMMEDIATELY</h6>
-	@else
-		<h6 style="font-weight:600; line-height:12px; font-size:12px !important; text-align:right;">PAY DUES BEFORE {{ $formattedDate }}</h6>
-	@endif
-	<h5 style="font-weight:bold; line-height:22px; font-size:30px; text-align:right;">PKR. {{ number_format($to_be_paid_row?->payable ?? "0") }}/-</h5>
+    <td class="main_table" style="width:33%; vertical-align: top; text-align:right;">
+        @if($member->payment_status === "level3" || $member->payment_status === "level4")
+            <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt; margin-top: 25pt;">PAY OUTSTANDING DUES IMMEDIATELY</h6>
+        @else
+            <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt;  margin-top: 25pt;">PAY DUES BEFORE {{ $formattedDate }}</h6>
+        @endif
+        <h5 style="margin: 0; font-weight:bold; font-size:30px; line-height: 25px;">PKR. {{ number_format($to_be_paid_row?->payable ?? "0") }}/-</h5>
     </td>
 </tr>
+
 </tbody>
 </table>
 

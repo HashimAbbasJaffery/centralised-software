@@ -54,6 +54,8 @@ return new class extends Migration
 
             $table->boolean("has_receipt_created")->default(false);
 
+            $table->uuid("user_token")->unique();
+
             $table->timestamps();
             $table->softDeletes();
         });

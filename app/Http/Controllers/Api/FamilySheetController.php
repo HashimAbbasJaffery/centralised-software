@@ -17,6 +17,10 @@ class FamilySheetController extends Controller
         }
 
         $filename = $member->member_name . "-" . $member->id . ".pdf";
+
+        $file = storage_path("app/private/members/FamilySheet/$filename");
+
+        // if()
         
         return response()->download(storage_path("app/private/members/FamilySheet/$filename"));
     }

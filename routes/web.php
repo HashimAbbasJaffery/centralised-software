@@ -1,6 +1,8 @@
 <?php
 
+use App\DateFormatter;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Members\MemberRecoverySheetController;
 use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\BirthdayController;
 use App\Http\Controllers\CardTypeController;
@@ -19,6 +21,7 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Http\Controllers\UserController;
 use App\Jobs\CreateFamilySheet;
+use App\Jobs\PrepareRecoveryData;
 use App\Models\Member;
 use App\Models\Permission;
 use App\Models\PersonalAccessToken;
@@ -27,9 +30,36 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+Route::get("/recovery/{member:user_token}", [MemberRecoverySheetController::class, "get"])->name("member.recovery.sheet.download");
+
 Route::get("/create/tree", function() {
     $member = Member::latest()->first();
     dispatch(new CreateFamilySheet($member));
+});
+
+Route::get("/recovery-sheet", function(DateFormatter $dateFormatter) {
+    // $member = Member::latest()->first();
+    //    $recovery_rows = $member->recovery;
+    //     $late_payment_charges = $recovery_rows->sum("late_payment_charges");
+        
+    //     $now = \Carbon\Carbon::now();
+    //     $formattedDate = $dateFormatter->calculateNext10thDay($now);
+        
+    //     $to_be_paid_row = $member
+    //                         ->recovery()
+    //                         ->whereRaw('? BETWEEN `month` AND `due_date`', [$now])
+    //                         ->first();
+                            
+    //     $total_balance = $member->form_fee + $member->processing_fee + $member->first_payment + $member->total_installment + $late_payment_charges;
+    //    $pdf = Pdf::loadView("Invoices.recovery_sheet", [
+    //     "late_payment_charges" => $late_payment_charges,
+    //     "formattedDate" => $formattedDate,
+    //     "recovery_rows" => $recovery_rows,
+    //     "member" => $member
+    // ])->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('A4', 'portrait');
+    // return $pdf->stream();
+
+    PrepareRecoveryData::dispatch();
 });
 
 Route::get("/tree", function() {
@@ -154,5 +184,8 @@ Route::get("/login", [AuthController::class, "login"])->name("login");
 Route::get("/users", [UserController::class, "index"])->name("users");
 Route::get("/user/create", [UserController::class, "create"])->name("user.create");
 Route::get("/user/{user}/update", [UserController::class, "update"])->name("user.update");
+
+
+
 
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\ApiResponse;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BirthdayController;
 use App\Http\Controllers\Api\CardTypeController;
@@ -17,8 +18,7 @@ use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
-use App\Http\Controllers\UserController;
-use App\Models\User;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -70,9 +70,13 @@ Route::post("/payment-method/create", [PaymentMethodController::class, "store"])
 Route::delete("/payment-method/{paymentMethod}/delete", [PaymentMethodController::class, "destroy"])->name("api.payment-methods.delete");
 // Route::put("/payment-method/{paymentMethod}")
 
-Route::get("/test", function(Request $request) {
-    
-});
+Route::get("/single-member/{member:user_token}/get", function(Member $member, ApiResponse $apiResponse) {
+    if(!($member && $member->exists())) {
+        return $apiResponse->error(404, "No member found");
+    }
+
+    return $apiResponse->success("Member Found!", $member);
+})->name("api.member.get");
 
 Route::get("/complain-types", [ComplainTypeController::class, "index"])->name("api.complains.complain-types.index");
 Route::post("/complain-type/create", [ComplainTypeController::class, "store"])->name("api.complains.complain-types.create");

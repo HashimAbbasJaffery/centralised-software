@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Request;
 
 class Member extends Model
@@ -64,6 +65,12 @@ class Member extends Model
         return $this->hasMany(Receipt::class);
     }
     public static function booted() {
+        static::creating(function($member) {
+            if(empty($member->user_token)) {
+                $member->user_token = Str::uuid();
+            }
+        });
+
         static::created(function($member) {
             dispatch(new SaveInGoogleDrive());
             dispatch(new CreateFamilySheet($member));
