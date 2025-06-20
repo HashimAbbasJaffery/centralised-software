@@ -10,6 +10,20 @@
             background: #f0f0f0;
             cursor: pointer;
           }
+
+          .active {
+            border: 1px solid #6B21A8;
+            color: #6B21A8;
+          }
+          .points {
+            transition: .2s ease-in;
+          }
+          .points:hover {
+            border: 1px solid #6B21A8;
+            color: #6B21A8;
+          }
+
+          
         </style>
         <main id="app" class="h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
@@ -192,6 +206,7 @@
               </div>
             </div>
             <div v-show="current_step === 4" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Children Information</h5>
               <div class="spouse" v-for="(spouse, index) in spouses" :key="spouse.id">
                 <div style="margin-bottom: 20px; display: flex; justify-content: space-between;" class="spouse-dropdown border border-gray-600 p-3 rounded-md dark:text-gray-200">
                   <h5 @click="spouse.hidden = !spouse.hidden" v-text="`${numberToOrdinal(index + 1)} Spouse Information`"></h5>
@@ -437,7 +452,7 @@
                         type="text"
                         placeholder="e.g COO"
                         style="width: 100% !important; margin-top: 4px !important;"
-                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        class="step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       />
                 </label>
                 </div>
@@ -449,7 +464,7 @@
                       type="text"
                       style="width: 100% !important; margin-top: 4px !important;"
                       data-message="email_message"
-                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      class="step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       placeholder="Executive Leadership">
                   </label>
                 </div>
@@ -461,7 +476,7 @@
                     <br>
                     <input type="hidden" v-model="phone_numbers[2].countryCode" />
                     <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
-                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="3" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
+                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="3" data-message="phone_field_message" class="optional phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
                     <span style="display: none;" class="phone_field_message text-xs text-red-600 dark:text-red-400">
                       Phone number field is required
                     </span>
@@ -522,7 +537,7 @@
                     <input type="hidden" v-model="phone_numbers[2].countryCode" />
                     <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
                     <span class="text-gray-700 dark:text-gray-400">Emergency Contact</span>
-                    <input type="text" v-model="emergency_contact" data-index="2" style="width: 100% !important; margin-top: 4px !important;" data-message="emergency_contact" class="phone step_7 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Emergency Contact">
+                    <input type="text" v-model="emergency_contact" data-index="2" style="width: 100% !important; margin-top: 4px !important;" data-message="emergency_contact" class="optional phone step_7 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Emergency Contact">
                   </label>
                   <span style="display: none;" class="emergency_contact text-xs text-red-600 dark:text-red-400">
                     Emergency Contact field is required
@@ -606,16 +621,28 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div style="display: flex; column-gap: 10px;">
+            <div style="display: flex; column-gap: 10px; justify-content: space-between;">
               <button @click="previous" :disabled="current_step < 2" style="background: #1f2937;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-700 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Previous
               </button>
-              <button v-if="current_step < total_steps" @click="next" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Next
-              </button>
-              <button :disabled="is_submitting" @click="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" v-else>
-                Submit
-              </button>
+
+              <div class="steps">
+                <ol class="items-center w-full space-y-4 sm:flex sm:space-x-8 sm:space-y-0 rtl:space-x-reverse" style="display: flex; gap: 20px;">
+                    <li v-for="step in total_steps" @click="current_step = step" style="cursor: pointer;" class="flex items-center text-blue-600 dark:text-blue-500 space-x-2.5 rtl:space-x-reverse">
+                        <span v-text="step" style="" :class="{ 'active': step <= current_step }" class="points flex items-center justify-center w-8 h-8 border border-blue-600 rounded-full shrink-0 dark:border-blue-500"></span>
+                    </li>
+                </ol>
+              </div>
+              <div class="next-actions">
+                <button v-if="current_step < total_steps" @click="next" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                  Next
+                </button>
+                
+                <button :disabled="is_submitting" @click="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" v-else>
+                  <span v-if="is_submitting">Saving...</span>
+                  <span v-else>Submit</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -623,10 +650,14 @@
 
         <script>
           const app = Vue.createApp({
+            components: {
+              'v-select': VueSelect.VueSelect
+            },
             data() {
               return {
                 current_step: 1,
-                total_steps: 4,
+                total_steps: 10,
+                errors: [],
 
                 member_name: "",
                 date_of_birth: "",
@@ -687,7 +718,7 @@
                 ],
                 formData: new FormData(),
                 cardTypes: [],
-                is_submitting: false
+                is_submitting: false,
               }
             },
             watch: {
@@ -882,16 +913,20 @@
               async submit() {
                 this.is_submitting = true;
                 this.getData();
-                const response = await axios.post(route("api.member.create"), this.formData, {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',  // Explicitly set the content-type header
-                    }
-                });
-                console.log(response);
-                if(response.data.status === "200") {
-                  window.location = route("member.manage");
+                try {
+                  const response = await axios.post(route("api.member.create"), this.formData, {
+                      headers: {
+                        'Content-Type': 'multipart/form-data',  // Explicitly set the content-type header
+                      }
+                  });
+                  if(response.data.status === "200") {
+                    window.location = route("member.manage");
+                  }
+                } catch(e) {
+                  console.log(e.response.data.errors);
+                } finally {
+                  this.is_submitting = false;
                 }
-                this.is_submitting = false;
               }
             },
             async mounted() {

@@ -90,7 +90,6 @@
           <i class="fas fa-file-pdf"></i> Download PDF
         </span>
       </button>
-      <p class="text-muted mt-2" style="font-size: 10px;">Downloading may take 1–2 minutes</p>
     </div>
     <div v-else>
         <span class="loader purple big">&nbsp;</span>
@@ -118,29 +117,31 @@
       },
       methods: {
         async downloadPDF() {
-          const fileUrl = `https://gwadargymkhana.com.pk/mailer/mailer/generate_recovery_sheet.php?id=${this.user.id}`;
-          this.isLoading = true;
-          try {
-            const response = await fetch(fileUrl);
-            if (!response.ok) throw new Error("Failed to fetch PDF");
+          window.location = route("member.recovery.sheet.file", route().params);
+        //   const fileUrl = `https://gwadargymkhana.com.pk/mailer/mailer/generate_recovery_sheet.php?id=${this.user.id}`;
+        //   this.isLoading = true;
+        //   try {
+        //     const response = await fetch(fileUrl);
+        //     if (!response.ok) throw new Error("Failed to fetch PDF");
 
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${this.user.name}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
-          } catch (error) {
-            alert("Something went wrong while downloading the file.");
-            console.error(error);
-          } finally {
-            this.isLoading = false;
-          }
-        }
+        //     const blob = await response.blob();
+        //     const url = window.URL.createObjectURL(blob);
+        //     const a = document.createElement('a');
+        //     a.href = url;
+        //     a.download = `${this.user.name}.pdf`;
+        //     document.body.appendChild(a);
+        //     a.click();
+        //     a.remove();
+        //     window.URL.revokeObjectURL(url);
+        //   } catch (error) {
+        //     alert("Something went wrong while downloading the file.");
+        //     console.error(error);
+        //   } finally {
+        //     this.isLoading = false;
+        //   }
+        // }
       }
+    }
     }).mount("#app");
   </script>
 </body>

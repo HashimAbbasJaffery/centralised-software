@@ -22,8 +22,12 @@
                 <span class="loader big purple" style="margin: auto;"></span>
             </div>
             <div v-show="!is_fetching_sheet" class="member-info" v-if="member.id">
-                <button @click="getSheet(member.id)" style="margin-bottom: 10px; margin-top: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Print
+                <button @click="getSheet(member.id)" style="margin-bottom: 10px; margin-top: 10px; margin-right: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    Print
+                </button>
+                <button @click="copyURL(member.user_token)" style="margin-bottom: 10px; margin-top: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    <span v-if="!is_copied">Copy URL</span>
+                    <span v-else>Copied</span>
                 </button>
                 <div class="container px-6 mx-auto grid mx-6" style="border-radius: 10px; background: white;">
                     <table style="color: white;">
@@ -154,6 +158,7 @@
 const app = Vue.createApp({
     data() {
         return {
+            is_copied: false,
             selectedId: "",
             member: [],
             balances: [],
@@ -169,7 +174,7 @@ const app = Vue.createApp({
                     due_date: "",
                     payment_description: "",
                     current_month_payable: "",
-                    late_month_charges: "",
+                    late_month_charges: 0,
                     payable: "",
                     paid: "",
                     due: "",
@@ -204,6 +209,13 @@ const app = Vue.createApp({
         }
     },
   methods: {
+    copyURL(user_token) {
+        navigator.clipboard.writeText(route("member.recovery.sheet.download", { member: user_token }));
+        this.is_copied = true;
+        setTimeout(() => {
+            this.is_copied = false;
+        }, 2000)
+    },
     getNextMonth(yesterday) {
         const date = new Date(yesterday);
         date.setMonth(date.getMonth() + 1);

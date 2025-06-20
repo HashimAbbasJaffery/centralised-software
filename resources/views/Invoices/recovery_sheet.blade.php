@@ -122,6 +122,7 @@ table, tfoot td{
     position: fixed;
     bottom: 0;
     width: 100%;
+	display: none;
     /* border-top: 1px solid black; for demo */
     /* background: yellow; for demo */
   }
@@ -131,20 +132,6 @@ table, tfoot td{
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-
-  <div class="page-footer">
-	<table>
-	<tr>
-  <td colspan="4" style="font-weight:bold !important; font-size: 10px !important; text-left">If you have  any questions, please reach out us at:</td>
-				<td colspan="2" style="font-size: 10px !important;"><span style="font-weight:bold !important;">UAN :</span> +9221 111 947 111</td>
-				<td colspan="6" style="font-size: 10px !important; text-align:right;"><span style="font-weight:bold !important;">EMAIL :</span> member.services@gwadargymkhana.com.pk</td>
-				</tr>
-				<tr style="line-height:20px;">
-				<td style="font-size: 10px !important; text-align:center;" colspan="3"><span style="font-weight:bold !important;">WEBSITE:</span> www.gwadargymkhana.com.pk</td>
-				<td style="font-size: 10px !important; text-align:center;" colspan="7"><span style="font-weight:bold !important;">ADDRESS:</span> Suite 207, The Plaza, Khayaban-e-Iqbal Block 9 Clifton, Karachi, Pakistan.</td>
-				</tr>
-				</table>
-  </div>
 <div class="container" style="margin-left:20px; margin: auto;">
 <div class="row">
 
@@ -243,7 +230,7 @@ table, tfoot td{
         @if($member->payment_status === "level3" || $member->payment_status === "level4")
             <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt; margin-top: 25pt; text-align: right;">PAY OUTSTANDING DUES IMMEDIATELY</h6>
         @else
-            <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt;  margin-top: 25pt;">PAY DUES BEFORE {{ $formattedDate }}</h6>
+            <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt;  margin-top: 25pt; text-align: right;">PAY DUES BEFORE {{ $formattedDate }}</h6>
         @endif
         <h5 style="margin: 0; font-weight:bold; font-size:30px; line-height: 25px;">PKR. {{ number_format($to_be_paid_row?->payable ?? "0") }}/-</h5>
     </td>
@@ -309,14 +296,6 @@ table, tfoot td{
 			</tr>
             @endforeach
 			</tbody>
-			<tfoot class="text-center" >
-			<tr>
-			<td>  <div class="page-footer-space"></div></td>
-
-			</tr>	
-			
-			
-		</tfoot>
 	</table>
     </div>
 	</div>

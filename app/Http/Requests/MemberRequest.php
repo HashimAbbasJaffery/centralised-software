@@ -21,6 +21,14 @@ class MemberRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    protected function prepareForValidation(): void {
+        $this->merge([
+            "form_fee" => (int) str_replace(',', '', $this->form_fee ?? '0'),
+            "processing_fee" => (int) str_replace(',', '', $this->processing_fee ?? '0'),
+            "first_payment" => (int) str_replace(',', '', $this->first_payment ?? '0'),
+            "total_installment" => (int) str_replace(',', '', $this->total_installment ?? '0')
+        ]);
+    }
     public function rules(): array
     {
         return [
@@ -42,7 +50,7 @@ class MemberRequest extends FormRequest
             "form_fee" => [ "required", "integer" ],
             "processing_fee" => [ "required", "integer" ],
             "first_payment" => [ "required", "integer" ],
-            "installment_month" => [ "required", "integer" ],
+            "installment_month" => [ "required" ],
             "total_installment" => [ "required", "integer" ],
             "blood_group" => [ "required" ],
             "emergency_contact" => [ "required" ],
