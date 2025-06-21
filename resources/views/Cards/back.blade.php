@@ -193,7 +193,7 @@
                                             </table>
                                         </td>
                                         <td style="width: 36%; text-align: center; position: relative; top: 10px;">
-                                            <img src="{{ storage_path($member['profile_picture']) }}" alt="<?= htmlspecialchars($member['member_name']); ?>" style="width:50%; height:65px;">
+                                            <img src="{{ Storage::disk("public")->path($member["profile_picture"]) }}" alt="<?= htmlspecialchars($member['member_name']); ?>" style="width:50%; height:65px;">
                                             <p class="members_info mt-1">{{ $member["member_name"] }}</p>
                                             <div class="bg-white mx-auto" style="height: 40px; width: 80%; border-radius: 3px;">
                                                 <img src="{{ asset('/assets/img/sign_logo.png') }}" alt="" class="img-fluid" style="height: 40px;">
