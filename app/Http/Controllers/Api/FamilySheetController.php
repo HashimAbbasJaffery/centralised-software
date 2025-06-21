@@ -18,7 +18,7 @@ class FamilySheetController extends Controller
 
         $filename = $member->member_name . "-" . $member->id . ".pdf";
 
-        $file = Storage::disk("public")->get("members/FamilySheet/$filename");
+        $file = Storage::disk("public")->path("members/FamilySheet/$filename");
         
         return response()->download($file);
     }
