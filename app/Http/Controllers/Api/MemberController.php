@@ -24,7 +24,7 @@ class MemberController extends Controller
     public function index() {
         $this->user->isAllowedToPerformAction("member:manage");
 
-        $member = Member::filter()->orderBy("created_at", "desc")->paginate(4)->withQueryString();
+        $member = Member::filter()->orderBy("created_at", "desc")->paginate(8)->withQueryString();
         return MemberResource::collection($member);
     }
     public function store(MemberRequest $request) {
