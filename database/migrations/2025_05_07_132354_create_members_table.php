@@ -47,7 +47,7 @@ return new class extends Migration
             $table->string("emergency_contact");
             $table->string("emergency_contact_code");
 
-            $table->string("profile_picture");
+            $table->string("profile_picture")->default("profile_pictures/default-user.png");
             $table->string("card_type");
             $table->date("date_of_issue")->default(now());
             $table->date("validity")->default(now());

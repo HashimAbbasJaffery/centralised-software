@@ -42,7 +42,10 @@ class MemberController extends Controller
 
         $phone_numbers = json_decode(request()->phone_numbers);
 
-        $filePath = $this->imageService->upload(request()->file("profile_picture"));
+        $filePath = "profile_pictures/default-user.png";
+        if(request()->hasFile("profile_picture")) {
+            $filePath = $this->imageService->upload(request()->file("profile_picture"));
+        }
 
         DB::transaction(function() use($request, $phone_numbers, $filePath, $spouses, $children){
 
