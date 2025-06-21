@@ -27,10 +27,10 @@ class CreateFamilySheet implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::error($this->member);
         // $pdf = Pdf::loadView("Invoices.member_tree", [ "member" => $this->member ])
         // ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
         // ->setPaper("A4", "portrait");
+        Log::info(Storage::disk('public')->exists($this->member->profile_picture));
         
         // $pdfContent = $pdf->output();
         // $fileName = $this->member->member_name . "-" . $this->member->id;
