@@ -111,7 +111,7 @@ class MembersCardController extends Controller
                         "emergency_contact" => $member->member->emergency_contact,
                         "date_of_issue" => $member->date_of_issue,
                         "validity" => $member->validity,
-                        "profile_picture" => $member->profile_picture
+                        "profile_picture" => $member->picture
                     ]);
                 } else {
                     $type = \App\Models\Child::class;
@@ -136,7 +136,7 @@ class MembersCardController extends Controller
                         "emergency_contact" => $member->member->emergency_contact,
                         "date_of_issue" => $member->date_of_issue,
                         "validity" => $member->validity,
-                        "profile_picture" => $member->profile_picture
+                        "profile_picture" => $member->profile_pic
                     ]);
                 }
             }   
