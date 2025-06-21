@@ -74,13 +74,17 @@
         {{-- Right Side: Image --}}
         <td style="width: 110.88pt; text-align: center; vertical-align: top;" border="0">
             @php
-                // $path = $member->profile_picture;
-                // $base64 = null;
-                // if (Storage::disk('public')->exists($path)) {
-                //     $data = Storage::disk('public')->get($path);
-                //     $type = pathinfo($path, PATHINFO_EXTENSION);
-                //     $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                // }
+                $path = $member->profile_picture;
+                $base64 = null;
+                if (Storage::disk('public')->exists($path)) {
+                    Log::info("Found");
+                    return;
+                    $data = Storage::disk('public')->get($path);
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                } else {
+                    Log::info("Not found");
+                }
                 $base64 = "d";
             @endphp
             <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
