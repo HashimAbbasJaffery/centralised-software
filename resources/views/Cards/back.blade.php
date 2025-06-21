@@ -193,7 +193,16 @@
                                             </table>
                                         </td>
                                         <td style="width: 36%; text-align: center; position: relative; top: 10px;">
-                                            <img src="{{ storage_path($member['profile_picture']) }}" alt="<?= htmlspecialchars($member['member_name']); ?>" style="width:50%; height:65px;">
+                                            @php
+                                                $path = $member["profile_picture"];
+                                                $base64 = null;
+                                                if (Storage::disk('public')->exists($path)) {
+                                                    $data = Storage::disk('public')->get($path);
+                                                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                                                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                                                }
+                                            @endphp
+                                            <img src="{{ $base64 }}" alt="<?= htmlspecialchars($member['member_name']); ?>" style="width:50%; height:65px;">
                                             <p class="members_info mt-1">{{ $member["member_name"] }}</p>
                                             <div class="bg-white mx-auto" style="height: 40px; width: 80%; border-radius: 3px;">
                                                 <img src="{{ asset('/assets/img/sign_logo.png') }}" alt="" class="img-fluid" style="height: 40px;">
