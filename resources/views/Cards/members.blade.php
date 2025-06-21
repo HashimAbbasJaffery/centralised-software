@@ -180,7 +180,7 @@ table {
     <div class="flex items-center text-sm">
       <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
         <img class="object-cover w-full h-full rounded-full"
-             :src="`https://gwadargymkhana.com.pk/members/storage/`"
+             :src="`https://gwadargymkhana.com.pk/members/storage/${member.profile_picture}`"
              alt=""
              loading="lazy"
         >
