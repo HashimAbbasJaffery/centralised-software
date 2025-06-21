@@ -31,38 +31,25 @@ class MemberController extends Controller
     public function store(MemberRequest $request) {
         $this->user->isAllowedToPerformAction("member:add");
 
-
-        // $spouses = request()->spouses;
-        // $children = request()->children;
-
-        // $children = collect($children)->filter(function($child) {
-        //     return !in_array(null, $child, true);
-        // });
-        // $spouses = collect($spouses)->filter(function($spouse) {
-        //     return !in_array(null, $spouse, true);
-        // });
-
-        // $phone_numbers = json_decode(request()->phone_numbers);
-
         [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class)->clean($request);
 
         $filePath = "profile_pictures/default-user.png";
         if(request()->hasFile("profile_picture")) {
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
         }
-
+        
         DB::transaction(function() use($request, $phone_numbers, $filePath, $spouses, $children){
 
             $member = Member::create([
-                        ...$request->validated(),
-                        "profile_picture" => $filePath,
-                        "phone_number" => $phone_numbers[0]->phoneNumber,
-                        "phone_number_code" => $phone_numbers[0]->countryCode,
-                        "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
-                        "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
-                        "emergency_contact" => $phone_numbers[2]->phoneNumber,
-                        "emergency_contact_code" => $phone_numbers[2]->countryCode
-                    ]);
+                ...$request->validated(),
+                "profile_picture" => $filePath,
+                "phone_number" => $phone_numbers[0]->phoneNumber,
+                "phone_number_code" => $phone_numbers[0]->countryCode,
+                "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
+                "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
+                "emergency_contact" => $phone_numbers[2]->phoneNumber,
+                "emergency_contact_code" => $phone_numbers[2]->countryCode
+            ]);
 
             $member->attachProfession($request);
             $member->attachSpouses($spouses);
