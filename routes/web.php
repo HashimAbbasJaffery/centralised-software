@@ -30,6 +30,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get("/recovery/{member:user_token}/download", [MemberRecoverySheetController::class, "download"])->name("member.recovery.sheet.file");
 Route::get("/recovery/{member:user_token}", [MemberRecoverySheetController::class, "get"])->name("member.recovery.sheet.download");
 

@@ -74,10 +74,16 @@
         {{-- Right Side: Image --}}
         <td style="width: 110.88pt; text-align: center; vertical-align: top;" border="0">
             @php
-                $path = public_path('storage/' . $member->profile_picture);
-                $type = pathinfo($path, PATHINFO_EXTENSION);
-                $data = file_get_contents($path);
-                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                $path = $member->profile_picture;
+
+                if (Storage::disk('public')->exists($path)) {
+                    $data = Storage::disk('public')->get($path);
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                } else {
+                    // fallback or log
+                    $base64 = asset('images/default-user.png'); // or just skip the image
+                }
             @endphp
             <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
         </td>
@@ -270,10 +276,15 @@
         {{-- Right Side: Optional Image or Empty --}}
         <td style="width: 110.88pt; text-align: center; vertical-align: top;" border="0">
             @php
-                $path = public_path('storage/' . $spouse->picture);
-                $type = pathinfo($path, PATHINFO_EXTENSION);
-                $data = file_get_contents($path);
-                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+                $path = $spouse->picture;
+                $base64 = null;
+
+                if (Storage::disk('public')->exists($path)) {
+                    $data = Storage::disk('public')->get($path);
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                }
             @endphp
             <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
         </td>
@@ -323,10 +334,14 @@
         {{-- Right Side: Optional Image or Empty --}}
         <td style="width: 110.88pt; text-align: center; vertical-align: top;" border="0">
             @php
-                $path = public_path('storage/' . $child->profile_pic);
-                $type = pathinfo($path, PATHINFO_EXTENSION);
-                $data = file_get_contents($path);
-                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                $path = $child->profile_pic;
+                $base64 = null;
+
+                if (Storage::disk('public')->exists($path)) {
+                    $data = Storage::disk('public')->get($path);
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                }
             @endphp
             <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
         </td>
