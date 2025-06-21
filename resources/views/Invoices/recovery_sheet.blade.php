@@ -140,7 +140,7 @@ table, tfoot td{
 
 				<!-- Left Column -->
 				<div style="width: 33.33%; float: left; text-align: left; line-height: 1pt;">
-					<img src="http://127.0.0.1:8000/assets/img/logo.png" alt="" width="150">
+					<img src="https://gwadargymkhana.com.pk/members/assets/img/logo.png" alt="" width="150">
 					<h4>Managed by: <span style="font-weight: bold;">shahmirahs</span></h4>
 				</div>
 
@@ -215,7 +215,7 @@ table, tfoot td{
 				<tr>
     <td class="main_table" style="width:33%; vertical-align: top; margin-top: 20pt;">
         <h6 style="font-weight:600; margin: 0; font-size:12px; text-align:left; margin-bottom: 5pt; margin-top: 25pt;">PAY ONLINE:</h6>
-        <img src="http://127.0.0.1:8000/assets/img/visa-mastercard.png" alt="" class="img-fluid" width="110">
+        <img src="https://gwadargymkhana.com.pk/members/assets/img/visa-mastercard.png" alt="" class="img-fluid" width="110">
         <p style="font-size:10px; color: #0000EE; margin: 0;" class="print_link">https://gwadargymkhana.com.pk/pay-online/</p>
     </td>
 
