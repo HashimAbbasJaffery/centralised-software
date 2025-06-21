@@ -13,7 +13,7 @@
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
     ></script>
-    <script src="{{ asset('/assets/js/init-alpine.js') }}"></script>
+    <script src="{{ asset('/assets/js/init-alpine.js') }}?v=2"></script>
     <script src="https://kit.fontawesome.com/231b67747d.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
