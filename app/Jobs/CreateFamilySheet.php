@@ -31,9 +31,9 @@ class CreateFamilySheet implements ShouldQueue
         // ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
         // ->setPaper("A4", "portrait");
 
-        Log::info($this->member->profile_picture);
-        
-        // Log::info(Storage::disk('public')->exists($this->member->profile_picture));
+        // Log::info($this->member->profile_picture);
+
+        Log::info(Storage::disk('public')->exists("profile_pictures/yPkS2qGQ21a0rhvHJHwiv4d0VBQHg0GNVF5mYnqR.jpg"));
         
         // $pdfContent = $pdf->output();
         // $fileName = $this->member->member_name . "-" . $this->member->id;
