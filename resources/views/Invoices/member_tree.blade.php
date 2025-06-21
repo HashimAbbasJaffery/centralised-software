@@ -76,11 +76,11 @@
             @php
                 $path = $member->profile_picture;
                 $base64 = null;
-                if (Storage::disk('public')->exists($path)) {
+                // if (Storage::disk('public')->exists($path)) {
                     // $data = Storage::disk('public')->get($path);
                     // $type = pathinfo($path, PATHINFO_EXTENSION);
                     // $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                }
+                // }
             @endphp
             <img src="{{ $base64 }}" style="border-radius: 50px; height: 100px; width: 100px;" />
         </td>
