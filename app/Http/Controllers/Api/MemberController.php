@@ -44,7 +44,7 @@ class MemberController extends Controller
 
         // $phone_numbers = json_decode(request()->phone_numbers);
 
-        [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class);
+        [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class)->clean($request);
 
         $filePath = "profile_pictures/default-user.png";
         if(request()->hasFile("profile_picture")) {
