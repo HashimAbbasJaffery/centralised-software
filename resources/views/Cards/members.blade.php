@@ -221,8 +221,8 @@ table {
         </p>
       </div>
       <div class="print-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
-          <button @click="selectFront" style="width: 15%;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (front)</button>
-          <button @click="selectBack" style="width: 15%;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (back)</button>
+          <button @click="selectFront" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (front)</button>
+          <button @click="selectBack" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (back)</button>
       </div>
       <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
     </div>
