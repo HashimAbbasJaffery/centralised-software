@@ -313,7 +313,7 @@
                     <div style="width: 33.33%;">
                         <label class="block text-sm" style="margin-bottom: 20px;">
                             <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">Blood Group</span>
-                            <input v-model="child.blood_group" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Blood Group`">
+                            <input v-model="child.blood_group" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Blood Group`">
                         </label>
                     </div>
                     <div style="width: 33.33%;">
