@@ -8,6 +8,7 @@ use App\Http\Requests\MemberRequest;
 use App\Http\Resources\MemberResource;
 use App\Models\Member;
 use App\Models\PersonalAccessToken;
+use App\Preprocess\CleanMemberRequest;
 use App\Service\UserService;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\DB;
@@ -30,17 +31,20 @@ class MemberController extends Controller
     public function store(MemberRequest $request) {
         $this->user->isAllowedToPerformAction("member:add");
 
-        $spouses = request()->spouses;
-        $children = request()->children;
 
-        $children = collect($children)->filter(function($child) {
-            return !in_array(null, $child, true);
-        });
-        $spouses = collect($spouses)->filter(function($spouse) {
-            return !in_array(null, $spouse, true);
-        });
+        // $spouses = request()->spouses;
+        // $children = request()->children;
 
-        $phone_numbers = json_decode(request()->phone_numbers);
+        // $children = collect($children)->filter(function($child) {
+        //     return !in_array(null, $child, true);
+        // });
+        // $spouses = collect($spouses)->filter(function($spouse) {
+        //     return !in_array(null, $spouse, true);
+        // });
+
+        // $phone_numbers = json_decode(request()->phone_numbers);
+
+        [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class);
 
         $filePath = "profile_pictures/default-user.png";
         if(request()->hasFile("profile_picture")) {
