@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::get("testing-image", function() {
-    $member = Member::first();
+    $member = Member::latest()->first();
     $path = $member->profile_picture;
     dd($path);
     $file = Storage::disk('public')->exists($path);
