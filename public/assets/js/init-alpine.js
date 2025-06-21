@@ -39,7 +39,7 @@ function data() {
       this.dark = !this.dark
       setThemeToLocalStorage(this.dark)
     },
-    isSideMenuOpen: false,
+    isSideMenuOpen: true,
     toggleSideMenu() {
       this.isSideMenuOpen = !this.isSideMenuOpen
     },

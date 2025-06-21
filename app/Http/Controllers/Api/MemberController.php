@@ -80,7 +80,7 @@ class MemberController extends Controller
         $children = request()->children;
         $phone_numbers = json_decode(request()->phone_numbers);
 
-        $filePath = null;
+        $filePath = "profile_pictures/default-user.png";
         if(request()->hasFile("profile_picture")) {
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
         }
