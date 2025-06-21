@@ -118,28 +118,6 @@
       methods: {
         async downloadPDF() {
           window.location = route("member.recovery.sheet.file", route().params);
-        //   const fileUrl = `https://gwadargymkhana.com.pk/mailer/mailer/generate_recovery_sheet.php?id=${this.user.id}`;
-        //   this.isLoading = true;
-        //   try {
-        //     const response = await fetch(fileUrl);
-        //     if (!response.ok) throw new Error("Failed to fetch PDF");
-
-        //     const blob = await response.blob();
-        //     const url = window.URL.createObjectURL(blob);
-        //     const a = document.createElement('a');
-        //     a.href = url;
-        //     a.download = `${this.user.name}.pdf`;
-        //     document.body.appendChild(a);
-        //     a.click();
-        //     a.remove();
-        //     window.URL.revokeObjectURL(url);
-        //   } catch (error) {
-        //     alert("Something went wrong while downloading the file.");
-        //     console.error(error);
-        //   } finally {
-        //     this.isLoading = false;
-        //   }
-        // }
       }
     }
     }).mount("#app");
