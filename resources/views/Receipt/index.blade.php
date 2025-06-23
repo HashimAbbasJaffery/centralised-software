@@ -142,7 +142,14 @@
       methods: {
         async mailTo(id) {
           const response = await axios.get(route("api.member.recovery.receipt.mailer", { receipt: id }));
-          console.log(response);
+          console.log(response.status);
+          if(response.status) {
+            Swal.fire({
+              title: "Done!",
+              text: "Mail has been sent!",
+              icon: "success"
+            });
+          }
         },
         async getReceipt(id) {
           const response = await axios.get(route("api.member.receipt.download", { receipt: id }), { responseType: "blob" });
