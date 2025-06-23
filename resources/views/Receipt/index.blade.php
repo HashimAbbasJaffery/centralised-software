@@ -140,7 +140,7 @@
         }
       },
       methods: {
-        async mailTo(id) {
+        mailTo(id) {
 
           Swal.fire({
             title: "Do you want to send email?",
@@ -148,7 +148,7 @@
             showCancelButton: true,
             confirmButtonText: "Send",
             denyButtonText: `Don't Send`
-          }).then((result) => {
+          }).then(async (result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
               
@@ -162,7 +162,7 @@
                 });
               }
             } else if (result.isDenied) {
-              
+
             }
           });
 
