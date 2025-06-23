@@ -27,12 +27,13 @@ use App\Models\Permission;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::post("/deploy", function() {
     Log::info("it will be deployed at this moment");
-});
+})->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get("testing-image", function() {
     dd(base_path());
