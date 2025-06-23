@@ -26,7 +26,7 @@ class ReceiptMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Payment Receipt 563244',
+            subject: "Invoice " . $this->receipt->receipt_id . " - GwadarGymkhana",
         );
     }
 
