@@ -38,7 +38,8 @@ Route::get("testing-url", function() {
 
 Route::post("/deploy", function() {
     try {
-        $process = Process::run("cd .. && git pull");
+        $path = base_path();
+        $process = Process::run("cd $path && git pull");
 
         if($process->successful()) {
             Log::info("Successfully deployeed in server");
