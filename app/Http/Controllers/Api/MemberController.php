@@ -85,10 +85,6 @@ class MemberController extends Controller
             "emergency_contact_code" => $phone_numbers[2]->countryCode,
         ];
 
-        if(is_null($filePath)) {
-            $data[] = [ "profile_picture" => $filePath ];
-        }
-
         DB::transaction(function() use ($data, $request, $spouses, $children, $member) {
             $member->update($data);
             $member->attachProfession($request);
