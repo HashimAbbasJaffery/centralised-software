@@ -141,14 +141,31 @@
       },
       methods: {
         async mailTo(id) {
-          const response = await axios.get(route("api.member.recovery.receipt.mailer", { receipt: id }));
-          console.log(response.status);
-          if(response.status) {
-            Swal.fire({
-              title: "Done!",
-              text: "Mail has been sent!",
-              icon: "success"
-            });
+
+          Swal.fire({
+            title: "Do you want to send email?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Send",
+            denyButtonText: `Don't Send`
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              
+              const response = await axios.get(route("api.member.recovery.receipt.mailer", { receipt: id }));
+              
+              if(response.status) {
+                Swal.fire({
+                  title: "Done!",
+                  text: "Mail has been sent!",
+                  icon: "success"
+                });
+              }
+            } else if (result.isDenied) {
+              
+            }
+          });
+
           }
         },
         async getReceipt(id) {
