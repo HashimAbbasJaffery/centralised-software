@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get("testing-url", function() {
-    dd("it is testing url");
+    dd("hashim abbas");
 });
 
 Route::post("/deploy", function() {
