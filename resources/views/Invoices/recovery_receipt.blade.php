@@ -197,7 +197,7 @@
         <table style="width: 100%; border-collapse: collapse; margin-top: 40px;">
             <tr style="padding: 6px;">
 
-              <td style="padding: 6px; width: 35%; text-transform: capitalize; font-size: 10px;"><span style="font-weight: bold; text-transform: lowercase"><span style="text-transform: uppercase;">P</span>ayment <span style="text-transform: uppercase;">R</span>eference no: <span style="font-weight: normal">{{ $receipt->reference_number }}</span></td>
+              <td style="padding: 6px; width: 35%; text-transform: capitalize; font-size: 10px;"><span style="font-weight: bold; text-transform: lowercase"><span style="text-transform: uppercase;">P</span>ayment <span style="text-transform: uppercase;">R</span>eference no: <span style="font-weight: normal; text-transform: uppercase;">{{ $receipt->reference_number }}</span></td>
                <td style="padding: 6px; white-space: nowrap; width: 40%; font-size: 10px;"><span style="font-weight: bold; text-transform: capitalize;">Payment Method: </span><span style="text-transform: capitalize;">{{ $receipt->payment_method->payment_method }}</span></td>
                
         </table>
