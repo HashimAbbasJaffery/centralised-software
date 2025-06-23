@@ -10,6 +10,7 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\ComplainQuestionController;
 use App\Http\Controllers\ComplainTypeController;
+use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\DurationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntroletterController;
@@ -33,24 +34,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get("testing-url", function() {
-    dd("It worked");
+    dd("Deployment Refactored");
 });
 
-Route::post("/deploy", function() {
-    try {
-        $path = base_path();
-        Process::run("git config --global --add safe.directory {$path}");
-        $process = Process::run("cd $path && git pull");
-
-        if($process->successful()) {
-            Log::info("Successfully deployeed in server");
-        }
-
-        Log::info($process->errorOutput());
-    } catch (\Throwable $e){
-        Log::error($e);
-    }
-})->withoutMiddleware([VerifyCsrfToken::class]);
+Route::post("/deploy", [DeploymentController::class, "deploy"])->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get("testing-image", function() {
     dd(base_path());
