@@ -35,7 +35,9 @@ class ReceiptMail extends Mailable
      */
     public function content(): Content
     {
-        return new Content();
+        return new Content(
+            view: 'Invoices.recovery_receipt',
+        );
     }
 
     /**
