@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class ReceiptMail extends Mailable
 {
@@ -35,7 +36,7 @@ class ReceiptMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Invoices.recovery_receipt',
+            text: "test"
         );
     }
 
@@ -46,6 +47,9 @@ class ReceiptMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $filename = "Receipt-" . $this->receipt->receipt_id . "-" . $this->receipt->member->member_name . ".pdf";
+        return [
+            Storage::disk("private")->path("recovery/receipts/$filename")
+        ];
     }
 }
