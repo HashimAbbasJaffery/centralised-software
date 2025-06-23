@@ -43,6 +43,8 @@ class MemberController extends Controller
             $member = Member::create([
                 ...$request->validated(),
                 "profile_picture" => $filePath,
+                "city" => $request->member_city,
+                "country" => $request->member_country,
                 "phone_number" => $phone_numbers[0]->phoneNumber,
                 "phone_number_code" => $phone_numbers[0]->countryCode,
                 "alternate_ph_number" => $phone_numbers[1]->phoneNumber,

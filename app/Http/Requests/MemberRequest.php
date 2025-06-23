@@ -42,6 +42,8 @@ class MemberRequest extends FormRequest
             "email_address" => [ "required" ],
             "residential_address" => [ "required" ],
             "city_country" => [ "required" ],
+            "member_city" => [ "required" ],
+            "member_country" => [ "required" ],
             "membership_type" => [ "required" ],
             "membership_number" => [ "required" ],
             "membership_status" => [ "required" ],
