@@ -30,7 +30,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-Route::get("/deploy", function() {
+Route::post("/deploy", function() {
     Log::info("it will be deployed at this moment");
 });
 
