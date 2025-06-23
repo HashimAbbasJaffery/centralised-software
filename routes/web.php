@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get("testing-url", function() {
+Route::get("testing-ur", function() {
     dd("test");
 });
 
