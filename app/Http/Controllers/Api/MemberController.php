@@ -76,6 +76,7 @@ class MemberController extends Controller
 
         $data = [
             ...$request->validated(),
+            "profile_picture" => $filePath,
             "phone_number" => $phone_numbers[0]->phoneNumber,
             "phone_number_code" => $phone_numbers[0]->countryCode,
             "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
@@ -83,6 +84,7 @@ class MemberController extends Controller
             "emergency_contact" => $phone_numbers[2]->phoneNumber,
             "emergency_contact_code" => $phone_numbers[2]->countryCode,
         ];
+
         if(is_null($filePath)) {
             $data[] = [ "profile_picture" => $filePath ];
         }
