@@ -165,8 +165,6 @@
 
             }
           });
-
-          }
         },
         async getReceipt(id) {
           const response = await axios.get(route("api.member.receipt.download", { receipt: id }), { responseType: "blob" });
