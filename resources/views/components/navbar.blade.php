@@ -69,7 +69,7 @@ id="navbar-app"
                 class="navbar member_birthdays px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ request()->routeIs('member.birthdays') ? 'text-black' : '' }}"
               >
                 <a class="w-full" style="font-size: 12px;" href="{{ route('member.birthdays') }}">
-                  Birthdays
+                  Birthday
                 </a>
               </li>
             </template>
