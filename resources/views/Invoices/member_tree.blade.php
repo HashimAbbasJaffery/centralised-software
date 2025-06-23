@@ -139,12 +139,25 @@
             <div style="position: relative">
                 <table style="width: 450.72pt; border-collapse: collapse; margin-top: 30pt; position: relative;">
                     <tr>
-                        <td style="height: 35.28pt; padding-top: 5pt; width: 43.92%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Membership type: </span><span style="text-transform: capitalize">Permanent SE</span></td>
-                        <td style="height: 35.28pt; padding-top: 5pt; width: 31.46%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Membership No: </span>{{ $member->membership_number }}</td>
-                        <td style="width: 24.62%; border: 0.2px solid black; border-bottom: none; text-align: center; vertical-align: middle; height: 35.28pt;">
+                        <td style="height: 35.28pt; padding-top: 5pt; width: 43.92%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 4pt;"><span style="font-weight: 500;">Membership type: </span><span style="text-transform: capitalize">Permanent SE</span></td>
+                        <td style="height: 35.28pt; padding-top: 5pt; width: 31.46%; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 4pt;"><span style="font-weight: 500;">Membership No: </span>{{ $member->membership_number }}</td>
+                        <td style="position: relative; width: 24.62%; border: 0.2px solid black; border-bottom: none; text-align: center; vertical-align: middle; height: 35.28pt;">
                             <div>
-                                <div style="display: inline-block; vertical-align: middle; line-height: 1.3;">
-                                    <p style="font-size: 8pt; margin: 0; padding-top: 40px;">Payment status:</p>
+                                <div style="position: absolute; width: 100% !important; left: 0; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+                                    <p style="font-size: 8pt; margin: 0;">Payment status:</p>
+                                    @if($member->payment_status === "level1")
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Request</p>
+                                    @elseif($member->payment_status === "level2")
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Reminder</p>
+                                    @elseif($member->payment_status === "level3")
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Final Notice</p>
+                                    @elseif($member->payment_status === "level4")
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Cancelled</p>
+                                    @elseif($member->payment_status === "level5")
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Re-Regularized</p>
+                                    @else
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Cleared</p>
+                                    @endif
                                 </div>
                             </div>
                         </td>
@@ -157,19 +170,7 @@
                         <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Category: </span><span style="text-transform: uppercase;">{{ $member->locker_category }}</span></td>
                         <td style="width: 25.12666666666667%; padding-top: 5pt; font-size: 11pt; border: 0.2px solid black; padding-left: 5pt; padding-bottom: 8pt;"><span style="font-weight: 500;">Locker Number: </span>{{ $member->locker_number }}</td>
                         <td style="width: 24.62%; border: 0.2px solid black; border-top: none; vertical-align: top; position: relative;">
-                            @if($member->payment_status === "level1")
-                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Request</p>
-                            @elseif($member->payment_status === "level2")
-                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Reminder</p>
-                            @elseif($member->payment_status === "level3")
-                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Final Notice</p>
-                            @elseif($member->payment_status === "level4")
-                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Cancelled</p>
-                            @elseif($member->payment_status === "level5")
-                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Re-Regularized</p>
-                            @else
-                                <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Cleared</p>
-                            @endif
+                            &nbsp;
                         </td>
                     </tr>
                     <tr>
