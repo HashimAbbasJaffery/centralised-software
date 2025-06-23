@@ -31,12 +31,23 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-Route::post("/dummy-url", function() {
-    
+
+Route::get("testing-url", function() {
+    dd("test");
 });
 
 Route::post("/deploy", function() {
-    Log::info("it will be deployed at this moment");
+    try {
+        $process = Process::run("cd .. && git pull");
+
+        if($process->successful()) {
+            Log::info("Successfully deployeed in server");
+        }
+
+        Log::info("Deployment Failed");
+    } catch (\Throwable $e){
+        Log::error($e);
+    }
 })->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get("testing-image", function() {
