@@ -154,7 +154,7 @@
               
               const response = await axios.get(route("api.member.recovery.receipt.mailer", { receipt: id }));
               
-              if(response.status) {
+              if(response.status === 200) {
                 Swal.fire({
                   title: "Done!",
                   text: "Mail has been sent!",
