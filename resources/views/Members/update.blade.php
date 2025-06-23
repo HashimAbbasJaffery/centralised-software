@@ -3,10 +3,31 @@
           .iti {
             width: 100%;
           }
+          button:disabled {
+            cursor: not-allowed;
+          }
+          .spouse-dropdown:hover {
+            background: #f0f0f0;
+            cursor: pointer;
+          }
+
+          .active {
+            border: 1px solid #6B21A8;
+            color: #6B21A8;
+          }
+          .points {
+            transition: .2s ease-in;
+          }
+          .points:hover {
+            border: 1px solid #6B21A8;
+            color: #6B21A8;
+          }
+
+          
         </style>
         <main id="app" class="h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
-          
+
           <div class="container px-6 mx-auto grid">
             <h2
               class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
@@ -93,7 +114,7 @@
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Alternate Phone Number</span>
-                    
+
                     <input type="hidden" v-model="phone_numbers[1].countryCode" />
                     <input type="hidden" v-model="phone_numbers[1].phoneNumber"/>
                     <input v-model="alt_phone_number" style="width: 100% !important; margin-top: 4px !important;" data-index="1" id="alt_phone_number" data-message="alt_ph_number_field_message" type="text" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Alternate Phone Number">
@@ -185,63 +206,136 @@
               </div>
             </div>
             <div v-show="current_step === 4" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Spouse Information</h5>
-              <div style="display: flex; column-gap: 20px;">
-                <div style="width: 50%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400">First Spouse</span>
-                    <input v-model="spouses[0]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="First Spouse">
-                  </label>
+              <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Children Information</h5>
+              <div class="spouse" v-for="(spouse, index) in spouses" :key="spouse.id">
+                <div style="margin-bottom: 20px; display: flex; justify-content: space-between;" class="spouse-dropdown border border-gray-600 p-3 rounded-md dark:text-gray-200">
+                  <h5 @click="spouse.hidden = !spouse.hidden" v-text="`${numberToOrdinal(index + 1)} Spouse Information`"></h5>
+                  <button class="bg-red-600 text-white px-2 rounded-md" @click="removeSpouse(spouse.id)">Delete</button>
                 </div>
-                <div style="width: 50%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400">Second Spouse</span>
-                    <input v-model="spouses[1]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Second Spouse">
-                  </label>
+                <div v-if="!spouse.hidden" style="display: flex; column-gap: 20px;">
+                  <div style="width: 50%;">
+                    <label class="block text-sm" style="margin-bottom: 20px;">
+                      <span class="text-gray-700 dark:text-gray-400" v-text="`${numberToOrdinal(index + 1)} Spouse`"></span>
+                      <input v-model="spouse.name" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Spouse Name">
+                    </label>
+                  </div>
+                  <div style="width: 50%;">
+                    <label class="block text-sm" style="margin-bottom: 20px;">
+                      <span class="text-gray-700 dark:text-gray-400">CNIC/Passport</span>
+                      <input v-model="spouse.cnic" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="CNIC">
+                    </label>
+                  </div>
+                </div>
+                <div v-if="!spouse.hidden" style="display: flex; column-gap: 20px;">
+                  <div style="width: 50%;">
+                    <label class="block text-sm" style="margin-bottom: 20px;">
+                      <span class="text-gray-700 dark:text-gray-400">Date of Birth</span>
+                      <input v-model="spouse.date_of_birth" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Date of Birth">
+                    </label>
+                  </div>
+                  <div style="width: 50%;">
+                    <label class="block text-sm" style="margin-bottom: 20px;">
+                      <span class="text-gray-700 dark:text-gray-400">Date of Issue</span>
+                      <input v-model="spouse.date_of_issue" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Date of Issue">
+                    </label>
+                  </div>
+                </div>
+                <div v-if="!spouse.hidden" style="display: flex; column-gap: 20px;">
+                  <div style="width: 33.33%;">
+                    <label class="block text-sm" style="margin-bottom: 20px;">
+                      <span class="text-gray-700 dark:text-gray-400">Validity</span>
+                      <input v-model="spouse.validity" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Validity">
+                    </label>
+                  </div>
+                  <div style="width: 33.33%;">
+                    <label class="block text-sm" style="margin-bottom: 20px;">
+                      <span class="text-gray-700 dark:text-gray-400">Blood Group</span>
+                      <input v-model="spouse.blood_group" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Blood Group">
+                    </label>
+                  </div>
+                  <div style="width: 33.33%;">
+                    <label class="block text-sm" style="margin-bottom: 20px;">
+                      <span class="text-gray-700 dark:text-gray-400">Picture</span>
+                      <input type="file" @change="spouse.profile_pic = $event.target.files[0]" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Blood Group">
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div style="display: flex; column-gap: 20px;">
-                <div style="width: 50%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400">Third Spouse</span>
-                    <input v-model="spouses[2]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Third Spouse">
-                  </label>
-                </div>
-                <div style="width: 50%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400">Fourth Spouse</span>
-                    <input v-model="spouses[3]" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Fourth Spouse">
-                  </label>
-                </div>
-              </div>
+              <button :disabled="spouses.length > 3" @click="addSpouse" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Add Spouse
+              </button>
               <div style="display: flex; justify-content: center;">
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
             <div v-show="current_step === 5" class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <h5 style="margin-bottom: 20px;" class="dark:text-gray-200">Children Information</h5>
-              <div v-for="child in children" style="display: flex; column-gap: 20px; align-items: center;">
-                <div style="width: 49%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`${numberToOrdinal(child.id)} child`"></span>
-                    <input v-model="child.childName" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`${numberToOrdinal(child.id)} child`">
-                  </label>
+              <div v-for="(child, index) in children">
+                <div style="margin-bottom: 20px; display: flex; justify-content: space-between;" class="children-dropdown border border-gray-600 p-3 rounded-md dark:text-gray-200">
+                    <h5 @click="children.hidden = !children.hidden" v-text="`${numberToOrdinal(index + 1)} Child Information`"></h5>
+                    <button class="bg-red-600 text-white px-2 rounded-md" @click="removeChild(child.id)">Delete</button>
                 </div>
-                <div style="width: 49%;">
-                  <label class="block text-sm" style="margin-bottom: 20px;">
-                    <span class="text-gray-700 dark:text-gray-400" v-text="`${numberToOrdinal(child.id)} child date of birth`"></span>
-                    <input v-model="child.dob" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`${numberToOrdinal(child.id)} child date of birth`">
-                  </label>
+                <div style="width: 100%; display: flex; column-gap: 10px;">
+                    <div style="width: 50%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`${numberToOrdinal(child.id)} child`"></span>
+                            <input v-model="child.childName" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`${numberToOrdinal(child.id)} child`">
+                        </label>
+                    </div>
+                    <div style="width: 50%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">CNIC/Passport</span>
+                            <input v-model="child.cnic" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`CNIC/Passport`">
+                        </label>
+                    </div>
                 </div>
-                <div class="actions" style="display: flex; column-gap: 10px;">
+                <div style="width: 100%; display: flex; column-gap: 10px;">
+                    <div style="width: 50%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`Date of Birth`"></span>
+                            <input v-model="child.dob" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`${numberToOrdinal(child.id)} child`">
+                        </label>
+                    </div>
+                    <div style="width: 50%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">Date of Issue</span>
+                            <input v-model="child.date_of_issue" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Date of Issue`">
+                        </label>
+                    </div>
+                </div>
+                <div style="width: 100%; display: flex; column-gap: 10px;">
+                    <div style="width: 33.33%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`Validity`"></span>
+                            <input v-model="child.validity" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Validity`">
+                        </label>
+                    </div>
+                    <div style="width: 33.33%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">Blood Group</span>
+                            <input v-model="child.blood_group" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Blood Group`">
+                        </label>
+                    </div>
+                    <div style="width: 33.33%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">Picture</span>
+                            <input type="file" @change="child.profile_pic = $event.target.files[0]" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Date of Issue`">
+                        </label>
+                    </div>
+                </div>
+                <!-- <div class="actions" style="display: flex; column-gap: 10px;">
                   <button @click="addNewChild" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                     +
                   </button>
                   <button @click="deleteChild(child.id)" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                     -
                   </button>
-                </div>
-              </div>              
+                </div> -->
+              </div>
+
+            <div class="actions">
+                <button @click="addNewChild" class="bg-purple-600 text-white p-1 px-2 rounded-md">Add new Child</button>
+            </div>
               <div style="display: flex; justify-content: center;">
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
@@ -279,26 +373,26 @@
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Processing Fee</span>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       :value="Number(processing_fee).toLocaleString('en-US')"
                       @input="processing_fee = $event.target.value.replace(/,/g, '')"
-                      style="width: 100% !important; margin-top: 4px !important;" 
-                      data-message="email_message" 
-                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      style="width: 100% !important; margin-top: 4px !important;"
+                      data-message="email_message"
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       placeholder="Processing Fee">
                   </label>
                 </div>
                 <div style="width: 25%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">First Payment</span>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       :value="Number(first_payment).toLocaleString('en-US')"
                       @input="first_payment = $event.target.value.replace(/,/g, '')"
-                      style="width: 100% !important; margin-top: 4px !important;" 
-                      data-message="email_message" 
-                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      style="width: 100% !important; margin-top: 4px !important;"
+                      data-message="email_message"
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       placeholder="First Payment">
                   </label>
                 </div>
@@ -307,13 +401,13 @@
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Total Installment</span>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       :value="Number(total_installment).toLocaleString('en-US')"
                       @input="total_installment = $event.target.value.replace(/,/g, '')"
-                      style="width: 100% !important; margin-top: 4px !important;" 
-                      data-message="email_message" 
-                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      style="width: 100% !important; margin-top: 4px !important;"
+                      data-message="email_message"
+                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       placeholder="Total Installment">
                   </label>
                 </div>
@@ -344,7 +438,7 @@
                         v-model="company_name"
                         type="text"
                         placeholder="e.g Visionary Group"
-                        data-message="company_name" 
+                        data-message="company_name"
                         style="width: 100% !important; margin-top: 4px !important;"
                         class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       />
@@ -358,19 +452,19 @@
                         type="text"
                         placeholder="e.g COO"
                         style="width: 100% !important; margin-top: 4px !important;"
-                        class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        class="step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       />
                 </label>
                 </div>
                 <div style="width: 33.33%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Type of Profession</span>
-                    <input 
+                    <input
                       v-model="profession"
-                      type="text" 
-                      style="width: 100% !important; margin-top: 4px !important;" 
-                      data-message="email_message" 
-                      class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+                      type="text"
+                      style="width: 100% !important; margin-top: 4px !important;"
+                      data-message="email_message"
+                      class="step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                       placeholder="Executive Leadership">
                   </label>
                 </div>
@@ -382,7 +476,7 @@
                     <br>
                     <input type="hidden" v-model="phone_numbers[2].countryCode" />
                     <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
-                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="3" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
+                    <input style="width: 100% !important; margin-top: 4px !important;" v-model="office_ph_number" data-index="3" data-message="phone_field_message" class="optional phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
                     <span style="display: none;" class="phone_field_message text-xs text-red-600 dark:text-red-400">
                       Phone number field is required
                     </span>
@@ -401,7 +495,7 @@
                   </label>
                 </div>
               </div>
-                     <div v-show="membership_with_extra_details == membership_type" style="display: flex; column-gap: 20px;">
+              <div v-show="membership_with_extra_details == membership_type" style="display: flex; column-gap: 20px;">
                 <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Work Email</span>
@@ -443,7 +537,7 @@
                     <input type="hidden" v-model="phone_numbers[2].countryCode" />
                     <input type="hidden" v-model="phone_numbers[2].phoneNumber"/>
                     <span class="text-gray-700 dark:text-gray-400">Emergency Contact</span>
-                    <input type="text" v-model="emergency_contact" data-index="2" style="width: 100% !important; margin-top: 4px !important;" data-message="emergency_contact" class="phone step_7 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Emergency Contact">
+                    <input type="text" v-model="emergency_contact" data-index="2" style="width: 100% !important; margin-top: 4px !important;" data-message="emergency_contact" class="optional phone step_7 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Emergency Contact">
                   </label>
                   <span style="display: none;" class="emergency_contact text-xs text-red-600 dark:text-red-400">
                     Emergency Contact field is required
@@ -468,6 +562,7 @@
                   <span class="text-gray-700 dark:text-gray-400">Card Type</span>
                   <select v-model="card_type" data-message="marital_field_message" class="step_8 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                     <option value="Provisional Membership">Provisional Membership</option>
+                    <option value="Family Not Allowed">Family Not Allowed</option>
                     <option value="cleared">Cleared</option>
                   </select>
                 </label>
@@ -526,27 +621,42 @@
                 <div v-for="step in total_steps" class="step bg-purple-600" :style="{ 'background': step <= current_step ? '' : 'gray' }" style="width: 5px; height: 5px; border-radius: 100%; margin-right: 5px;">&nbsp;</div>
               </div>
             </div>
-            <div style="display: flex; column-gap: 10px;">
+            <div style="display: flex; column-gap: 10px; justify-content: space-between;">
               <button @click="previous" :disabled="current_step < 2" style="background: #1f2937;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-700 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Previous
               </button>
-              <button v-if="current_step < total_steps" @click="next" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Next
-              </button>
-              <button @click="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" v-else>
-                Submit
-              </button>
+
+              <div class="steps">
+                <ol class="items-center w-full space-y-4 sm:flex sm:space-x-8 sm:space-y-0 rtl:space-x-reverse" style="display: flex; gap: 20px;">
+                    <li v-for="step in total_steps" @click="current_step = step" style="cursor: pointer;" class="flex items-center text-blue-600 dark:text-blue-500 space-x-2.5 rtl:space-x-reverse">
+                        <span v-text="step" style="" :class="{ 'active': step <= current_step }" class="points flex items-center justify-center w-8 h-8 border border-blue-600 rounded-full shrink-0 dark:border-blue-500"></span>
+                    </li>
+                </ol>
+              </div>
+              <div class="next-actions">
+                <button v-if="current_step < total_steps" @click="next" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                  Next
+                </button>
+                
+                <button :disabled="is_submitting" @click="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" v-else>
+                  <span v-if="is_submitting">Saving...</span>
+                  <span v-else>Submit</span>
+                </button>
+              </div>
             </div>
           </div>
-          
+
         </main>
-         
+
         <script>
           const app = Vue.createApp({
+            components: {
+              'v-select': VueSelect.VueSelect
+            },
             data() {
               return {
                 current_step: 1,
-                total_steps: 4,
+                total_steps: 10,
 
                 member_name: "{{ $member->member_name }}",
                 date_of_birth: "{{ $member->date_of_birth }}",
@@ -571,8 +681,21 @@
                 date_of_issue: "{{ $member->date_of_issue }}",
                 profilePictureBase64: "",
 
-                spouses: @json($member->spouses()->pluck("spouse_name")),
-                children: @json($children),
+                spouses: @json(
+            $member->spouses->map(function ($spouse) {
+                        $array = $spouse->toArray();
+                        $array['name'] = $array["spouse_name"];
+                        return $array;
+                    })
+                ),
+                children: @json(
+            $member->children->map(function ($child) {
+                      $array = $child->toArray();
+                      $array['childName'] = $array['child_name'];
+                      $array['dob'] = $array['date_of_birth'];
+                      return $array;
+                    })
+                ),
 
                 form_fee: "{{ $member->form_fee }}",
                 processing_fee: "{{ $member->processing_fee }}",
@@ -607,6 +730,7 @@
                 ],
                 formData: new FormData(),
                 cardTypes: [],
+                is_submitting: false,
               }
             },
             watch: {
@@ -623,11 +747,46 @@
                 if(this.processing_fee && typeof parseInt(this.processing_fee) === "number") total += parseInt(this.processing_fee);
                 if(this.first_payment && typeof parseInt(this.first_payment) === "number") total += parseInt(this.first_payment);
                 if(this.total_installment && typeof parseInt(this.total_installment) === "number") total += parseInt(this.total_installment);
-                
+
                 return new Intl.NumberFormat().format(total);
               }
             },
             methods: {
+              removeSpouse(id) {
+                if(!(this.spouses.length > 1)) {
+                  Swal.fire("Last spouse can not be deleted");
+                  return;
+                }
+                this.spouses = this.spouses.filter(spouse => spouse.id != id);
+            },
+            removeChild(id) {
+                    if(!(this.children.length > 1)) {
+                  Swal.fire("Last Child can not be deleted");
+                  return;
+                }
+                this.children = this.children.filter(child => child.id != id);
+            },
+              addSpouse() {
+                this.spouses = this.spouses.map(spouse => {
+                  return {
+                    ...spouse,
+                    hidden: true
+                  }
+                });
+
+                this.spouses.push({
+                  id: this.spouses.length + 1,
+                  name: "",
+                  cnic: "",
+                  date_of_birth: "",
+                  date_of_issue: "",
+                  validity: "",
+                  blood_group: "",
+                  profile_pic: "",
+                  hidden: false
+                });
+
+              },
               convertToBase64(file) {
                 return new Promise((resolve, reject) => {
                   const reader = new FileReader();
@@ -647,7 +806,7 @@
 
                 inputs.forEach(input => {
                   const message = document.querySelector(`.${input.dataset.message}`);
-                  
+
                   if(!input.value) {
                     message.style.display = "block";
                     input.classList.add("block", "w-full", "mt-1", "text-sm", "border-red-600", "dark:text-gray-300", "dark:bg-gray-700", "focus:border-red-400", "focus:outline-none", "focus:shadow-outline-red", "form-input");
@@ -668,7 +827,17 @@
                 this.current_step--;
               },
               addNewChild() {
-                this.children.push({ id: this.children.length + 1, childName: "", dob: "" });
+                this.children.push({
+                    id: this.children.length + 1,
+                    name: "",
+                    cnic: "",
+                    date_of_birth: "",
+                    date_of_issue: "",
+                    validity: "",
+                    blood_group: "",
+                    profile_pic: "",
+                    hidden: false
+                });
               },
               numberToOrdinal(n) {
                   const ordinals = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth'];
@@ -692,7 +861,6 @@
                 this.normalizeIds();
               },
               getData() {
-  
                   this.formData.append("member_name", this.member_name);
                   this.formData.append("date_of_birth", this.date_of_birth);
                   this.formData.append("gender", this.gender);
@@ -733,26 +901,45 @@
                   this.formData.append("city", this.office_city);
                   this.formData.append("work_email", this.work_email);
                   this.formData.append("office_address", this.office_address);
-                  this.formData.append("_method", "PUT")
-                  
+
                   this.spouses.forEach((spouse, index) => {
-                    this.formData.append(`spouses[${index}]`, spouse);
+                    this.formData.append(`spouses[${index}][name]`, spouse.name);
+                    this.formData.append(`spouses[${index}][cnic]`, spouse.cnic);
+                    this.formData.append(`spouses[${index}][date_of_birth]`, spouse.date_of_birth);
+                    this.formData.append(`spouses[${index}][date_of_issue]`, spouse.date_of_issue);
+                    this.formData.append(`spouses[${index}][validity]`, spouse.validity);
+                    this.formData.append(`spouses[${index}][blood_group]`, spouse.blood_group);
+                    this.formData.append(`spouses[${index}][profile_pic]`, spouse.profile_pic);
                   });
 
                   this.children.forEach((child, index) => {
-                    this.formData.append(`children[${index}][0]`, child.childName);
-                    this.formData.append(`children[${index}][1]`, child.dob);
+                    this.formData.append(`children[${index}][name]`, child.childName);
+                    this.formData.append(`children[${index}][cnic]`, child.cnic);
+                    this.formData.append(`children[${index}][date_of_birth]`, child.dob);
+                    this.formData.append(`children[${index}][date_of_issue]`, child.date_of_issue);
+                    this.formData.append(`children[${index}][validity]`, child.validity);
+                    this.formData.append(`children[${index}][blood_group]`, child.blood_group);
+                    this.formData.append(`children[${index}][profile_pic]`, child.profile_pic);
                   });
+
+                  this.formData.append("_method", "PUT");
               },
               async submit() {
+                this.is_submitting = true;
                 this.getData();
-                const response = await axios.post(route("api.member.update", route().params), this.formData, {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',  // Explicitly set the content-type header
-                    }
-                });
-                if(response.data.status === "200") {
-                  window.location = route("member.manage");
+                try {
+                  const response = await axios.post(route("api.member.update", route().params), this.formData, {
+                      headers: {
+                        'Content-Type': 'multipart/form-data',  // Explicitly set the content-type header
+                      }
+                  });
+                  if(response.data.status === "200") {
+                    window.location = route("member.manage");
+                  }
+                } catch(e) {
+                  console.log(e);
+                } finally {
+                  this.is_submitting = false;
                 }
               }
             },
@@ -786,9 +973,8 @@
               });
 
                 const phones = document.querySelectorAll(".phone")
-                
+
                 const updatePhoneNumber = (iti, input) => {
-                  console.log(input.dataset.index);
                   const countryData = iti.getSelectedCountryData();
                   this.phone_numbers[input.dataset.index]["countryCode"] = countryData.dialCode;
                   this.phone_numbers[input.dataset.index]["phoneNumber"] = iti.getNumber().replace(/^\+/, '');

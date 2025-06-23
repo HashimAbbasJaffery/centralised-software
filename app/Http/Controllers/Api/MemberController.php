@@ -67,11 +67,9 @@ class MemberController extends Controller
         return $this->apiResponse->success("Member has been deleted!");
     }
     public function update(MemberRequest $request, Member $member) {
-        $spouses = collect(request()->spouses)->filter()->values();
-        $children = request()->children;
-        $phone_numbers = json_decode(request()->phone_numbers);
+        [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class)->clean($request);
 
-        $filePath = "profile_pictures/default-user.png";
+        $filePath = $member->profile_picture;
         if(request()->hasFile("profile_picture")) {
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
         }
@@ -83,7 +81,7 @@ class MemberController extends Controller
             "alternate_ph_number" => $phone_numbers[1]->phoneNumber,
             "alternate_ph_number_code" => $phone_numbers[1]->countryCode,
             "emergency_contact" => $phone_numbers[2]->phoneNumber,
-            "emergency_contact_code" => $phone_numbers[2]->countryCode
+            "emergency_contact_code" => $phone_numbers[2]->countryCode,
         ];
         if(is_null($filePath)) {
             $data[] = [ "profile_picture" => $filePath ];
@@ -91,7 +89,6 @@ class MemberController extends Controller
 
         DB::transaction(function() use ($data, $request, $spouses, $children, $member) {
             $member->update($data);
-
             $member->attachProfession($request);
 
             $member->spouses()->delete();

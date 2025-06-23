@@ -76,20 +76,9 @@ class Member extends Model
             dispatch(new CreateFamilySheet($member));
         });
 
-        static::deleted(function($member) {
-            if($member->profile_picture) {
-                Storage::disk("public")->delete($member->profile_picture);
-            }
-
-            if($member->has_receipt_created) {
-                $filename = $member->member_name . "-" . $member->id . ".pdf";
-                Storage::disk("local")->delete("members/FamilySheet/$filename");
-            }
-
-            $recovery_filename = "recovery-" . $member->id . ".pdf";
-            if(Storage::disk("local")->exists("pdfs/$recovery_filename")) {
-                Storage::disk("local")->delete("pdfs/$recovery_filename");
-            }
+        static::updated(function($member) {
+            dispatch(new SaveInGoogleDrive());
+            dispatch(new CreateFamilySheet($member));
         });
     }
     public function profession() {
