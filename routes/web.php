@@ -31,6 +31,10 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+Route::post("/dummy-url", function() {
+    
+});
+
 Route::post("/deploy", function() {
     Log::info("it will be deployed at this moment");
 })->withoutMiddleware([VerifyCsrfToken::class]);
