@@ -32,8 +32,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get("testing-ur", function() {
-    dd("test");
+Route::get("testing-url", function() {
+    dd("it is testing url");
 });
 
 Route::post("/deploy", function() {
