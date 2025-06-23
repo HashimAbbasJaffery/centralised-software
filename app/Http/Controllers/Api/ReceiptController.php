@@ -65,7 +65,7 @@ class ReceiptController extends Controller
         return Storage::disk("local")->download("recovery/receipts/$fileName");
     }
     public function mail(Receipt $receipt) {
-        Mail::to("habbas21219@gmail.com")->send(new ReceiptMail($receipt));
+        Mail::to($receipt->member->email_address)->send(new ReceiptMail($receipt));
 
         return $this->apiResponse->success("Email has been sent!");
     }
