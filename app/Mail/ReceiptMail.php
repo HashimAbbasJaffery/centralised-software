@@ -35,9 +35,7 @@ class ReceiptMail extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            text: "test"
-        );
+        return new Content();
     }
 
     /**
