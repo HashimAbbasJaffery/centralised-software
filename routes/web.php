@@ -44,7 +44,7 @@ Route::post("/deploy", function() {
             Log::info("Successfully deployeed in server");
         }
 
-        Log::info("Deployment Failed");
+        Log::info($process->errorOutput());
     } catch (\Throwable $e){
         Log::error($e);
     }
