@@ -49,7 +49,7 @@ class ReceiptMail extends Mailable
     {
         $filename = "Receipt-" . $this->receipt->receipt_id . "-" . $this->receipt->member->member_name . ".pdf";
         return [
-            Storage::disk("private")->path("recovery/receipts/$filename")
+            Storage::disk("local")->path("recovery/receipts/$filename")
         ];
     }
 }
