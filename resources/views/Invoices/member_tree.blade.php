@@ -145,14 +145,16 @@
                             <div>
                                 <div style="position: absolute; width: 100% !important; left: 0; top: 50%; left: 50%; transform: translate(-50%, -50%)">
                                     <p style="font-size: 8pt; margin: 0;">Payment status:</p>
-                                    @if($member->payment_status === "level1")
-                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Request</p>
+                                    @if($member->payment_status === "regular")
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Request for Payment</p>
+                                    @elseif($member->payment_status === "level1")
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Request for Payment</p>
                                     @elseif($member->payment_status === "level2")
-                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Reminder</p>
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Payment Reminder Letter</p>
                                     @elseif($member->payment_status === "level3")
                                         <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Final Notice</p>
                                     @elseif($member->payment_status === "level4")
-                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Cancelled</p>
+                                        <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Membership Cancelled</p>
                                     @elseif($member->payment_status === "level5")
                                         <p style="font-size: 12pt; margin: 0; text-align: center; padding: 0; margin: 0;">Re-Regularized</p>
                                     @else
