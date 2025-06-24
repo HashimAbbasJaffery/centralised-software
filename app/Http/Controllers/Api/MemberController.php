@@ -78,6 +78,8 @@ class MemberController extends Controller
 
         $data = [
             ...$request->validated(),
+            "city" => $request->member_city,
+            "country" => $request->member_country,
             "profile_picture" => $filePath,
             "phone_number" => $phone_numbers[0]->phoneNumber,
             "phone_number_code" => $phone_numbers[0]->countryCode,
