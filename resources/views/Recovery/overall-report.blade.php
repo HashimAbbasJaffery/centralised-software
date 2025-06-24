@@ -328,5 +328,5 @@ footer{
         }).mount("#app");
     </script>
     
-    <link rel="stylesheet" href="http://127.0.0.1:8000/assets/css/tailwind.output.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}" />
 </x-layout.app>
