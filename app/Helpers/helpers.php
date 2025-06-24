@@ -26,7 +26,7 @@ class Helpers {
             }
 
             $line1 = $testLine;
-        }
+        } 
 
         return [$line1, $line2];
     }
