@@ -224,7 +224,7 @@
                   <h5 @click="spouse.hidden = !spouse.hidden" v-text="`${numberToOrdinal(index + 1)} Spouse Information`"></h5>
                   <button class="bg-red-600 text-white px-2 rounded-md" @click="removeSpouse(spouse.id)">Delete</button>
                 </div>
-                <div v-if="!spouse.hidden" style="display: flex; column-gap: 20px;">
+                <div :style="{ display: !spouse.hidden ? 'flex' : 'none'}" style="column-gap: 20px;">
                   <div style="width: 50%;">
                     <label class="block text-sm" style="margin-bottom: 20px;">
                       <span class="text-gray-700 dark:text-gray-400" v-text="`${numberToOrdinal(index + 1)} Spouse`"></span>
@@ -238,7 +238,7 @@
                     </label>
                   </div>
                 </div>
-                <div v-if="!spouse.hidden" style="display: flex; column-gap: 20px;">
+                <div :style="{ display: !spouse.hidden ? 'flex' : 'none'}" style="column-gap: 20px;">
                   <div style="width: 50%;">
                     <label class="block text-sm" style="margin-bottom: 20px;">
                       <span class="text-gray-700 dark:text-gray-400">Date of Birth</span>
@@ -252,7 +252,7 @@
                     </label>
                   </div>
                 </div>
-                <div v-if="!spouse.hidden" style="display: flex; column-gap: 20px;">
+                <div :style="{ display: !spouse.hidden ? 'flex' : 'none'}" style="column-gap: 20px;">
                   <div style="width: 33.33%;">
                     <label class="block text-sm" style="margin-bottom: 20px;">
                       <span class="text-gray-700 dark:text-gray-400">Validity</span>
