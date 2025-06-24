@@ -134,7 +134,7 @@ table {
         >
         <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
       </div>
-      <div>
+      <div style="margin-left: 5px;">
         <p class="font-semibold">
           ⤷ <span v-text="spouse.spouse_name + ' (S)'"></span>
         </p>
