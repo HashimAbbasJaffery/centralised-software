@@ -47,8 +47,8 @@ class CardTypeController extends Controller
     }
     public function childMemberships() {
         $cardTypes = CardType::whereIn("card_name", [
-            "permanent",
-            "Permanent",
+            "temporary",
+            "Temporary",
             "child",
             "Child",
             "household",
