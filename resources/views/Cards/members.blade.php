@@ -117,7 +117,7 @@ table {
     <input
       type="checkbox"
       @change="saveToSessionStorage(`spouse-${spouse.id}`)"
-        :checked="checked_members.includes(`spouse-${spouse.id}`)"
+      :checked="checked_members.includes(`spouse-${spouse.id}`)"
       style="height: 15px; width: 15px;"
       class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
     >
@@ -136,7 +136,7 @@ table {
       </div>
       <div>
         <p class="font-semibold">
-          ⤷ <span v-text="spouse.spouse_name"></span>
+          ⤷ <span v-text="spouse.spouse_name + ' (S)'"></span>
         </p>
         <p class="text-xs text-gray-600 dark:text-gray-400 capitalize">
           <span v-text="`${member.membership_type} Membership`"></span>
@@ -188,7 +188,7 @@ table {
       </div>
       <div>
         <p class="font-semibold">
-          ⤷ <span v-text="child.child_name"></span>
+          ⤷ <span v-text="child.child_name + ' (C)'"></span>
         </p>
         <p class="text-xs text-gray-600 dark:text-gray-400 capitalize">
           <span v-text="`${member.membership_type} Membership`"></span>

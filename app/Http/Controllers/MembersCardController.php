@@ -118,11 +118,8 @@ class MembersCardController extends Controller
                     $member = $type::find($id);
                     $age = \Carbon\Carbon::parse($member->date_of_birth)->diffInYears();
                     $card = null;
-                    if($age > 18) {
-                        $card = CardType::firstWhere("card_name", "Household");
-                    } else {
-                        $card = CardType::firstWhere("card_name", "Child");
-                    }
+                    $card = CardType::find($member->membership_id);
+                
                     $member_collection->push([
                         "id" => "child" . $member->id,
                         "membership_number" => $member->member->membership_number,

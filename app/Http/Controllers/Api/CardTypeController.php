@@ -45,4 +45,16 @@ class CardTypeController extends Controller
 
         return $this->apiResponse->success("Card Type has been updated!");
     }
+    public function childMemberships() {
+        $cardTypes = CardType::whereIn("card_name", [
+            "permanent",
+            "Permanent",
+            "child",
+            "Child",
+            "household",
+            "Household"
+        ])->get();
+
+        return $this->apiResponse->success("Card types fetched", $cardTypes);
+    }
 }

@@ -10,4 +10,8 @@ class Child extends Model
     public function member() {
         return $this->belongsTo(Member::class);
     }
+
+    public function membership() {
+        return $this->belongsTo(CardType::class, "membership_id");
+    }
 }

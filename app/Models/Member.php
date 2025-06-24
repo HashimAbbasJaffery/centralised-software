@@ -121,7 +121,8 @@ class Member extends Model
                 "date_of_issue" => $child["date_of_issue"],
                 "validity" => $child["validity"],
                 "blood_group" => $child["blood_group"],
-                "profile_pic" => $directory ."/" . $fileName
+                "profile_pic" => $directory ."/" . $fileName,
+                "membership_id" => $child["card_id"]
             ]);
         }
     }

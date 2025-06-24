@@ -36,6 +36,7 @@ Route::get("/membership-cards", [CardTypeController::class, "index"])->name("api
 Route::get("/membership-cards/all", [CardTypeController::class, "getAll"])->name("api.card.all");
 Route::delete("/membership-card/{cardType}/delete", [CardTypeController::class, "destroy"])->name("api.card.delete");
 Route::put("/membership-card/{cardType}/update", [CardTypeController::class, "update"])->name("api.card.update");
+Route::get("/child/memberships", [CardTypeController::class, "childMemberships"])->name("api.card.child");
 
 Route::post("/club/create", [ClubController::class, "store"])->name("api.club.create");
 Route::get("/clubs", [ClubController::class, "index"])->name("api.club.index");

@@ -17,4 +17,5 @@ class CardType extends Model
 
         return $query;
     }
+
 }

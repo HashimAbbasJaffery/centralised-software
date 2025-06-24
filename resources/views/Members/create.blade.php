@@ -316,19 +316,27 @@
                     </div>
                 </div>
                 <div style="width: 100%; display: flex; column-gap: 10px;">
-                    <div style="width: 33.33%;">
+                    <div style="width: 25%;">
                         <label class="block text-sm" style="margin-bottom: 20px;">
                             <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`Validity`"></span>
                             <input v-model="child.validity" type="date" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Validity`">
                         </label>
                     </div>
-                    <div style="width: 33.33%;">
+                    <div style="width: 25%;">
+                        <label class="block text-sm" style="margin-bottom: 20px;">
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">Membership Type</span>
+                            <select v-model="child.child_card" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                              <option :value="card.id" v-for="card in child_memberships" v-text="card.card_name"></option>
+                            </select>
+                        </label>
+                    </div>
+                    <div style="width: 25%;">
                         <label class="block text-sm" style="margin-bottom: 20px;">
                             <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">Blood Group</span>
                             <input v-model="child.blood_group" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Blood Group`">
                         </label>
                     </div>
-                    <div style="width: 33.33%;">
+                    <div style="width: 25%;">
                         <label class="block text-sm" style="margin-bottom: 20px;">
                             <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;">Picture</span>
                             <input type="file" @change="child.profile_pic = $event.target.files[0]" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`Date of Issue`">
@@ -705,7 +713,7 @@ new Vue({
     profile_picture: "",
 
     spouses: [{id: 1, name: "", cnic: "", date_of_birth: "", date_of_issue: "", validity: "", blood_group: "", profile_pic: "", hidden: false}],
-    children: [{id: 1, childName: "", cnic: "", dob: "", date_of_issue: "", validity: "", blood_group: "", profile_pic: "", hidden: false}],
+    children: [{id: 1, childName: "", cnic: "", dob: "", date_of_issue: "", validity: "", blood_group: "", profile_pic: "", child_card: "child", hidden: false}],
 
     form_fee: "",
     processing_fee: "",
@@ -742,6 +750,7 @@ new Vue({
     cardTypes: [],
     is_submitting: false,
     steps: [],
+    child_memberships: []
   },
   watch: {
       async selectedCountry(newValue) {
@@ -850,7 +859,7 @@ new Vue({
     addNewChild() {
       this.children.push({
         id: this.children.length + 1,
-        name: "", cnic: "", date_of_birth: "", date_of_issue: "", validity: "", blood_group: "", profile_pic: "", hidden: false
+        name: "", cnic: "", date_of_birth: "", date_of_issue: "", validity: "", blood_group: "", profile_pic: "", child_card: "",hidden: false
       });
     },
     numberToOrdinal(n) {
@@ -931,6 +940,7 @@ new Vue({
         fd.append(`children[${index}][validity]`, child.validity);
         fd.append(`children[${index}][blood_group]`, child.blood_group);
         fd.append(`children[${index}][profile_pic]`, child.profile_pic);
+        fd.append(`children[${index}][card_id]`, child.child_card);
       });
 
       this.formData = fd;
@@ -959,6 +969,9 @@ new Vue({
   async mounted() {
     const response = await axios.get("https://countriesnow.space/api/v0.1/countries/");
     this.options = response.data.data;
+
+    const childrenCard = await axios.get(route("api.card.child"));
+    this.child_memberships = childrenCard.data.data;
 
     const cardTypes = await axios.get(route("api.card.all"));
     this.cardTypes = cardTypes.data.data;
