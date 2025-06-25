@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\RecoverySheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -62,7 +63,6 @@ public function import() {
             $dob = \Carbon\Carbon::createFromFormat('m/d/Y', trim($member['date_of_birth']))->format('Y-m-d');
             $doa = \Carbon\Carbon::createFromFormat('m/d/Y', trim($member['date_of_applying']))->format('Y-m-d');
         } catch (\Exception $e) {
-            \Log::warning("Skipping row #$index due to invalid date: " . $e->getMessage());
             continue;
         }
 
@@ -112,6 +112,7 @@ public function import() {
                     $due_date = \Carbon\Carbon::createFromFormat('m/d/Y', trim($recoverySheet['due_date']))->format('Y-m-d');
                 } catch (\Exception $e) {
                     \Log::warning("Skipping row #$index due to invalid date: " . $e->getMessage());
+                    Log::error($e->getMessage());
                     continue;
                 }
                 $recovery = RecoverySheet::createQuietly([
