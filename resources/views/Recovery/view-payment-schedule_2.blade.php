@@ -255,12 +255,12 @@ const app = Vue.createApp({
         const lateCharges = parseInt(row.late_month_charges) || 0;
         const paid = parseInt(row.paid) || 0;
 
-        const currentPayableWithLate = currentPayable + lateCharges + lastDue;
+        const currentPayableWithLate = currentPayable + lateCharges + (lastDue < 0 ? 0 : lastDue);
         const dues = currentPayableWithLate - paid;
 
-        row.due_amount = lastDue.toLocaleString('en-US');
+        row.due_amount = lastDue < 0 ? 0 : lastDue.toLocaleString('en-US');
         row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
-        row.due = dues.toLocaleString('en-US');
+        row.due = (dues < 0) ? 0 : dues.toLocaleString("en-US");
         row.balance = balance.toLocaleString('en-US');
         row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
 

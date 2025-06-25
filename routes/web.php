@@ -13,6 +13,7 @@ use App\Http\Controllers\ComplainTypeController;
 use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\DurationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImportingController;
 use App\Http\Controllers\IntroletterController;
 use App\Http\Controllers\Members\MemberController;
 use App\Http\Controllers\MembersCardController;
@@ -32,6 +33,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get("import", [ImportingController::class, "import"]);
 
 Route::get("testing-url", function() {
     dd("Deployment Refactored");
