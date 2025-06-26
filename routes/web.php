@@ -27,12 +27,18 @@ use App\Jobs\PrepareRecoveryData;
 use App\Models\Member;
 use App\Models\Permission;
 use App\Models\PersonalAccessToken;
+use App\Models\RecoverySheet;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get("recovery-count", function() {
+    $members = Member::count();
+    dd($members);
+});
 
 Route::get("import", [ImportingController::class, "import"]);
 

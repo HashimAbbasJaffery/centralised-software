@@ -54,10 +54,15 @@ class RecoveryController extends Controller
     public function createReport() {
         $startDate = request()->start_date;
         $endDate = request()->end_date;
+
         $statuses = explode(",", request()->statuses);
         
         $members = Member::select("id", "member_name", "membership_number", "phone_number", "alternate_ph_number", "payment_status")
-                        ->withAndWhereHas("recovery", function($query) use($startDate, $endDate) {
+                        ->whereHas("recovery", function($query) use($startDate, $endDate) {
+                            $query->whereDate("month", ">=", $startDate)
+                                    ->whereDate("due_date", "<=", $endDate);
+                        })
+                        ->with("recovery", function($query) use($startDate, $endDate) {
                             $query->whereDate("month", ">=", $startDate)
                                     ->whereDate("due_date", "<=", $endDate)
                                     ->orderBy("id", "desc")
