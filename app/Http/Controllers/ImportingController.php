@@ -57,7 +57,7 @@ public function import() {
    
     foreach ($csvData as $index => $member) {
    
-        $data = [...array_filter($recoveryData, fn($data) => $data["membership_number"] === $member["membership_no"])];
+        $data = [...array_filter($recoveryData, fn($data) => $data["file_no"] === "20" . $member["file_no"])];
         
         
         $associatedRecoverySheets = null;
