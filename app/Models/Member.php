@@ -126,4 +126,7 @@ class Member extends Model
             ]);
         }
     }
+    public function introletter() {
+        return $this->hasOne(Introletter::class);
+    }
 }

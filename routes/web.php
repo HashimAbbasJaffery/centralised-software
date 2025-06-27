@@ -24,6 +24,7 @@ use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Http\Controllers\UserController;
 use App\Jobs\CreateFamilySheet;
 use App\Jobs\PrepareRecoveryData;
+use App\Models\Introletter;
 use App\Models\Member;
 use App\Models\Permission;
 use App\Models\PersonalAccessToken;
@@ -35,9 +36,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get("recovery-count", function() {
-    $members = Member::count();
-    dd($members);
+Route::get("introletterss   ", function() {
+    $introletter = Introletter::first();
+
+    $member = Member::all();
+    dd($introletter);
 });
 
 Route::get("import", [ImportingController::class, "import"]);

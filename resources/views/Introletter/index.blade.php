@@ -121,6 +121,7 @@
         },
         async getContent(url) {
           const response = await axios.get(url);
+          console.log(response);
           this.introletters = response.data.data;
           this.links = response.data.meta.links;
         },

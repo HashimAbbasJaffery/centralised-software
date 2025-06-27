@@ -74,9 +74,6 @@ class RecoveryController extends Controller
                         ->get();
         
         $sum = 0;
-        // $members->each(function($member) use ($sum){
-        //     $sum += $member->recovery->payable;
-        // });
 
         return $this->apiResponse->success("Date has been fetched!", [$members, $sum]);
     }
