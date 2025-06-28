@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{Member, Child, Spouse, RecoverySheet, CardType};
 use App\Models\Club;
+use App\Models\Complain;
 use App\Models\Duration;
 use App\Models\Introletter;
 use Illuminate\Http\Request;
@@ -198,6 +199,14 @@ class ImportingController extends Controller
     return $map[$number] ?? $number;
 }
 
+    protected function migrateComplain($newMemberId, $complain) {
+        if(!$newMemberId) return;
+        if(!$complain) return;
+        
+        Complain::create([
+            
+        ])
+    }
     protected function migrateLetter($newMemberId, $letter) {
         if(!$newMemberId) return;
         if(!$letter) return;
