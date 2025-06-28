@@ -99,19 +99,22 @@ class ImportingController extends Controller
                     
                     $card = collect($membershipCards)
                         ->firstWhere('members_no', $member['membership_no']);
+                    
 
                     // members_name
-
                     $letter = collect($introletters)
                                 ->firstWhere("membership_no", $member["membership_no"]);
 
                     $complains = collect($complains)
                                 ->firstWhere("membership_number", $member["membership_no"]);
 
+   
+                    
                     $households = collect($membershipCards)
                                         ->where("members_no", $member["membership_no"])
-                                        ->where("members_name", "!=", $card["members_name"] ?? "");
+                                        ->where("members_name", "!=", $member["members_name"] ?? "");
                     
+     
 
                     $wives = collect($households)
                                     ->filter(function($household) {
@@ -122,7 +125,6 @@ class ImportingController extends Controller
                                     ->filter(function($household) {
                                         return !str_contains(strtolower($household["profile_picture"]), 'wife');
                                     });
-                        
 
                     // Process main member data
                     $newMember = $this->createMember($member, $registerMember, $card);
@@ -296,9 +298,9 @@ class ImportingController extends Controller
                 "spouse_name" => $wife["members_name"],
                 "cnic" => $wife["cnic"],
                 "picture" => $this->getSpousePicturePath($wife),
-                "date_of_birth" => "1974-4-19",
-                "date_of_issue" => $wife["date_of_issue"],
-                "validity" => $wife["validity"],
+                "date_of_birth" => $this->parseDate($wife["date_of_birth"] ?? "1974-4-19") ?? "1974-4-19",
+                "date_of_issue" => $this->parseDate($wife["date_of_issue"] ?? "1974-4-19") ?? "1974-4-19",
+                "validity" => $this->parseDate($wife["validity"] ?? "1974-4-19") ?? "1974-4-19",
                 "blood_group" => $wife["blood_group"] ?? "AB+",
                 "member_id" => $memberId,
                 "created_at" => now(),
