@@ -100,20 +100,39 @@ class ImportingController extends Controller
                     $card = collect($membershipCards)
                         ->firstWhere('members_no', $member['membership_no']);
 
+                    // members_name
+
                     $letter = collect($introletters)
                                 ->firstWhere("membership_no", $member["membership_no"]);
 
                     $complains = collect($complains)
                                 ->firstWhere("membership_number", $member["membership_no"]);
 
+                    $households = collect($membershipCards)
+                                        ->where("members_no", $member["membership_no"])
+                                        ->where("members_name", "!=", $card["members_name"] ?? "");
+                    
+
+                    $wives = collect($households)
+                                    ->filter(function($household) {
+                                        return str_contains(strtolower($household["profile_picture"]), 'wife');
+                                    });
+
+                    $children = collect($households)
+                                    ->filter(function($household) {
+                                        return !str_contains(strtolower($household["profile_picture"]), 'wife');
+                                    });
+                        
+
                     // Process main member data
                     $newMember = $this->createMember($member, $registerMember, $card);
 
+                    
                     // Migrate children
-                    $this->migrateChildren($member, $newMember->id, $card);
+                    $this->migrateChildren($member, $newMember->id, $card, $children);
 
                     // Migrate spouses
-                    $this->migrateSpouses($member, $newMember->id, $card);
+                    $this->migrateSpouses($member, $newMember->id, $card, $wives);
 
                     $this->migrateLetter($newMember->id, $letter);
 
@@ -232,59 +251,59 @@ class ImportingController extends Controller
             "status" => 1,
         ]);
     }
-    protected function migrateChildren($member, $memberId, $card)
+    protected function migrateChildren($member, $memberId, $card, $children_collection)
     {
         $children = [];
-        for ($i = 1; $i <= 10; $i++) {
-            $nameField = "{$this->numberToOrdinal($i)}_child_name";
-            $dobField = "{$this->numberToOrdinal($i)}_child_dob";
-            if (!empty($member[$nameField]) && !empty($member[$dobField])) {
-                if($member[$nameField] === "NULL") continue;
-                $children[] = [
-                    'child_name' => $member[$nameField],
-                    'cnic' => '', // Not in source data
-                    'date_of_birth' => $this->parseDate($member[$dobField] ?? "1974-4-19") ?? "1974-4-19",
-                    'date_of_issue' => $this->parseDate($card['date_of_issue'] ?? "1974-4-19") ?? "1974-4-19",
-                    'validity' => $this->parseDate($card['validity'] ?? "1974-4-19") ?? "1974-4-19",
-                    'blood_group' => $card['blood_group'] ?? 'AB+',
-                    'profile_pic' => '', // Not in source data
-                    'member_id' => $memberId,
-                    'membership_id' => 1, // Can be updated later if needed
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-            }
+        $types = [
+            "1" => "1",
+            "2" => "13",
+            "5" => "2",
+            "6" => "3",
+            "7" => "8",
+            "8" => "6",
+            "9" => "9",
+            "10" => "10"
+        ];
+
+
+        foreach($children_collection as $child) {
+            $children[] = [
+                "child_name" => $child["members_name"],
+                "cnic" => $child["cnic"],
+                "date_of_birth" => "2003-1-1",
+                "date_of_issue" => $this->parseDate($child["date_of_issue"] ?? "1974-4-19") ?? "1974-4-19",
+                "validity" => $this->parseDate($child["validity"] ?? "1974-4-19") ?? "1974-4-19",
+                "blood_group" => $child["blood_group"] ?? "AB+",
+                "profile_pic" => $this->getChildPicturePath($child),
+                "member_id" => $memberId,
+                "membership_id" => $types[$child["type_id"]],
+                "created_at" => now(),
+                "updated_at" => now()
+             ];
         }
+
         if (!empty($children)) {
             Child::insert($children);
         }
 
     }
 
-    protected function migrateSpouses($member, $memberId, $card)
+    protected function migrateSpouses($member, $memberId, $card, $wives)
     {
-
-        $membership_type = $member["membership_type"];
-        $spouses = [];     
-        
-        for ($i = 1; $i <= 4; $i++) {
-            $field = $i === 1 ? 'spouse_name' : "{$this->numberToOrdinal($i)}_spouse_name";
-            
-            if (!empty($member[$field])) {
-                if($member[$field] === "NULL") continue;
-                $spouses[] = [
-                    'spouse_name' => $member[$field],
-                    'cnic' => '', // Not in source data
-                    'date_of_birth' => "1974-4-19", // Not in source data
-                    'date_of_issue' => $this->parseDate($card['date_of_issue'] ?? "1974-4-19") ?? "1974-4-19",
-                    'validity' => $this->parseDate($card['validity'] ?? "1974-4-19") ?? "1974-4-19",
-                    'blood_group' => $card['blood_group'] ?? 'AB+',
-                    'picture' => $this->getSpousePicturePath($card), // Not in source data
-                    'member_id' => $memberId,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-            }
+        $spouses = []; 
+        foreach($wives as $wife) {
+            $spouses[] = [
+                "spouse_name" => $wife["members_name"],
+                "cnic" => $wife["cnic"],
+                "picture" => $this->getSpousePicturePath($wife),
+                "date_of_birth" => "1974-4-19",
+                "date_of_issue" => $wife["date_of_issue"],
+                "validity" => $wife["validity"],
+                "blood_group" => $wife["blood_group"] ?? "AB+",
+                "member_id" => $memberId,
+                "created_at" => now(),
+                "updated_at" => now()
+            ];
         }
 
         if (!empty($spouses)) {
@@ -331,10 +350,23 @@ class ImportingController extends Controller
     }
     protected function getSpousePicturePath($card)
     {
-        if (!$card || empty($card['profile_picture'])) {
+        if(!array_key_exists("profile_picture", $card)) {
+            return 'profile_pictures/default-user.png';
+        }
+        if (!$card || !isset($card["profile_picture"]) || empty($card['profile_picture'])) {
             return 'profile_pictures/default-user.png';
         }
         return str_replace('uploads', 'uploads/spouses_picture', $card['profile_picture']);
+    }
+    protected function getChildPicturePath($card)
+    {
+        if(!array_key_exists("profile_picture", $card)) {
+            return 'profile_pictures/default-user.png';
+        }
+        if (!$card || !isset($card["profile_picture"]) || empty($card['profile_picture'])) {
+            return 'profile_pictures/default-user.png';
+        }
+        return str_replace('uploads', 'uploads/children_pictures', $card['profile_picture']);
     }
 
     protected function extractCountry($cityCountry)

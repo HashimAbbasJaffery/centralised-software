@@ -40,8 +40,8 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => base_path() . "../../public_html/members/storage",
-            // 'root' => storage_path("app/public"),
+            // 'root' => base_path() . "../../public_html/members/storage",
+            'root' => storage_path("app/public"),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,

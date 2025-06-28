@@ -23,7 +23,7 @@ class MemberResource extends JsonResource
             "cnic_passport" => $this->cnic_passport,
             "phone_number_code" => $this->phone_number_code,
             "phone_number" => $this->phone_number,
-            "phone_number_without_code" => preg_replace('/^\+' . preg_quote($this->phone_number_code, '/') . '/','',$this->phone_number),
+            "phone_number_without_code" => $this->normalizePhone(explode(", ", $this->phone_number)[0], $this->phone_number_code),
             "alternate_ph_number" => $this->alternate_ph_number,
             "email_address" => $this->email_address,
             "residential_address" => $this->residential_address,
@@ -52,5 +52,21 @@ class MemberResource extends JsonResource
             "sheet_status" => $this->has_receipt_created,
             "user_token" => $this->user_token
         ];
+    }
+
+    protected function normalizePhone($phoneNumber, $countryCode = '92')
+    {
+        $phoneNumber = str_replace('-', '', $phoneNumber);
+
+        // Remove country code prefix if present
+        $pattern = '/^' . preg_quote($countryCode) . '/';
+        $phoneNumber = preg_replace($pattern, '', $phoneNumber);
+
+        // Remove leading zero if length is 11
+        if (strlen($phoneNumber) == 11) {
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+
+        return $phoneNumber;
     }
 }
