@@ -23,6 +23,7 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Http\Controllers\UserController;
 use App\Jobs\CreateFamilySheet;
+use App\Jobs\ImportingJob;
 use App\Jobs\PrepareRecoveryData;
 use App\Jobs\SaveInGoogleDrive;
 use App\Models\Introletter;
@@ -37,7 +38,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::get("google-drive", function() {
-    dispatch(new SaveInGoogleDrive());
+    dispatch(new ImportingJob());
 });
 
 Route::get("introletterss", function() {
