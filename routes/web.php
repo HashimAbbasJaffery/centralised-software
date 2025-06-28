@@ -24,6 +24,7 @@ use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Http\Controllers\UserController;
 use App\Jobs\CreateFamilySheet;
 use App\Jobs\PrepareRecoveryData;
+use App\Jobs\SaveInGoogleDrive;
 use App\Models\Introletter;
 use App\Models\Member;
 use App\Models\Permission;
@@ -35,6 +36,9 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+Route::get("google-drive", function() {
+    dispatch(new SaveInGoogleDrive());
+});
 
 Route::get("introletterss", function() {
     $introletter = Introletter::first();
