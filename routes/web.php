@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get("introletterss   ", function() {
+Route::get("introletterss", function() {
     $introletter = Introletter::first();
 
     $member = Member::all();

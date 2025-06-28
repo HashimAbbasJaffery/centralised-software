@@ -143,7 +143,7 @@ class ImportingController extends Controller
             $card = null;
         }
         $cardType = CardType::where('card_name', trim($member['membership_type'] ?? ''))->first();
-        return Member::create([
+        return Member::createQuietly([
             'member_name' => trim($member['members_name'] ?? ''),
             'date_of_birth' => $this->parseDate($member['date_of_birth'] ?? null),
             'gender' => strtolower(trim($member['gender'] ?? '')),
