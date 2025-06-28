@@ -205,10 +205,6 @@ class ImportingController extends Controller
     protected function migrateComplain($newMemberId, $complain) {
         if(!$newMemberId) return;
         if(!$complain) return;
-        
-        Complain::create([
-            
-        ])
     }
     protected function migrateLetter($newMemberId, $letter) {
         if(!$newMemberId) return;
