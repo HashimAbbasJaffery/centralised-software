@@ -138,6 +138,9 @@ class ImportingController extends Controller
 
     protected function createMember($member, $registerMember, $card)
     {
+        if((isset($member["cnic_passport"]) && isset($card["cnic"])) && $member["cnic_passport"] != $card["cnic"]) {
+            $card = null;
+        }
         $cardType = CardType::where('card_name', trim($member['membership_type'] ?? ''))->first();
         return Member::create([
             'member_name' => trim($member['members_name'] ?? ''),
