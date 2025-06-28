@@ -83,15 +83,15 @@
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Email Address:</span> {{ $member->email_address }}</p>
       </div>
       <div v-if="tab === 'professional information'">
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Company Name:</span> {{ $member->profession->company_name }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Designation:</span> {{ $member->profession->designation }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Profession:</span> {{ $member->profession->type_of_profession }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Company Name:</span> {{ $member->profession?->company_name ?? "N/A" }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Designation:</span> {{ $member->profession?->designation ?? "N/A" }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Profession:</span> {{ $member->profession?->type_of_profession ?? "N/A" }}</p>
         @if($member->membership->card_name === "Corporate" || $member->membership->card_name === 'corporate')
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Office Address:</span> {{ $member->profession->office_address }}</p>
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Office Phone Number:</span> {{ $member->profession->office_phone_number }}</p>
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Country:</span> {{ $member->profession->country }}</p>
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City:</span> {{ $member->profession->city }}</p>
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Work Email:</span> {{ $member->profession->work_email }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Office Address:</span> {{ $member->profession?->office_address ?? "N/A" }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Office Phone Number:</span> {{ $member->profession?->office_phone_number ?? "N/A" }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Country:</span> {{ $member->profession?->country ?? "N/A" }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City:</span> {{ $member->profession?->city ?? "N/A" }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Work Email:</span> {{ $member->profession?->work_email ?? "N/A" }}</p>
         @endif
       </div>
       <div v-if="tab === 'membership information'">

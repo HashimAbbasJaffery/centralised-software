@@ -220,7 +220,7 @@ table {
           No Members found!
         </p>
       </div>
-      <div class="print-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
+      <div class="print-buttons" v-if="!is_fetching" style="display: flex; gap: 10px; margin-top: 20px;">
           <button @click="selectFront" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (front)</button>
           <button @click="selectBack" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (back)</button>
       </div>
@@ -260,7 +260,8 @@ table {
           is_fetching: true,
           child_checkbox: [],
           family: [],
-          checked_members: []
+          checked_members: [],
+          debounceTimer: null
         }
       },
       created() {
@@ -281,7 +282,12 @@ table {
       },
       watch: {
         search(newValue) {
-          this.getContent(route("api.member.index", { keyword: newValue }));
+          this.is_fetching = true;
+          clearTimeout(this.debounceTimer);
+          this.debounceTimer = setTimeout(() => {
+            console.log("test");
+            this.getContent(route("api.member.index", { keyword: newValue }));
+          }, 500);
         },
         parentCheckbox(newValue) {
           const child_checkboxes = document.querySelectorAll(".child-checkboxes");

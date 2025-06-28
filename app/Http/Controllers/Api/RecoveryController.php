@@ -42,8 +42,8 @@ class RecoveryController extends Controller
                     "payment_description" => $row["payment_description"],
                     "current_month_payable" => $this->denormalise($row["current_month_payable"]),
                     "late_payment_charges" => is_null($row["late_month_charges"]) ? null : $this->denormalise($row["late_month_charges"]),
-                    "payable" => $this->denormalise($row["payable"]),
-                    "paid" => $this->denormalise($row["paid"]),
+                    "payable" =>  $this->denormalise($row["payable"]),
+                    "paid" => $row["paid"] === null ? null : $this->denormalise($row["paid"]),
                     "due_amount" => $this->denormalise($row["due"]),
                     "due_b_f" => $this->denormalise($row["due_amount"]),
                     "main_balance" => $this->denormalise($row["balance"]),
@@ -62,17 +62,18 @@ class RecoveryController extends Controller
         $to_date = request()->to_date;
 
         $recovery = RecoverySheet::selectRaw("
-            month,
-            MONTH(month) AS month_num,
-            YEAR(month) AS year,
-            SUM(CAST(REPLACE(current_month_payable, ',', '') AS UNSIGNED)) AS total_current_month_payable,
-            SUM(CAST(REPLACE(payable, ',', '') AS UNSIGNED)) AS total_payable,
-            SUM(CAST(REPLACE(paid, ',', '') AS UNSIGNED)) AS total_paid
+        DATE_FORMAT(MIN(month), '%M %Y') AS month,
+        MONTH(month) AS month_num,
+        YEAR(month) AS year,
+        SUM(CAST(REPLACE(current_month_payable, ',', '') AS UNSIGNED)) AS total_current_month_payable,
+        SUM(CAST(REPLACE(payable, ',', '') AS UNSIGNED)) AS total_payable,
+        SUM(CAST(REPLACE(paid, ',', '') AS UNSIGNED)) AS total_paid
         ")
             ->whereBetween(DB::raw('DATE(month)'), [$from_date, $to_date])
-            ->groupByRaw('YEAR(month), MONTH(month), month')
+            ->groupByRaw('YEAR(month), MONTH(month)')
             ->orderByRaw('YEAR(month), MONTH(month)')
             ->get();
+
 
         $total_current_month_payable = $recovery->sum("total_current_month_payable");
         $total_paid = $recovery->sum("total_paid");

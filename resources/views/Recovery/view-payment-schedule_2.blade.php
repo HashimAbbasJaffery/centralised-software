@@ -249,25 +249,50 @@ const app = Vue.createApp({
             // if(row.late_month_charges) balance += parseInt(row.late_month_charges);
 
             // row.total_balance = balance;
-
+        
         const currentPayable = parseInt(row.current_month_payable) || 0;
 
         const lateCharges = parseInt(row.late_month_charges) || 0;
-        const paid = parseInt(row.paid) || 0;
+        const paid = parseInt(row.paid);
 
-        const currentPayableWithLate = currentPayable + lateCharges + lastDue;
+        const currentPayableWithLate = currentPayable + lateCharges + (lastDue < 0 ? 0 : lastDue);
         const dues = currentPayableWithLate - paid;
+        
+        if(!isNaN(paid)) {
+            row.due_amount = lastDue < 0 ? 0 : lastDue.toLocaleString('en-US');
+        } else {
+            row.due_amount = null;
+        }
 
-        row.due_amount = lastDue.toLocaleString('en-US');
-        row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
-        row.due = dues.toLocaleString('en-US');
-        row.balance = balance.toLocaleString('en-US');
-        row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
+        if(!isNaN(paid)) {
+            row.payable = currentPayableWithLate ? currentPayableWithLate.toLocaleString('en-US') : "";
+        } else {
+            row.payable = null;
+        }
 
-        if(yesterday) {
+        if(!isNaN(paid)) {
+            row.due = (dues < 0) ? 0 : dues.toLocaleString("en-US");
+        } else {
+            row.due = null;
+        }
+
+        if(!isNaN(paid)) {
+            row.balance = balance.toLocaleString('en-US');
+        } else {
+            row.balance = null;
+        }
+
+        if(!isNaN(paid)) {
+            row.total_balance = (balance - paid + lateCharges).toLocaleString('en-US');
+        } else {
+            row.total_balance = null;
+        }
+
+        if(!row.month && yesterday) {
             row.month = this.getNextMonth(yesterday);
         }
-        if(yesterdaysDueDate) {
+
+        if(!row.due_date && yesterdaysDueDate) {
             row.due_date = this.getNextMonth(yesterdaysDueDate);
         }
 

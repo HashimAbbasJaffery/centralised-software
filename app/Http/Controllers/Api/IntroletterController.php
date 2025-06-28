@@ -6,6 +6,7 @@ use App\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\IntroletterResource;
 use App\Models\Introletter;
+use App\Models\Member;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,6 @@ class IntroletterController extends Controller
     }
     public function index() {
     $keyword = str_replace(['%', '_'], ['\%', '\_'], request()->keyword);
-
     $introletters = Introletter::query()
                     ->where(function ($query) use ($keyword) {
                         $query->whereHas('member', function ($q) use ($keyword) {
