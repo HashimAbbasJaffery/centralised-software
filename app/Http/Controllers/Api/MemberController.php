@@ -30,7 +30,6 @@ class MemberController extends Controller
         return MemberResource::collection($member);
     }
     public function store(MemberRequest $request) {
-        return;
         $this->user->isAllowedToPerformAction("member:add");
 
         [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class)->clean($request);
