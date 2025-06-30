@@ -268,7 +268,7 @@
                   <div style="width: 33.33%;">
                     <label class="block text-sm" style="margin-bottom: 20px;">
                       <span class="text-gray-700 dark:text-gray-400">Picture</span>
-                      <input type="file" @change="spouse.profile_pic = $event.target.files[0]" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Blood Group">
+                      <input type="file" @change="spouse.picture = $event.target.files[0]" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_4 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Blood Group">
                     </label>
                   </div>
                 </div>
@@ -942,7 +942,7 @@ $member->children->map(function ($child) {
         fd.append(`spouses[${index}][date_of_issue]`, spouse.date_of_issue);
         fd.append(`spouses[${index}][validity]`, spouse.validity);
         fd.append(`spouses[${index}][blood_group]`, spouse.blood_group);
-        fd.append(`spouses[${index}][profile_pic]`, spouse.profile_pic);
+        fd.append(`spouses[${index}][profile_pic]`, spouse.picture);
       });
       this.children.forEach((child, index) => {
         fd.append(`children[${index}][name]`, child.childName);
