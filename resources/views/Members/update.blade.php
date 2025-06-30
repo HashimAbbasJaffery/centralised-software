@@ -986,6 +986,7 @@ $member->children->map(function ($child) {
 
     const childrenCard = await axios.get(route("api.card.child"));
     this.child_memberships = childrenCard.data.data;
+    console.log(this.spouses);
     
     const cardTypes = await axios.get(route("api.card.all"));
     this.cardTypes = cardTypes.data.data;
