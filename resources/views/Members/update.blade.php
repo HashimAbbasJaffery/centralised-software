@@ -981,7 +981,7 @@ $member->children->map(function ($child) {
     }
   },
   async mounted() {
-    console.log("test");
+    console.log("test")
     console.log(this.children);
     const response = await axios.get("https://countriesnow.space/api/v0.1/countries/");
     this.options = response.data.data;
