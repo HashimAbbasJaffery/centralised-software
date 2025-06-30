@@ -95,10 +95,9 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            Log::info($spouse);
-            $spouseModel = Spouse::find($spouse["id"]);
-            if($spouseModel->exists() && $spouseModel["picture"]) {
-                $fileName = $spouseModel["picture"];
+            Log::info(gettype($spouse["picture"]));
+            if($spouse["picture"]) {
+                $fileName = $spouse["picture"];
             } else {
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
@@ -118,9 +117,8 @@ class Member extends Model
         if(!count($children)) return;
         foreach($children as $child) {
             $directory = "uploads/children_pictures";
-            $childModel = Spouse::find($child["id"]);
-            if($childModel->exists() && $childModel["profile_pic"]) {
-                $fileName = $childModel["profile_pic"];
+            if($child["profile_pic"]) {
+                $fileName = $child["profile_pic"];
             } else {
                 $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $child["profile_pic"], $fileName);
