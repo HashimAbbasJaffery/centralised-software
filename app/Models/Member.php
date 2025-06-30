@@ -95,7 +95,7 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            if($spouse["picture"]) {
+            if(isset($spouse["picture"])) {
                 $fileName = $spouse["picture"];
             } else {
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
@@ -116,7 +116,7 @@ class Member extends Model
         if(!count($children)) return;
         foreach($children as $child) {
             $directory = "uploads/children_pictures";
-            if($child["profile_pic"]) {
+            if(isset($child["profile_pic"])) {
                 $fileName = $child["profile_pic"];
             } else {
                 $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
