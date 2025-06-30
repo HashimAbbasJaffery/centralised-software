@@ -73,7 +73,6 @@ class MemberController extends Controller
 
         $filePath = $member->profile_picture;
         if(request()->hasFile("profile_picture")) {
-            return "test";
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
         }
 
