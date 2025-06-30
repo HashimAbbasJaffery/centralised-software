@@ -38,6 +38,7 @@ class MemberController extends Controller
         if(request()->hasFile("profile_picture")) {
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
         }
+        return;
         
         DB::transaction(function() use($request, $phone_numbers, $filePath, $spouses, $children){
 
