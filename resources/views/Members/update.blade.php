@@ -677,8 +677,8 @@ new Vue({
     
     options: [],
     cities: [],
-    selectedCountry: "",
-    selectedCity: "",
+    selectedCountry: "{{ $member->country }}",
+    selectedCity: "{{ $member->city }}",
     offset: 0,
     limit: 10,
     search: "",
