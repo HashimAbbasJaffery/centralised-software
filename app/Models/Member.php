@@ -95,6 +95,7 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
+            return $spouse;
             if($spouse["picture"]) {
                 $fileName = $spouse["picture"];
             } else {
