@@ -34,7 +34,7 @@ class CleanMemberRequest
         });
 
         $spouses = collect($spouses)->filter(function ($spouse) {
-            $excludeKeys = ['picture'];  // allow null in these keys
+            $excludeKeys = ['profile_pic'];  // allow null in these keys
 
             foreach ($spouse as $key => $value) {
                 if (in_array($key, $excludeKeys, true)) {

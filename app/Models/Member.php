@@ -97,7 +97,6 @@ class Member extends Model
             $directory = "uploads/spouses_picture";
 
             // If user doesn't submit via input file, it will add the previous data from the database
-            Log::info($spouse);
             if(gettype($spouse["profile_pic"]) !== "object" && $spouse["profile_pic"]) {
                 // It will only work while updating data
                 $fileName = $spouse["profile_pic"];
