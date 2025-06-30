@@ -95,6 +95,7 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
+            Log::info($spouse);
             $spouseModel = Spouse::find($spouse["id"]);
             if($spouseModel->exists() && $spouseModel["picture"]) {
                 $fileName = $spouseModel["picture"];
