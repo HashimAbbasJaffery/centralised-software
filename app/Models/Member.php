@@ -95,7 +95,8 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            if(isset($spouse["picture"])) {
+            Log::info($spouses);
+            if($spouse["picture"]) {
                 $fileName = $spouse["picture"];
             } else {
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
