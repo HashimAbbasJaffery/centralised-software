@@ -945,7 +945,6 @@ $member->children->map(function ($child) {
         fd.append(`spouses[${index}][profile_pic]`, spouse.profile_pic);
       });
 
-      console.log(this.children);
       this.children.forEach((child, index) => {
         fd.append(`children[${index}][name]`, child.childName);
         fd.append(`children[${index}][cnic]`, child.cnic);
@@ -982,6 +981,7 @@ $member->children->map(function ($child) {
     }
   },
   async mounted() {
+    console.log(this.children);
     const response = await axios.get("https://countriesnow.space/api/v0.1/countries/");
     this.options = response.data.data;
 
