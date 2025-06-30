@@ -6,6 +6,7 @@ use App\Http\Requests\MemberRequest;
 use App\Jobs\CreateFamilySheet;
 use App\Jobs\SaveInGoogleDrive;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -96,15 +97,19 @@ class Member extends Model
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
 
-            // If user doesn't submit via input file, it will add the previous data from the database
-            if(gettype($spouse["profile_pic"]) === "string" && $spouse["profile_pic"]) {
-                // It will only work while updating data
-                $fileName = $spouse["profile_pic"];
-            } else if(gettype($spouse["profile_pic"]) === "object"){
+           
+            if ($spouse["profile_pic"] instanceof UploadedFile) {
+                // New file was uploaded
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
                 $fileName = $directory . "/" . $fileName;
-            } else {
+            }
+            elseif (is_string($spouse["profile_pic"]) && !empty($spouse["profile_pic"])) {
+                // Existing DB value
+                $fileName = $spouse["profile_pic"];
+            }
+            else {
+                // Fallback default
                 $fileName = "profile_pictures/default-user.png";
             }
             $this->spouses()->create([

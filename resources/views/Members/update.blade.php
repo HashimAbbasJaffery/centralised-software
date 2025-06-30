@@ -968,8 +968,6 @@ $member->children->map(function ($child) {
           }
         });
 
-        console.log(response.data);
-        return;
         if (response.data.status === "200") {
           window.location = route("member.manage");
         }
