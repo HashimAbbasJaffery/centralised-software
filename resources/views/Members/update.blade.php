@@ -945,8 +945,8 @@ $member->children->map(function ($child) {
         fd.append(`spouses[${index}][profile_pic]`, spouse.profile_pic);
       });
 
+      console.log(children);
       this.children.forEach((child, index) => {
-        console.log(child);
         fd.append(`children[${index}][name]`, child.childName);
         fd.append(`children[${index}][cnic]`, child.cnic);
         fd.append(`children[${index}][date_of_birth]`, child.dob);
