@@ -37,6 +37,7 @@
           <!-- Remove everything INSIDE this div to a really blank page -->
 
           <div class="container px-6 mx-auto grid">
+            <pre v-text="membership_number"></pre>
             <h2
               class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
             >
@@ -665,7 +666,6 @@
               </div>
             </div>
           </div>
-
         </main>
 <script>
 Vue.component('v-select', VueSelect.VueSelect);
@@ -934,7 +934,6 @@ $member->children->map(function ($child) {
       fd.append("work_email", this.work_email);
       fd.append("office_address", this.office_address);
       fd.append("_method", "PUT");
-      console.log(this.spouses);
       this.spouses.forEach((spouse, index) => {
         fd.append(`spouses[${index}][name]`, spouse.name);
         fd.append(`spouses[${index}][cnic]`, spouse.cnic);
