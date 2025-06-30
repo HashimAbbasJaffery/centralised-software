@@ -100,7 +100,7 @@ class Member extends Model
             if(gettype($spouse["profile_pic"]) !== "object") {
                 $fileName = $spouse["profile_pic"];
             } else {
-                $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
+                $fileName = $directory . "/" . $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
             }
             $this->spouses()->create([
@@ -110,7 +110,7 @@ class Member extends Model
                 "date_of_issue" => $spouse["date_of_issue"],
                 "validity" => $spouse["validity"],
                 "blood_group" => $spouse["blood_group"],
-                "picture" => $directory . "/" . $fileName
+                "picture" => $fileName
             ]);
         }
     }
@@ -121,7 +121,7 @@ class Member extends Model
             if(gettype($child["profile_pic"]) !== "object") {
                 $fileName = $child["profile_pic"];
             } else {
-                $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
+                $fileName = $directory . "/" . $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $child["profile_pic"], $fileName);
             }
             $this->children()->create([
@@ -131,7 +131,7 @@ class Member extends Model
                 "date_of_issue" => $child["date_of_issue"],
                 "validity" => $child["validity"],
                 "blood_group" => $child["blood_group"],
-                "profile_pic" => $directory ."/" . $fileName,
+                "profile_pic" => $fileName,
                 "membership_id" => $child["card_id"]
             ]);
         }
