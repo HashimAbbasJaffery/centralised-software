@@ -176,7 +176,7 @@
                 <div style="width: 50%;">
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400">Membership Type</span>
-                    <select v-model="membership_type" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                    <select v-model.number="membership_type" data-message="membership_type_field_message" class="step_3 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                       <option v-for="cardType in cardTypes" :value="cardType.id" v-text="cardType.card_name"></option>
                     </select>
                     <span style="display: none;" class="membership_type_field_message step_3_message text-xs text-red-600 dark:text-red-400">
