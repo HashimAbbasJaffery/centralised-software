@@ -34,6 +34,8 @@ class MemberController extends Controller
 
         [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class)->clean($request);
 
+        Log::info($spouses);
+
         $filePath = "profile_pictures/default-user.png";
         if(request()->hasFile("profile_picture")) {
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
