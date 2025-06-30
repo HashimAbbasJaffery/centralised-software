@@ -95,8 +95,8 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            if($spouse["picture"]) {
-                $fileName = $spouse["picture"];
+            if($spouse["profile_pic"]) {
+                $fileName = $spouse["profile_pic"];
             } else {
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
