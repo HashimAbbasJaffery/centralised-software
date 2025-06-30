@@ -97,10 +97,10 @@ class Member extends Model
             $directory = "uploads/spouses_picture";
 
             // If user doesn't submit via input file, it will add the previous data from the database
-            if(gettype($spouse["profile_pic"]) !== "object" && $spouse["profile_pic"]) {
+            if(gettype($spouse["profile_pic"]) === "string" && $spouse["profile_pic"]) {
                 // It will only work while updating data
                 $fileName = $spouse["profile_pic"];
-            } else if(gettype($spouse["profile_pic"]) === "string"){
+            } else if(gettype($spouse["profile_pic"]) === "object"){
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
                 $fileName = $directory . "/" . $fileName;
@@ -124,9 +124,9 @@ class Member extends Model
         foreach($children as $child) {
             Log::info($children);
             $directory = "uploads/children_pictures";
-            if(gettype($child["profile_pic"]) !== "object" && $child["profile_pic"]) {
+            if(gettype($child["profile_pic"]) === "string" && $child["profile_pic"]) {
                 $fileName = $child["profile_pic"];
-            } else if(gettype($child["profile_pic"]) === "string"){
+            } else if(gettype($child["profile_pic"]) === "object"){
                 $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $child["profile_pic"], $fileName);
                 $fileName = $directory . "/" . $fileName;
