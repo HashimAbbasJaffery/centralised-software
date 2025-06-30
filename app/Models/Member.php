@@ -95,7 +95,6 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            Log::info($spouses);
             if($spouse["picture"]) {
                 $fileName = $spouse["picture"];
             } else {
@@ -109,7 +108,7 @@ class Member extends Model
                 "date_of_issue" => $spouse["date_of_issue"],
                 "validity" => $spouse["validity"],
                 "blood_group" => $spouse["blood_group"],
-                "picture" => $directory . "/" . $fileName
+                "picture" => $spouse["picture"] ? $fileName : $directory . "/" . $fileName
             ]);
         }
     }
@@ -130,7 +129,7 @@ class Member extends Model
                 "date_of_issue" => $child["date_of_issue"],
                 "validity" => $child["validity"],
                 "blood_group" => $child["blood_group"],
-                "profile_pic" => $directory ."/" . $fileName,
+                "profile_pic" => $child["profile_pic"] ? $child["profile_pic"] : $directory ."/" . $fileName,
                 "membership_id" => $child["card_id"]
             ]);
         }
