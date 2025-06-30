@@ -100,8 +100,9 @@ class Member extends Model
             if(gettype($spouse["profile_pic"]) !== "object") {
                 $fileName = $spouse["profile_pic"];
             } else {
-                $fileName = $directory . "/" . $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
+                $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
+                $fileName = $directory . "/" . $fileName;
             }
             $this->spouses()->create([
                 "spouse_name" => $spouse["name"],
@@ -122,8 +123,9 @@ class Member extends Model
             if(gettype($child["profile_pic"]) !== "object") {
                 $fileName = $child["profile_pic"];
             } else {
-                $fileName = $directory . "/" . $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
+                $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
                 Storage::disk("public")->putFileAs($directory, $child["profile_pic"], $fileName);
+                $fileName = $directory . "/" . $fileName;
             }
             $this->children()->create([
                 "child_name" => $child["name"],
