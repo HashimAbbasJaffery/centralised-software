@@ -117,6 +117,7 @@ class Member extends Model
     public function attachChildren($children) {
         if(!count($children)) return;
         foreach($children as $child) {
+            Log::info($children);
             $directory = "uploads/children_pictures";
             if(gettype($child["profile_pic"]) !== "object") {
                 $fileName = $child["profile_pic"];
