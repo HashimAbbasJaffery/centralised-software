@@ -84,10 +84,10 @@ class ImportingController extends Controller
             Member::query()->forceDelete();
 
             // Load CSV data
-            $membersData = $this->getFileData("members_2.csv");
+            $membersData = $this->getFileData("introletter_2.csv");
             $registerMembers = $this->getFileData("register_member.csv");
             $recoverySheets = $this->getFileData("recovery.csv");
-            $membershipCards = $this->getFileData("membership_cards.csv");
+            $membershipCards = $this->getFileData("cards.csv");
             $introletters = $this->getFileData("customer.csv");
             $complains = $this->getFileData("complains.csv");
 
@@ -158,6 +158,21 @@ class ImportingController extends Controller
         return response()->json(['message' => 'Migration completed successfully']);
     }
 
+    protected function normalizePhone($phoneNumber, $countryCode = '92')
+    {
+        $phoneNumber = str_replace('-', '', $phoneNumber);
+
+        // Remove country code prefix if present
+        $pattern = '/^' . preg_quote($countryCode) . '/';
+        $phoneNumber = preg_replace($pattern, '', $phoneNumber);
+
+        // Remove leading zero if length is 11
+        if (strlen($phoneNumber) == 11) {
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+
+        return $phoneNumber;
+    }
     protected function createMember($member, $registerMember, $card)
     {
         if((isset($member["cnic_passport"]) && isset($card["cnic"])) && $member["cnic_passport"] != $card["cnic"]) {
@@ -170,11 +185,11 @@ class ImportingController extends Controller
             'gender' => strtolower(trim($member['gender'] ?? '')),
             'marital_status' => trim($member['martial_status'] ?? ''),
             'cnic_passport' => trim($member['cnic_passport'] ?? ''),
-            'phone_number' => trim($member['phone_number'] ?? ''),
+            'phone_number' => trim($this->normalizePhone($member["phone_number"], $member["country_code"])),
             'phone_number_code' => trim($member['country_code'] ?? ''),
             'recovery_phone_number' => $registerMember['phone_1'] ?? '',
-            'alternate_ph_number' => $registerMember['phone_2'] ?? '',
-            'alternate_ph_number_code' => '3323743375', // Default as in your original
+            'alternate_ph_number' => trim($this->normalizePhone($registerMember["phone_2"] ?? "")) ?? '',
+            'alternate_ph_number_code' => "92", // Default as in your original
             'email_address' => trim($member['email_address'] ?? ''),
             'residential_address' => trim($member['residential_address'] ?? ''),
             'city_country' => trim($member['city_country'] ?? ''),
@@ -190,7 +205,7 @@ class ImportingController extends Controller
             'installment_month' => $registerMember['plan_month'] ?? 0,
             'payment_status' => $this->getLevels($registerMember['status'] ?? null),
             'blood_group' => $card['blood_group'] ?? 'AB+',
-            'emergency_contact' => $card['emergency_no'] ?? '',
+            'emergency_contact' => trim($this->normalizePhone($card["emergency_no"] ?? "")),
             'emergency_contact_code' => '92',
             'profile_picture' => $this->getProfilePicturePath($card),
             'card_type' => $card['members_type'] ?? 'Cleared',

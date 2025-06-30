@@ -95,8 +95,12 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
-            Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
+            if($spouse["picture"]) {
+                $fileName = $spouse["picture"];
+            } else {
+                $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
+                Storage::disk("public")->putFileAs($directory, $spouse["profile_pic"], $fileName);
+            }
             $this->spouses()->create([
                 "spouse_name" => $spouse["name"],
                 "cnic" => $spouse["cnic"],
@@ -112,8 +116,12 @@ class Member extends Model
         if(!count($children)) return;
         foreach($children as $child) {
             $directory = "uploads/children_pictures";
-            $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
-            Storage::disk("public")->putFileAs($directory, $child["profile_pic"], $fileName);
+            if($child["profile_pic"]) {
+                $fileName = $child["profile_pic"];
+            } else {
+                $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
+                Storage::disk("public")->putFileAs($directory, $child["profile_pic"], $fileName);
+            }
             $this->children()->create([
                 "child_name" => $child["name"],
                 "date_of_birth" => $child["date_of_birth"],

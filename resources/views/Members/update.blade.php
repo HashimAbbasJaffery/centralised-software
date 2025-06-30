@@ -290,7 +290,7 @@
                 <div style="width: 100%; display: flex; column-gap: 10px;">
                     <div style="width: 50%;">
                         <label class="block text-sm" style="margin-bottom: 20px;">
-                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`${numberToOrdinal(child.id)} child`"></span>
+                            <span class="text-gray-700 dark:text-gray-400" style="text-transform: capitalize;" v-text="`${numberToOrdinal(index + 1)} child`"></span>
                             <input v-model="child.childName" type="text" style="width: 100% !important; margin-top: 4px !important;" data-message="email_message" class="optional step_5 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" :placeholder="`${numberToOrdinal(child.id)} child`">
                         </label>
                     </div>
@@ -693,12 +693,12 @@ new Vue({
     gender: "{{ $member->gender }}",
     marital_status: "{{ $member->marital_status }}",
 
-    phone: "{{ $member->phone_number }}",
-    alt_phone_number: "{{ $member->alternate_ph_number }}",
+    phone: "{{ $member->phone_number_code . str_replace('+', '', $member->phone_number) }}",
+    alt_phone_number: "{{ $member->alternate_ph_number_code . str_replace('+', '', $member->alternate_ph_number) }}",
     email: "{{ $member->email_address }}",
     residential_address: "{{ $member->residential_address }}",
     city_country: "{{ $member->city_country }}",
-    phone_number_code: "{{ $member->phone_number_code }}",
+    phone_number_code: "{{ $member->alternate_ph_number_code }}",
     alt_phone_number_code: "{{ $member->alternate_ph_number_code }}",
 
     membership_type: "{{ $member->membership->id }}",
@@ -735,7 +735,7 @@ $member->children->map(function ($child) {
     payment_status: "{{ $member->payment_status }}",
 
     blood_group: "{{ $member->blood_group }}",
-    emergency_contact: "{{ $member->emergency_contact }}",
+    emergency_contact: "{{ $member->emergency_contact_code . str_replace('+', '', $member->emergency_contact) }}",
 
     card_type: "{{ $member->card_type }}",
 
@@ -969,6 +969,7 @@ $member->children->map(function ($child) {
           }
         });
 
+        console.log(response.data);
         if (response.data.status === "200") {
           window.location = route("member.manage");
         }
@@ -985,7 +986,7 @@ $member->children->map(function ($child) {
 
     const childrenCard = await axios.get(route("api.card.child"));
     this.child_memberships = childrenCard.data.data;
-
+    
     const cardTypes = await axios.get(route("api.card.all"));
     this.cardTypes = cardTypes.data.data;
     this.membership_with_extra_details = this.cardTypes.find(ct => ct.card_name.toLowerCase() === 'corporate')?.id ?? null;

@@ -77,9 +77,9 @@
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Blood Group:</span> <span style="text-transform: uppercase;">{{ $member->blood_group }}</span></p>
       </div>
       <div v-if="tab === 'contact information'">
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Phone Number:</span> {{ $member->phone_number }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> {{ $member->alternate_ph_number }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span> {{ $member->emergency_contact }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Phone Number:</span> {{ str_replace("+", $member->phone_number_code, $member->phone_number) }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> {{ str_replace("+", $member->alternate_ph_number_code, $member->alternate_ph_number) }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span> {{ str_replace("+", $member->emergency_contact_code, $member->emergency_contact) }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Email Address:</span> {{ $member->email_address }}</p>
       </div>
       <div v-if="tab === 'professional information'">

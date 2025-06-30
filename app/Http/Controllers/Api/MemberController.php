@@ -73,6 +73,7 @@ class MemberController extends Controller
 
         $filePath = $member->profile_picture;
         if(request()->hasFile("profile_picture")) {
+            return "test";
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
         }
 
@@ -88,7 +89,6 @@ class MemberController extends Controller
             "emergency_contact" => $phone_numbers[2]->phoneNumber,
             "emergency_contact_code" => $phone_numbers[2]->countryCode,
         ];
-
         DB::transaction(function() use ($data, $request, $spouses, $children, $member) {
             $member->update($data);
             $member->attachProfession($request);
