@@ -12,6 +12,7 @@ use App\Preprocess\CleanMemberRequest;
 use App\Service\UserService;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class MemberController extends Controller
@@ -69,13 +70,13 @@ class MemberController extends Controller
         return $this->apiResponse->success("Member has been deleted!");
     }
     public function update(MemberRequest $request, Member $member) {
+        Log::info($request);
         [$children, $spouses, $phone_numbers] = app(CleanMemberRequest::class)->clean($request);
 
         $filePath = $member->profile_picture;
         if(request()->hasFile("profile_picture")) {
             $filePath = $this->imageService->upload(request()->file("profile_picture"));
         }
-        Log::info($spouses);
         $data = [
             ...$request->validated(),
             "city" => $request->member_city,
