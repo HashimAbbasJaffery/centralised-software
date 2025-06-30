@@ -95,7 +95,9 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            if($spouse["profile_pic"]) {
+
+            // If user doesn't submit via input file, it will add the previous data from the database
+            if(gettype($spouse["profile_pic"]) !== "object") {
                 $fileName = $spouse["profile_pic"];
             } else {
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
@@ -116,8 +118,7 @@ class Member extends Model
         if(!count($children)) return;
         foreach($children as $child) {
             $directory = "uploads/children_pictures";
-            Log::info(gettype($child["profile_pic"]));
-            if($child["profile_pic"]) {
+            if(gettype($child["profile_pic"]) !== "object") {
                 $fileName = $child["profile_pic"];
             } else {
                 $fileName = $child["name"] . "_" . time() . "." . $child["profile_pic"]->extension();
