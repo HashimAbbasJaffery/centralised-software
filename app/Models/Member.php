@@ -95,7 +95,7 @@ class Member extends Model
         if(!count($spouses)) return;
         foreach($spouses as $spouse) {
             $directory = "uploads/spouses_picture";
-            if($spouse["profile_pic"]) {
+            if($spouse["picture"]) {
                 $fileName = $spouse["picture"];
             } else {
                 $fileName = $spouse["name"] . "_" . time() . "." . $spouse["profile_pic"]->extension();
@@ -108,7 +108,7 @@ class Member extends Model
                 "date_of_issue" => $spouse["date_of_issue"],
                 "validity" => $spouse["validity"],
                 "blood_group" => $spouse["blood_group"],
-                "picture" => $spouse["picture"] ? $fileName : $directory . "/" . $fileName
+                "picture" => $directory . "/" . $fileName
             ]);
         }
     }
@@ -129,7 +129,7 @@ class Member extends Model
                 "date_of_issue" => $child["date_of_issue"],
                 "validity" => $child["validity"],
                 "blood_group" => $child["blood_group"],
-                "profile_pic" => $child["profile_pic"] ? $child["profile_pic"] : $directory ."/" . $fileName,
+                "profile_pic" => $directory ."/" . $fileName,
                 "membership_id" => $child["card_id"]
             ]);
         }
