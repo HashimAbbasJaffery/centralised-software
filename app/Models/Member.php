@@ -106,6 +106,7 @@ class Member extends Model
                 $fileName = $directory . "/" . $fileName;
             } else {
                 $fileName = "profile_pictures/default-user.png";
+                Log::info("Reading elsge");
             }
             $this->spouses()->create([
                 "spouse_name" => $spouse["name"],

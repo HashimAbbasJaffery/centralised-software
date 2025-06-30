@@ -934,8 +934,7 @@ $member->children->map(function ($child) {
       fd.append("work_email", this.work_email);
       fd.append("office_address", this.office_address);
       fd.append("_method", "PUT");
-      console.log(this.spouses);
-
+    
       this.spouses.forEach((spouse, index) => {
         fd.append(`spouses[${index}][name]`, spouse.name);
         fd.append(`spouses[${index}][cnic]`, spouse.cnic);
@@ -970,7 +969,6 @@ $member->children->map(function ($child) {
         });
 
         console.log(response.data);
-        return;
         if (response.data.status === "200") {
           window.location = route("member.manage");
         }
