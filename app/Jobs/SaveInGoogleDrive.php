@@ -71,7 +71,7 @@ foreach($vals as $val) {
         $val->marital_status,
         $val->cnic_passport,
         str_replace("+", "", $val->phone_number),
-        $val->alternate_ph_number,
+        str_replace("+", "", $val->alternate_ph_number),
         $val->email_address,
         $val->residential_address,
         $val->city_country,
