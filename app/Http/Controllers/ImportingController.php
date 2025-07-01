@@ -141,6 +141,9 @@ class ImportingController extends Controller
 
                     // Migrate recovery sheets
                     if ($registerMember) {
+                        if($member["membership_no"] === "280C-1") {
+                            Log::info($recoverySheets);
+                        }
                         $this->migrateRecoverySheets(
                             $registerMember['id'],
                             $recoverySheets,
