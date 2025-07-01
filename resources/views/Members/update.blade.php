@@ -111,7 +111,7 @@
                   <label class="block text-sm" style="margin-bottom: 20px;">
                     <span class="text-gray-700 dark:text-gray-400" style="margin-bottom: 20px;">Phone</span>
                     <br>
-                    <input type="text" v-model="phone_numbers[0].countryCode" />
+                    <input type="hidden" v-model="phone_numbers[0].countryCode" />
                     <input type="hidden" v-model="phone_numbers[0].phoneNumber"/>
                     <input style="width: 100% !important; margin-top: 4px !important;" v-model="phone" data-index="0" data-message="phone_field_message" class="phone step_2 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Phone Number">
                     <span style="display: none;" class="phone_field_message text-xs text-red-600 dark:text-red-400">
@@ -692,7 +692,7 @@ new Vue({
     gender: "{{ $member->gender }}",
     marital_status: "{{ $member->marital_status }}",
 
-    phone: "{{ $member->phone_number_code . str_replace('+', '', $member->phone_number) }}",
+    phone: "{{ '+' . $member->phone_number_code . str_replace('+', '', $member->phone_number) }}",
     alt_phone_number: "{{ $member->alternate_ph_number_code . str_replace('+', '', $member->alternate_ph_number) }}",
     email: "{{ $member->email_address }}",
     residential_address: "{{ $member->residential_address }}",
