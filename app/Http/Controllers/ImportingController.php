@@ -91,10 +91,13 @@ class ImportingController extends Controller
             $membershipCards = $this->getFileData("cards.csv");
             $introletters = $this->getFileData("customer.csv");
             $complains = $this->getFileData("complains.csv");
+            $lockers = $this->getFileData("lockers.csv");
 
             foreach ($membersData as $member) {
                 try {
-                    // Find related records
+                    $membersLocker = collect($lockers)
+                                        ->firstWhere("File number", $member["file_no"]);
+                   // Find related records
                     $registerMember = collect($registerMembers)
                         ->firstWhere('membership_number', $member['membership_no']);
                     
@@ -128,7 +131,7 @@ class ImportingController extends Controller
                                     });
 
                     // Process main member data
-                    $newMember = $this->createMember($member, $registerMember, $card);
+                    $newMember = $this->createMember($member, $registerMember, $card, $membersLocker);
 
                     
                     // Migrate children
@@ -177,7 +180,7 @@ class ImportingController extends Controller
 
         return $phoneNumber;
     }
-    protected function createMember($member, $registerMember, $card)
+    protected function createMember($member, $registerMember, $card, $locker)
     {
         if((isset($member["cnic_passport"]) && isset($card["cnic"])) && $member["cnic_passport"] != $card["cnic"]) {
             $card = null;
@@ -216,8 +219,8 @@ class ImportingController extends Controller
             'date_of_issue' => $this->parseDate($card['date_of_issue'] ?? null) ?? now(),
             'validity' => $this->parseDate($card['validity'] ?? null) ?? now()->addYears(4),
             'has_receipt_created' => 0,
-            'locker_category' => 'a',
-            'locker_number' => '12',
+            'locker_category' => $locker["Locker Categary"] ?? "-",
+            'locker_number' => $locker["Locker Number"] ?? "-",
             'user_token' => Str::uuid(),
             'created_at' => now(),
             'updated_at' => now(),
