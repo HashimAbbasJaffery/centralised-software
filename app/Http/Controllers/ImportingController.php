@@ -250,6 +250,7 @@ class ImportingController extends Controller
         if(!$complain) return;
     }
     protected function migrateLetter($newMemberId, $letter) {
+        return;
         if(!$newMemberId) return;
         if(!$letter) return;
 
