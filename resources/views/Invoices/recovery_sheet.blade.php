@@ -274,7 +274,9 @@ table, tfoot td{
 				<td style="width:10%;">{{ \Carbon\Carbon::parse($row->due_date)->format("d M y") }}</td>
 				<td style="width:11%;">{{ $row->payment_description }}</td>
 				<td style="width:9%;" class="text-right" style="text-align: right;">
-					{{ is_null($row->current_month_payable) ? "" : number_format($row->current_month_payable) }}
+					@if(!is_null($row->paid))
+						{{ is_null($row->current_month_payable) ? "" : number_format($row->current_month_payable) }}
+					@endif
 				</td>
 				<td style="width:12%;" class="text-right" style="text-align: right;">
 					@if(!is_null($row->paid))
