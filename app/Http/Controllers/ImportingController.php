@@ -68,9 +68,9 @@ class ImportingController extends Controller
         }
     }
 
-    public function cleanNumber($value) 
+    public function cleanNumber($value, $nullable = false) 
     {
-        if(!$value) return null;
+        if(!$value && $nullable) return null;
         if (is_numeric($value)) return (int)$value;
         return (int)str_replace([',', ' '], '', $value ?? null);
     }
@@ -345,7 +345,7 @@ class ImportingController extends Controller
                 'current_month_payable' => $this->cleanNumber($sheet['current_month_payable'] ?? 0),
                 'late_payment_charges' => $this->cleanNumber($sheet['late_payment_charges'] ?? 0),
                 'payable' => $this->cleanNumber($sheet['payable'] ?? 0),
-                'paid' => $this->cleanNumber($sheet['paid']) ?? null,
+                'paid' => $this->cleanNumber($sheet['paid'], true) ?? null,
                 'due_amount' => $this->cleanNumber($sheet['due_amount'] ?? 0),
                 'due_b_f' => $this->cleanNumber($sheet['due_b_f'] ?? 0),
                 'main_balance' => $this->cleanNumber($sheet['main_balance'] ?? 0),
