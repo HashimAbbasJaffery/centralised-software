@@ -986,7 +986,7 @@ $member->children->map(function ($child) {
     const cardTypes = await axios.get(route("api.card.all"));
     this.cardTypes = cardTypes.data.data;
     this.membership_with_extra_details = this.cardTypes.find(ct => ct.card_name.toLowerCase() === 'corporate')?.id ?? null;
-    this.membership_type = this.cardTypes[0].id;
+    // this.membership_type = this.cardTypes[0].id;
 
     this.steps = document.querySelectorAll(".step-form");
     this.total_steps = this.steps.length;

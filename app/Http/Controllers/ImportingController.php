@@ -208,7 +208,7 @@ class ImportingController extends Controller
             'emergency_contact' => trim($this->normalizePhone($card["emergency_no"] ?? "")),
             'emergency_contact_code' => '92',
             'profile_picture' => $this->getProfilePicturePath($card),
-            'card_type' => $card['members_type'] ?? 'Cleared',
+            'card_type' => $card['members_type'] ?? 'cleared',
             'date_of_issue' => $this->parseDate($card['date_of_issue'] ?? null) ?? now(),
             'validity' => $this->parseDate($card['validity'] ?? null) ?? now()->addYears(4),
             'has_receipt_created' => 0,
