@@ -267,7 +267,7 @@ table, tfoot td{
 		
                 <td style="width:10%;">{{ \Carbon\Carbon::parse($row->month)->format("M, Y") }}</td>
 			    <td style="width:10%;" class="text-right" style="text-align: right;">
-					@if(!is_null($row->late_payment_charges))
+					@if(!is_null($row->late_payment_charges) && !is_null($row->paid))
 						{{ number_format($row->due_b_f) }}
 					@endif
 				</td>
