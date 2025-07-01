@@ -693,7 +693,7 @@ new Vue({
     marital_status: "{{ $member->marital_status }}",
 
     phone: "{{ '+' . $member->phone_number_code . str_replace('+', '', $member->phone_number) }}",
-    alt_phone_number: "{{ $member->alternate_ph_number_code . str_replace('+', '', $member->alternate_ph_number) }}",
+    alt_phone_number: "{{ '+' . $member->alternate_ph_number_code . str_replace('+', '', $member->alternate_ph_number) }}",
     email: "{{ $member->email_address }}",
     residential_address: "{{ $member->residential_address }}",
     city_country: "{{ $member->city_country }}",
