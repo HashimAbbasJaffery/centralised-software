@@ -649,7 +649,7 @@
               <div class="steps">
                 <ol class="items-center w-full space-y-4 sm:flex sm:space-x-8 sm:space-y-0 rtl:space-x-reverse" style="display: flex; gap: 20px;">
                     <li v-for="step in total_steps" @click="current_step = step" style="cursor: pointer;" class="flex items-center text-blue-600 dark:text-blue-500 space-x-2.5 rtl:space-x-reverse">
-                        <span v-text="step" style="" :class="{ 'active': step <= current_step }" class="points flex items-center justify-center w-8 h-8 border border-blue-600 rounded-full shrink-0 dark:border-blue-500"></span>
+                        <span v-text="step" style="" :class="{ 'active': step < current_step }" class="points flex items-center justify-center w-8 h-8 border border-blue-600 rounded-full shrink-0 dark:border-blue-500"></span>
                     </li>
                 </ol>
               </div>
