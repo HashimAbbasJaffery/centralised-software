@@ -276,7 +276,11 @@ table, tfoot td{
 				<td style="width:9%;" class="text-right" style="text-align: right;">
 					{{ is_null($row->current_month_payable) ? "" : number_format($row->current_month_payable) }}
 				</td>
-				<td style="width:12%;" class="text-right" style="text-align: right;">{{ is_null($row->late_payment_charges) ? "" : number_format($row->late_payment_charges) }}</td>
+				<td style="width:12%;" class="text-right" style="text-align: right;">
+					@if(!is_null($row->paid))
+						{{ is_null($row->late_payment_charges) ? "" : number_format($row->late_payment_charges) }}
+					@endif
+				</td>
 				<td style="width:10%;" style="text-align: right" class="text-right">
 					@if(!is_null($row->late_payment_charges) && !is_null($row->paid))
 						{{ is_null($row->payable) ? "" : number_format($row->payable) }}
