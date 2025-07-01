@@ -284,7 +284,7 @@ table, tfoot td{
 				</td>
 				<td style="width:10%;" class="text-right">{{ is_null($row->paid) ? "" : number_format($row->paid) }}</td>
 				<td style="width:10%;" style="text-align: right;" class="text-right">
-					@if(!is_null($row->late_payment_charges))
+					@if(!is_null($row->late_payment_charges) && !is_null($row->paid))
 						{{ number_format($row->due_amount) }}
 					@endif
 				</td>
