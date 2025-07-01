@@ -70,7 +70,7 @@ foreach($vals as $val) {
         $val->gender,
         $val->marital_status,
         $val->cnic_passport,
-        $val->phone_number,
+        str_replace("+", "", $val->phone_number),
         $val->alternate_ph_number,
         $val->email_address,
         $val->residential_address,
