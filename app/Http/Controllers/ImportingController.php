@@ -70,8 +70,7 @@ class ImportingController extends Controller
 
     public function cleanNumber($value, $nullable = false) 
     {
-        Log::info($value);
-        if(is_null($value) && $nullable) return null;
+        if(is_null($value) && $nullable) return "";
         if (is_numeric($value)) return (int)$value;
         return (int)str_replace([',', ' '], '', $value ?? null);
     }
