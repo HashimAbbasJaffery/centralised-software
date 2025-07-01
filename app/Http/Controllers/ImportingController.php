@@ -71,7 +71,7 @@ class ImportingController extends Controller
     public function cleanNumber($value) 
     {
         if (is_numeric($value)) return (int)$value;
-        return (int)str_replace([',', ' '], '', $value ?? '0');
+        return (int)str_replace([',', ' '], '', $value ?? null);
     }
 
     public function import() 
