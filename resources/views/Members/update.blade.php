@@ -734,7 +734,7 @@ $member->children->map(function ($child) {
     payment_status: "{{ $member->payment_status }}",
 
     blood_group: "{{ $member->blood_group }}",
-    emergency_contact: "{{ $member->emergency_contact_code . str_replace('+', '', $member->emergency_contact) }}",
+    emergency_contact: "{{ '+' . $member->emergency_contact_code . str_replace('+', '', $member->emergency_contact) }}",
 
     card_type: "{{ $member->card_type }}",
 
