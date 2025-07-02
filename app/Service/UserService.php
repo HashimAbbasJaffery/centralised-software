@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\ApiResponse;
 use App\Exceptions\DontHaveAccessException;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class UserService
@@ -24,6 +25,7 @@ class UserService
     }
     public function getAbilities() {
         $token = PersonalAccessToken::find(request()->bearerToken());
+        Log::info($token->abilities);
         return $token->abilities;
     }
 }
