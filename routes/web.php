@@ -55,6 +55,14 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
+Route::get("sheets", function() {
+    Member::chunk(500, function ($members) {
+        foreach ($members as $member) {
+            dispatch(new CreateFamilySheet($member));
+        }
+    });
+});
+
 Route::get("google-drive", function() {
     dispatch(new ImportingJob());
 });
