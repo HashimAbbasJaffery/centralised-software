@@ -77,7 +77,7 @@ class Member extends Model
             dispatch(new CreateFamilySheet($member));
         });
 
-        static::updated(function($member) {
+        static::saved(function($member) {
             dispatch(new SaveInGoogleDrive());
             dispatch(new CreateFamilySheet($member));
         });
