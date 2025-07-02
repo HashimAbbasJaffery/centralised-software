@@ -189,7 +189,7 @@
             </div>
 
             @php
-                $addressOnly = $member->profession->office_address;
+                $addressOnly = $member->profession?->office_address ?? "N/A";
                 $prefix = "Company address: ";
 
                 $fontPathRegular = storage_path('fonts/Roboto-Regular.ttf');
@@ -211,11 +211,11 @@
             
             <table style="width: 450.72pt; border-collapse: collapse; margin-top: 30pt;">
                 <tr>
-                    <td style="width: 39.29712460063898%; font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Type of profession: </span>{{ $member->profession->type_of_profession }}</td>
-                    <td style="width: 60.70287539936102%; font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Company Name: </span>{{ $member->profession->company_name }}</td>
+                    <td style="width: 39.29712460063898%; font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Type of profession: </span>{{ $member->profession?->type_of_profession ?? "N/A" }}</td>
+                    <td style="width: 60.70287539936102%; font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Company Name: </span>{{ $member->profession?->company_name ?? "N/A" }}</td>
                 </tr>
                 <tr>
-                    <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Designation: </span>{{ $member->profession->designation }}</td>
+                    <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Designation: </span>{{ $member->profession?->designation ?? "N/A" }}</td>
                     <td style="font-size: 8pt; border: 0.2px solid black; padding-left: 5pt; padding-top: 4pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Work phone number: </span>{{ $member->profession->office_phone_number ?? "N/A" }}</td>
                 </tr>
             </table>
