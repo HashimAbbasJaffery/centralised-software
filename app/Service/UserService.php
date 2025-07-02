@@ -18,6 +18,7 @@ class UserService
     }
 
     public function isAllowedToPerformAction($ability) {
+        Log::info($ability);
         $token = PersonalAccessToken::findToken(request()->bearerToken());
         if($token->cant($ability)) {
             throw new DontHaveAccessException();
@@ -25,7 +26,6 @@ class UserService
     }
     public function getAbilities() {
         $token = PersonalAccessToken::find(request()->bearerToken());
-        Log::info($token->abilities);
         return $token->abilities;
     }
 }
