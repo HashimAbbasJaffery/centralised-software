@@ -26,10 +26,37 @@ Route::patch("/member/{member}/patch", function(Member $member) {
     $attribute = request()->attribute;
     $value = request()->value;
 
+    if (str_contains($attribute, '.')) {
+        [$relation, $relationAttribute] = explode('.', $attribute, 2);
+
+        if ($member->$relation) {
+            $relatedModel = $member->$relation;
+            $relatedModel->$relationAttribute = $value;
+            $relatedModel->save();
+
+            return response()->json([
+                'status' => 'updated relation',
+                'relation' => $relation,
+                'attribute' => $relationAttribute,
+                'value' => $value,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => "Relation [$relation] not loaded.",
+            ], 400);
+        }
+    }
+
+    // Simple attribute
     $member->$attribute = $value;
     $member->save();
-    
-    return request()->all();
+
+    return response()->json([
+        'status' => 'updated member',
+        'attribute' => $attribute,
+        'value' => $value,
+    ]);
 })->name("member.patch");
 Route::get("/member/all", [MemberController::class, "getAllMembers"])->name("api.member.all");
 Route::get("/member/{member}/get", [MemberController::class, "getById"])->name("api.member.getById");
