@@ -165,7 +165,7 @@
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Blood Group:</td>
-                                                    <td>{{ $member["blood_group"] ?? "-" }}</td>
+                                                    <td style="text-transform: uppercase;">{{ $member["blood_group"] ?? "-" }}</td>
                                                 </tr>
                                                 <tr class="members_info">
                                                     <td>Emergency No:</td>

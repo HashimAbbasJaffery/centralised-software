@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Members;
 
 use App\Http\Controllers\Controller;
+use App\Models\CardType;
 use App\Models\Member;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class MemberController extends Controller
         return view("Members.update", compact("member", "spouse_array", "children"));
     }
     public function getDetails(Member $member) {
-        return view("Members.member_detail", compact("member"));
+        $memberships = CardType::all();
+        return view("Members.member_detail", compact("member", "memberships"));
     }
 }

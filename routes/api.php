@@ -22,6 +22,15 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::patch("/member/{member}/patch", function(Member $member) {
+    $attribute = request()->attribute;
+    $value = request()->value;
+
+    $member->$attribute = $value;
+    $member->save();
+    
+    return request()->all();
+})->name("member.patch");
 Route::get("/member/all", [MemberController::class, "getAllMembers"])->name("api.member.all");
 Route::get("/member/{member}/get", [MemberController::class, "getById"])->name("api.member.getById");
 Route::get("/members/all", [MemberController::class, "getAll"])->name("api.member.all");

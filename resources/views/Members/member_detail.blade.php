@@ -19,7 +19,8 @@
         <img style="border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $member->profile_picture }}"/>
       </div>
       <div style="margin-left: 10px;">
-        <h1 style="font-size: 20px; font-weight: bold;">{{ $member->member_name }}</h1>
+        <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="member_name" data-type="text">{{ $member->member_name }}</h1>
+        <input type="hidden" id="member_name" value="{{ $member->member_name }}"/>
         <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $member->membership->card_name }} Membership</p>
         @if($member->membership_status === "regular")
           <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
@@ -67,22 +68,68 @@
           </button>
         </div>
       </div>
-      <div v-if="tab === 'personal information'">
+      <div v-show="tab === 'personal information'">
         <p><span style="display: inline-block; width: 200px;">Name:</span> <span editable="true">{{ $member->member_name }}</span></p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Birth:</span> {{ \Carbon\Carbon::parse($member->date_of_birth)->format("d-M-Y") }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px; text-transform: capitalize;">Gender:</span> {{ $member->gender }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px; text-transform: capitalize;">Marital Status:</span> {{ $member->marital_status }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">CNIC/Passport:</span> {{ $member->cnic_passport }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Birth:</span> 
+            <span class="editable" data-editable="date_of_birth" data-type="date">
+              {{ \Carbon\Carbon::parse($member->date_of_birth)->format("d-M-Y") }}
+            </span> 
+            <input type="hidden" id="date_of_birth" value="{{ $member->date_of_birth }}"/>
+        </p>
+        <p style="margin-top: 10px;">
+          <span style="display: inline-block; width: 200px; text-transform: capitalize;">Gender:</span> 
+          <span class="editable" data-editable="gender" data-type="text">
+            {{ $member->gender }}
+          </span>
+          <select id="gender" style="display: none;">
+            <option class="male">Male</option>
+            <option class="female">Female</option>
+          </select>
+        </p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px; text-transform: capitalize;">
+          Marital Status:</span> 
+          <span class="editable" data-editable="marital_status" data-type="text">
+            {{ $member->marital_status }}
+          </span>
+          <select id="marital_status" style="display: none;">
+            <option class="single">Single</option>
+            <option class="divorced">Divorced</option>
+            <option class="Married">married</option>
+          </select>
+        </p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">CNIC/Passport:</span> 
+          <span class="editable" data-editable="cnic_passport" data-type="text">
+            {{ $member->cnic_passport }}
+          </span>
+          <input type="hidden" id="cnic_passport" value="{{ $member->cnic_passport }}"/>
+          </p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City/Country:</span> {{ $member->city_country }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Blood Group:</span> <span style="text-transform: uppercase;">{{ $member->blood_group }}</span></p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Blood Group:</span> 
+          <span style="text-transform: uppercase;" class="editable" data-editable="blood_group" data-type="text">{{ $member->blood_group }}</span>
+          <select id="blood_group" style="display: none;">
+              <option value="a+">A+</option>
+              <option value="a-">A−</option>
+              <option value="b+">B+</option>
+              <option value="b-">B−</option>
+              <option value="ab+">AB+</option>
+              <option value="ab-">AB−</option>
+              <option value="o+">O+</option>
+              <option value="o-">O−</option>
+          </select>
+        </p>
       </div>
-      <div v-if="tab === 'contact information'">
+      <div v-show="tab === 'contact information'">
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Phone Number:</span> {{ str_replace("+", $member->phone_number_code, $member->phone_number) }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> {{ str_replace("+", $member->alternate_ph_number_code, $member->alternate_ph_number) }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span> {{ str_replace("+", $member->emergency_contact_code, $member->emergency_contact) }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Email Address:</span> {{ $member->email_address }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Email Address:</span> 
+          <span class="editable" data-editable="email_address" type="email">
+            {{ $member->email_address }}
+          </span>
+          <input type="hidden" id="email_address" value="{{ $member->email_address }}"/>
+        </p>
       </div>
-      <div v-if="tab === 'professional information'">
+      <div v-show="tab === 'professional information'">
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Company Name:</span> {{ $member->profession?->company_name ?? "N/A" }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Designation:</span> {{ $member->profession?->designation ?? "N/A" }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Profession:</span> {{ $member->profession?->type_of_profession ?? "N/A" }}</p>
@@ -94,16 +141,38 @@
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Work Email:</span> {{ $member->profession?->work_email ?? "N/A" }}</p>
         @endif
       </div>
-      <div v-if="tab === 'membership information'">
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Membership Type:</span> {{ $member->membership->card_name }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Membership Number:</span> {{ $member->membership_number }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Membership Status:</span> {{ $member->membership_status }}</p>
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Card Type:</span> {{ $member->card_type }}</p>
+      <div v-show="tab === 'membership information'">
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Membership Type:</span> 
+          <span class="editable" data-editable="membership_type">
+            {{ $member->membership->card_name }}
+          </span>
+          <select id="membership_type" style="display: none;">
+            @foreach($memberships as $membership)
+              <option value="{{ $membership->id }}">{{ $membership->card_name }}</option>
+            @endforeach
+          </select>
+        </p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Membership Number:</span> 
+          <span class="editable" data-editable="membership_number">
+            {{ $member->membership_number }}
+          </span>
+          <input type="hidden" id="membership_number" value="{{ $member->membership_number }}"/>
+        </p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Card Type:</span> 
+          <span class="editable" data-editable="card_type" type="text">
+            {{ $member->card_type }}
+          </span>
+            <select id="card_type" style="display: none;">
+              <option value="cleared">Cleared</option>
+              <option value="Provisional Membership">Provisional Membership</option>
+              <option value="Family Not Allowed">Family Not Allowed</option>
+          </select>
+        </p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Issue(Card):</span> {{ \Carbon\Carbon::parse($member->date_of_issue)->format("d-M-Y") }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Validity(Card):</span> {{ \Carbon\Carbon::parse($member->validity)->format("d-M-Y") }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Applying:</span> {{ \Carbon\Carbon::parse($member->date_of_applying)->format("d-M-Y") }}</p>
       </div>
-      <div v-if="tab === 'payment information'">
+      <div v-show="tab === 'payment information'">
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">File Number:</span> {{ $member->file_number }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Form Fee:</span> {{ number_format($member->form_fee) }}/-</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Processing Fee:</span> {{ number_format($member->processing_fee) }}/-</p>
@@ -113,19 +182,67 @@
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Total:</span> {{ number_format($member->form_fee + $member->processing_fee + $member->first_payment + $member->total_installment) }}/-</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Payment Status:</span> {{ $member->payment_status }}</p>
       </div>
-      <div v-if="tab === 'locker information'">
+      <div v-show="tab === 'locker information'">
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Locker Category:</span> <span style="text-transform: uppercase;">{{ $member->locker_category }}</span></p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Locker Number:</span> {{ $member->locker_number }}</p>
       </div>
     </div>
   </main>
-   
   <script>
     const app = Vue.createApp({
       data() {
         return {
           tab: "personal information"
         }
+      },
+      mounted() {
+        const editables = document.querySelectorAll(".editable");
+
+        editables.forEach(editable => {
+        editable.addEventListener("click", function(e) {
+          const input_field = document.getElementById(e.currentTarget.dataset?.editable);
+          if (!input_field) return;
+
+          // Remember original type
+          if (!input_field.dataset.originalType) {
+            input_field.dataset.originalType = input_field.type;
+          }
+
+          // Show as text input
+          input_field.type = e.currentTarget.dataset?.type;
+          input_field.style.display = "inline";
+          input_field.focus();
+          editable.style.display = "none";
+
+          // Handle blur ONCE
+          input_field.addEventListener("blur", async function handler() {
+            // Restore input type
+            input_field.type = input_field.dataset.originalType;
+            input_field.style.display = "none";
+            editable.style.display = "inline";
+            editable.textContent = input_field.value;
+            console.log(input_field.tagName);
+            input_field.click();
+            input_field.focus();
+            const response = await axios.post(route('member.patch', { 
+              ...route().params, 
+              attribute: input_field.id, 
+              value: input_field.value, 
+              _method: "PATCH" 
+            }));
+
+          }, { once: true });
+
+          // Handle Enter key ONCE
+          input_field.addEventListener("keydown", function handler(e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              input_field.blur();
+            }
+          }, { once: true });
+        });
+      });
+        
       }
     }).mount("#app");
   </script>
