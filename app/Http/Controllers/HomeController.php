@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index() {
         $members_monthly = Member::whereMonth('created_at', Carbon::now()->month)->count();
-        $recent_member = Member::latest()->limit(1)->get();
+        $recent_member = Member::latest()->limit(1)->first();
         $total_clubs = Club::count();
         $famous_club = Club::withCount("introletters")
                                 ->orderByDesc("introletters_count")
