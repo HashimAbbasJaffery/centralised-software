@@ -22,7 +22,7 @@ class Member extends Model
     protected $casts = [
         "has_receipt_created" => "boolean"
     ];
-    protected $with = [ "membership" ];
+    protected $with = [ "membership", "profession" ];
     public function spouses() {
         return $this->hasMany(Spouse::class);
     }

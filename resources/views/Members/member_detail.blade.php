@@ -130,7 +130,12 @@
         </p>
       </div>
       <div v-show="tab === 'professional information'">
-        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Company Name:</span> {{ $member->profession?->company_name ?? "N/A" }}</p>
+        <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Company Name:</span> 
+          <span class="editable" data-editable="profession.company_name">
+            {{ $member->profession?->company_name ?? "N/A" }}
+          </span>
+          <input type="hidden" id="profession.company_name" value="{{ $member->profession?->company_name ?? 'N/A' }}"/>
+        </p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Designation:</span> {{ $member->profession?->designation ?? "N/A" }}</p>
         <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Profession:</span> {{ $member->profession?->type_of_profession ?? "N/A" }}</p>
         @if($member->membership->card_name === "Corporate" || $member->membership->card_name === 'corporate')

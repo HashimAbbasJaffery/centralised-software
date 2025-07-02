@@ -182,7 +182,7 @@
 
                 if(response.data.status === "200") {
                     localStorage.setItem("token", response.data.data.token);
-                    window.location = route("member.manage");
+                    window.location = route("home");
                     this.passed = true;
                     this.failed = false;
                 }
