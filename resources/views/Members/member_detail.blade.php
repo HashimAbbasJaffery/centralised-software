@@ -17,8 +17,8 @@
     <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
       <div>
         <label for="profile_picture">
-          <img style="border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $member->profile_picture }}"/>
-          <input type="file" v-show="false" />
+          <img id="profileImage" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $member->profile_picture }}"/>
+          <input type="file" @change="changeProfilePicture" id="profile_picture" v-show="false" />
         </label>
       </div>
       <div style="margin-left: 10px;">
@@ -201,6 +201,28 @@
       data() {
         return {
           tab: "personal information"
+        }
+      },
+      methods: {
+        changeProfilePicture(e) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+
+          reader.onload = async function(event) {
+            const base64String = event.target.result;
+            profileImage.src = base64String;
+
+            const response = await axios.post(route('member.patch', { 
+              ...route().params, 
+              attribute: "profile_picture", 
+              value: file, 
+              _method: "PATCH" 
+            }));
+
+            console.log(response);
+          };
+
+          reader.readAsDataURL(file); 
         }
       },
       mounted() {

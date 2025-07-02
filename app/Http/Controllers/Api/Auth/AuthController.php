@@ -14,6 +14,9 @@ use Laravel\Sanctum\Sanctum;
 class AuthController extends Controller
 {
     public function __construct(protected ApiResponse $apiResponse) {}
+    public function otp() {
+        // $otp = str_pad(random_int(0, pow(10, 6)-1), 6, '0', STR_PAD_LEFT);
+    }
     public function login() {
         $username = request()->username;
         $password = request()->password;
