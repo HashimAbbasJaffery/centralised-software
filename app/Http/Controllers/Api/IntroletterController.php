@@ -36,6 +36,7 @@ class IntroletterController extends Controller
                     ->orderByDesc("id")
                     ->paginate(8);
 
+                    
         return IntroletterResource::collection($introletters);
     }
 
