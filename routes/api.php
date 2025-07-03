@@ -110,6 +110,8 @@ Route::get("/check-token", [TokenController::class, "check"])->name("api.token.c
 
 Route::get("/user", [TokenController::class, "check_token"])->name("api.token.check-user");
 
+Route::get("/otp/{user:username}/create", [\App\Http\Controllers\Api\Auth\AuthController::class, "otp"])->name("api.otp");
+Route::get("/otp/{user:username}/check", [\App\Http\Controllers\Api\Auth\AuthController::class, "verifyOtp"])->name("api.otp.verify");
 Route::post("/login", [\App\Http\Controllers\Api\Auth\AuthController::class, "login"])->name("api.login");
 Route::post("/logout", [\App\Http\Controllers\Api\Auth\AuthController::class, "logout"])->name("api.logout");
 

@@ -24,12 +24,15 @@ class UserController extends Controller
     }
 
     public function store() {
+
         $validator = Validator::make(request()->all(), [
             "username" => [ "required" ],
             "fullname" => [ "required" ],
+            "email" => [ "required", "email" ],
             "password" => [ "required" ],
             "permissions" => [ "required" ]
         ]);
+
 
         if($validator->fails()) {
             $this->apiResponse->error(422, $validator->errors());
