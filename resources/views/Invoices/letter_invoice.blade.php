@@ -151,7 +151,7 @@ h2{
                 <p style="font-size:11px; line-height: 1px;">RII30924 | www.gwadargymkhana.com.pk  -  UAN: +9221-111-947-111</p>
             </div>
             <div class="col-3 text-end" >
-                <img src="../images/logo.png" alt="" class="img-fluid" width="250">
+                <img src="https://gwadargymkhana.com.pk/introletter/images/logo.png" alt="" class="img-fluid" width="250">
             </div>
             
         </div>
