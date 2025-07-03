@@ -198,7 +198,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="container px-6 mx-auto">
       
       @if(count($member->spouses) > 0)
         <h1 class="container px-6 mx-auto flex items-center" style="margin-top: 50px; font-weight: bold;">Spouses</h1>
@@ -448,8 +448,6 @@
               routeName = "member.patch";
               parameter = { ...route().params };
             }
-
-            console.log(routeName);
           
             const response = await axios.post(route(routeName, { 
               ...parameter, 
