@@ -206,15 +206,15 @@
       @foreach($member->spouses as $spouse)
         <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
           <div>
-            <label for="profile_picture">
-              <img id="profileImage" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $spouse->picture }}"/>
-              <input type="file" @change="changeProfilePicture" id="profile_picture" v-show="false" />
+            <label for="picture.{{ $spouse->id }}">
+              <img id="spouse.{{ $spouse->id }}" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $spouse->picture }}"/>
+              <input type="file" @change="changeSpousePicture" id="picture.{{ $spouse->id }}" v-show="false" />
             </label>
           </div>
           <br>
           <div style="margin-left: 10px;">
-            <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="member_name" data-type="text">{{ $spouse->spouse_name }}</h1>
-            <input type="hidden" id="member_name" value="{{ $member->member_name }}"/>
+            <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="spouse.spouse_name.{{ $spouse->id }}" data-type="text">{{ $spouse->spouse_name }}</h1>
+            <input type="hidden" id="spouse.spouse_name.{{ $spouse->id }}" value="{{ $member->member_name }}"/>
             <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $member->membership->card_name }} Membership</p>
             @if($member->membership_status === "regular")
               <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
@@ -224,10 +224,30 @@
           </div>
         </div>
         <div class="container px-6 mx-auto" style="margin-top: 30px;">
-          <p>Date of Birth: <span>{{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d M Y") }}</span><p>
-          <p>Date of Issue: <span>{{ \Carbon\Carbon::parse($spouse->date_of_issue)->format("d M Y") }}</span><p>
-          <p>Validity: <span>{{ \Carbon\Carbon::parse($spouse->validity)->format("d M Y") }}</span><p>
-          <p>Blood Group: <span>{{ $spouse->blood_group }}</span><p>
+          <p>Date of Birth: 
+            <span class="editable" data-editable="spouse.date_of_birth.{{ $spouse->id }}" data-type="date">
+              {{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d M Y") }}
+            </span>
+            <input type="hidden" id="spouse.date_of_birth.{{ $spouse->id }}" value="{{ $spouse->date_of_birth }}"/>
+          <p>
+          <p>Date of Issue: 
+            <span class="editable" data-editable="spouse.date_of_issue.{{ $spouse->id }}" data-type="date">
+              {{ \Carbon\Carbon::parse($spouse->date_of_issue)->format("d M Y") }}
+            </span>
+            <input type="hidden" id="spouse.date_of_issue.{{ $spouse->id }}" value="{{ $spouse->date_of_issue }}"/>
+          <p>
+          <p>Validity: 
+            <span class="editable" data-editable="spouse.validity.{{ $spouse->id }}" data-type="date">
+              {{ \Carbon\Carbon::parse($spouse->validity)->format("d M Y") }}
+            </span>
+            <input type="hidden" id="spouse.validity.{{ $spouse->id }}" value="{{ $spouse->validity }}"/>
+          <p>
+          <p>Blood Group: 
+            <span class="editable" data-editable="spouse.blood_group.{{ $spouse->id }}">
+              {{ $spouse->blood_group }}
+            </span>
+            <input type="hidden" id="spouse.blood_group.{{ $spouse->id }}" value="{{ $spouse->blood_group }}"/>
+          <p>
         </div>
       @endforeach
     </div>
@@ -300,8 +320,33 @@
         }
       },
       methods: {
+        changeSpousePicture(e) {
+          const id = e.target.id.split(".")[1];
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          const spouse_pic = document.getElementById(`spouse.${id}`);
+          reader.onload = async function(event) {
+            const base64String = event.target.result;
+            spouse_pic.src = base64String;
+
+            const formData = new FormData();
+            formData.append("_method", "PATCH");
+            formData.append("attribute", "picture");
+            formData.append("value", file);
+
+            const response = await axios.post(route('spouse.patch', { spouse: id }), formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+
+          };
+
+          reader.readAsDataURL(file); 
+        },
         changeChildPicture(e) {
           const id = e.target.id.split(".")[1];
+          console.log(e.target.id);
           const file = e.target.files[0];
           const reader = new FileReader();
           const child_pic = document.getElementById(`image.${id}`);
@@ -381,13 +426,18 @@
 
             let parameter = {};
             let routeName = 'member.patch';
-            if(input_field.id.includes(".")) {
+            if(input_field.id.includes(".") && input_field.id.includes("child")) {
               routeName = 'child.patch';
               parameter.child = input_field.id.split(".")[2]
+            } else if(input_field.id.includes(".") && input_field.id.includes("spouse")) {
+              routeName = 'spouse.patch';
+              parameter.spouse = input_field.id.split(".")[2];
             } else {
               routeName = "member.patch";
               parameter = { ...route().params };
             }
+
+            console.log(routeName);
           
             const response = await axios.post(route(routeName, { 
               ...parameter, 
@@ -395,6 +445,7 @@
               value: input_field.value, 
               _method: "PATCH" 
             }));
+            console.log(response);
 
           }, { once: true });
 

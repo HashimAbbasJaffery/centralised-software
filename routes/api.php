@@ -59,6 +59,21 @@ Route::patch("/child/{child}/patch", function(Child $child) {
     
     return request()->all();
 })->name("child.patch");
+
+Route::patch("/spouse/{spouse}/patch", function(Spouse $spouse) {
+    $attribute = request()->attribute;
+    if(request()->hasFile("value")) {
+        $filePath = app(ImageService::class)->upload(request()->file("value"));
+        $value = $filePath;
+    } else {
+        $value = request()->value;
+    }
+
+    $spouse->$attribute = $value;
+    $spouse->save();
+    
+    return request()->all();
+})->name("spouse.patch");
 Route::get("/member/all", [MemberController::class, "getAllMembers"])->name("api.member.all");
 Route::get("/member/{member}/get", [MemberController::class, "getById"])->name("api.member.getById");
 Route::get("/members/all", [MemberController::class, "getAll"])->name("api.member.all");
