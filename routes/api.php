@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
+use App\Http\Controllers\Api\SpouseController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Models\Child;
@@ -91,6 +92,7 @@ Route::delete("/membership-card/{cardType}/delete", [CardTypeController::class, 
 Route::put("/membership-card/{cardType}/update", [CardTypeController::class, "update"])->name("api.card.update");
 Route::get("/child/memberships", [CardTypeController::class, "childMemberships"])->name("api.card.child");
 Route::post("/child/create", [ChildController::class, "store"])->name("api.child.create");
+Route::post("/spouse/create", [SpouseController::class, "store"])->name("api.spouse.create");
 
 Route::post("/club/create", [ClubController::class, "store"])->name("api.club.create");
 Route::get("/clubs", [ClubController::class, "index"])->name("api.club.index");

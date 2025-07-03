@@ -203,54 +203,63 @@
       @if(count($member->spouses) > 0)
         <h1 class="container px-6 mx-auto flex items-center" style="margin-top: 50px; font-weight: bold;">Spouses</h1>
       @endif
+      <div class="spouses flex flex-wrap">
       @foreach($member->spouses as $spouse)
-        <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
-          <div>
-            <label for="picture.{{ $spouse->id }}">
-              <img id="spouse.{{ $spouse->id }}" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $spouse->picture }}"/>
-              <input type="file" @change="changeSpousePicture" id="picture.{{ $spouse->id }}" v-show="false" />
-            </label>
+        <div class="spouse" style="width: 33.33%;">
+          <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
+            <div>
+              <label for="picture.{{ $spouse->id }}">
+                <img id="spouse.{{ $spouse->id }}" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $spouse->picture }}"/>
+                <input type="file" @change="changeSpousePicture" id="picture.{{ $spouse->id }}" v-show="false" />
+              </label>
+            </div>
+            <br>
+            <div style="margin-left: 10px;">
+              <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="spouse.spouse_name.{{ $spouse->id }}" data-type="text">{{ $spouse->spouse_name }}</h1>
+              <input type="hidden" id="spouse.spouse_name.{{ $spouse->id }}" value="{{ $member->member_name }}"/>
+              <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $member->membership->card_name }} Membership</p>
+              @if($member->membership_status === "regular")
+                <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
+              @else
+                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300 p-1 px-2 rounded-md">{{ $member->membership_status }}</span>
+              @endif
+            </div>
           </div>
-          <br>
-          <div style="margin-left: 10px;">
-            <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="spouse.spouse_name.{{ $spouse->id }}" data-type="text">{{ $spouse->spouse_name }}</h1>
-            <input type="hidden" id="spouse.spouse_name.{{ $spouse->id }}" value="{{ $member->member_name }}"/>
-            <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $member->membership->card_name }} Membership</p>
-            @if($member->membership_status === "regular")
-              <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
-            @else
-              <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300 p-1 px-2 rounded-md">{{ $member->membership_status }}</span>
-            @endif
+          <div class="container px-6 mx-auto" style="margin-top: 30px;">
+            <p>Date of Birth: 
+              <span class="editable" data-editable="spouse.date_of_birth.{{ $spouse->id }}" data-type="date">
+                {{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d M Y") }}
+              </span>
+              <input type="hidden" id="spouse.date_of_birth.{{ $spouse->id }}" value="{{ $spouse->date_of_birth }}"/>
+            <p>
+            <p>Date of Issue: 
+              <span class="editable" data-editable="spouse.date_of_issue.{{ $spouse->id }}" data-type="date">
+                {{ \Carbon\Carbon::parse($spouse->date_of_issue)->format("d M Y") }}
+              </span>
+              <input type="hidden" id="spouse.date_of_issue.{{ $spouse->id }}" value="{{ $spouse->date_of_issue }}"/>
+            <p>
+            <p>Validity: 
+              <span class="editable" data-editable="spouse.validity.{{ $spouse->id }}" data-type="date">
+                {{ \Carbon\Carbon::parse($spouse->validity)->format("d M Y") }}
+              </span>
+              <input type="hidden" id="spouse.validity.{{ $spouse->id }}" value="{{ $spouse->validity }}"/>
+            <p>
+            <p>Blood Group: 
+              <span class="editable" data-editable="spouse.blood_group.{{ $spouse->id }}">
+                {{ $spouse->blood_group }}
+              </span>
+              <input type="hidden" id="spouse.blood_group.{{ $spouse->id }}" value="{{ $spouse->blood_group }}"/>
+            <p>
           </div>
-        </div>
-        <div class="container px-6 mx-auto" style="margin-top: 30px;">
-          <p>Date of Birth: 
-            <span class="editable" data-editable="spouse.date_of_birth.{{ $spouse->id }}" data-type="date">
-              {{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d M Y") }}
-            </span>
-            <input type="hidden" id="spouse.date_of_birth.{{ $spouse->id }}" value="{{ $spouse->date_of_birth }}"/>
-          <p>
-          <p>Date of Issue: 
-            <span class="editable" data-editable="spouse.date_of_issue.{{ $spouse->id }}" data-type="date">
-              {{ \Carbon\Carbon::parse($spouse->date_of_issue)->format("d M Y") }}
-            </span>
-            <input type="hidden" id="spouse.date_of_issue.{{ $spouse->id }}" value="{{ $spouse->date_of_issue }}"/>
-          <p>
-          <p>Validity: 
-            <span class="editable" data-editable="spouse.validity.{{ $spouse->id }}" data-type="date">
-              {{ \Carbon\Carbon::parse($spouse->validity)->format("d M Y") }}
-            </span>
-            <input type="hidden" id="spouse.validity.{{ $spouse->id }}" value="{{ $spouse->validity }}"/>
-          <p>
-          <p>Blood Group: 
-            <span class="editable" data-editable="spouse.blood_group.{{ $spouse->id }}">
-              {{ $spouse->blood_group }}
-            </span>
-            <input type="hidden" id="spouse.blood_group.{{ $spouse->id }}" value="{{ $spouse->blood_group }}"/>
-          <p>
         </div>
       @endforeach
+      <div @click="addSpouse" style="width: 33.33%; border: 1px dashed black; border-radius: 5px; margin-top: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <span style="color: white; background: rgba(126, 58, 242, var(--bg-opacity);border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+          <i class="fa-solid fa-plus" style="padding: 5px;"></i>
+        </span>
+      </div>
     </div>
+   </div>
 
     <div class="container px-6 mx-auto">
       @if(count($member->children) > 0)
@@ -377,6 +386,108 @@
           };
 
           reader.readAsDataURL(file); 
+        },
+        addSpouse() {
+                 Swal.fire({
+    title: 'Membership Form',
+    width: 600,
+    html: `
+      <style>
+        .swal-form-group {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 12px;
+          text-align: left;
+        }
+        .swal-form-group label {
+          font-weight: bold;
+          margin-bottom: 4px;
+        }
+        .swal-form-group input,
+        .swal-form-group select {
+          padding: 8px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      </style>
+
+      <div class="swal-form-group">
+        <label for="swal-name">Name</label>
+        <input type="text" id="swal-name" placeholder="Enter Name">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-dob">Date of Birth</label>
+        <input type="date" id="swal-dob">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-issue">Date of Issue</label>
+        <input type="date" id="swal-issue">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-cnic">CNIC</label>
+        <input type="text" id="swal-cnic">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-validity">Validity</label>
+        <input type="date" id="swal-validity">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-blood">Blood Group</label>
+        <input type="text" id="swal-blood" placeholder="e.g. A+, B-">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-profile">Profile Picture</label>
+        <input type="file" id="swal-profile">
+      </div>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Submit',
+    focusConfirm: false,
+    preConfirm: () => {
+      return {
+        name: document.getElementById('swal-name').value,
+        cnic: document.getElementById("swal-cnic").value,
+        date_of_birth: document.getElementById('swal-dob').value,
+        date_of_issue: document.getElementById('swal-issue').value,
+        validity: document.getElementById('swal-validity').value,
+        blood_group: document.getElementById('swal-blood').value,
+        profile_pic: document.getElementById('swal-profile').files[0]
+      }
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+       // Prepare form data for AJAX
+      const formData = new FormData();
+      formData.append('spouse_name', result.value.name);
+      formData.append('member_id', route().params.member)
+      formData.append('date_of_birth', result.value.date_of_birth);
+      formData.append('date_of_issue', result.value.date_of_issue);
+      formData.append("cnic", result.value.cnic),
+      formData.append('validity', result.value.validity);
+      formData.append('blood_group', result.value.blood_group);
+      if (result.value.profile_pic) {
+        formData.append('picture', result.value.profile_pic);
+      }
+
+      // Send via AJAX using fetch
+         axios.post(route("api.spouse.create"), formData)
+      .then(response => {
+        Swal.fire('Success!', 'Form submitted successfully.', 'success');
+        console.log('Server Response:', response.data);
+      })
+      .catch(error => {
+        console.error(error);
+        Swal.fire('Error', 'Something went wrong.', 'error');
+      });
+
+    }
+  });
         },
         addChild() {
           Swal.fire({
