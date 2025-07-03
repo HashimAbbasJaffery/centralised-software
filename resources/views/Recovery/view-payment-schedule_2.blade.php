@@ -26,7 +26,7 @@
                     Print
                 </button>
                 <button @click="copyURL(member.user_token)" style="margin-bottom: 10px; margin-top: 10px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    <span v-if="!is_copied">Copy URL</span>
+                    <span v-if="!is_copied">Copy URL <sub>(Save before copying URL)</sub></span>
                     <span v-else>Copied</span>
                 </button>
                 <div class="container px-6 mx-auto grid mx-6" style="border-radius: 10px; background: white;">
