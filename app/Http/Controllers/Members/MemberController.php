@@ -46,6 +46,7 @@ class MemberController extends Controller
     }
     public function getDetails(Member $member) {
         $memberships = CardType::all();
-        return view("Members.member_detail", compact("member", "memberships"));
+        $childMemberships = CardType::whereIn("card_name", ["child", "temporary", "permanent"])->get();
+        return view("Members.member_detail", compact("member", "memberships", "childMemberships"));
     }
 }

@@ -18,7 +18,9 @@ use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
+use App\Models\Child;
 use App\Models\Member;
+use App\Models\Spouse;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +29,7 @@ Route::patch("/member/{member}/patch", function(Member $member) {
     // return request()->file("attribute");
 
     $attribute = request()->attribute;
+    
     if(request()->hasFile("value")) {
         $filePath = app(ImageService::class)->upload(request()->file("value"));
         $value = $filePath;
@@ -39,6 +42,23 @@ Route::patch("/member/{member}/patch", function(Member $member) {
     
     return request()->all();
 })->name("member.patch");
+
+Route::patch("/child/{child}/patch", function(Child $child) {
+    // return request()->file("attribute");
+
+    $attribute = request()->attribute;
+    if(request()->hasFile("value")) {
+        $filePath = app(ImageService::class)->upload(request()->file("value"));
+        $value = $filePath;
+    } else {
+        $value = request()->value;
+    }
+
+    $child->$attribute = $value;
+    $child->save();
+    
+    return request()->all();
+})->name("child.patch");
 Route::get("/member/all", [MemberController::class, "getAllMembers"])->name("api.member.all");
 Route::get("/member/{member}/get", [MemberController::class, "getById"])->name("api.member.getById");
 Route::get("/members/all", [MemberController::class, "getAll"])->name("api.member.all");
