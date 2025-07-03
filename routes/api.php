@@ -26,11 +26,11 @@ use Illuminate\Support\Facades\Route;
 Route::patch("/member/{member}/patch", function(Member $member) {
     // return request()->file("attribute");
 
+    $attribute = request()->attribute;
     if(request()->hasFile("value")) {
         $filePath = app(ImageService::class)->upload(request()->file("value"));
         $value = $filePath;
     } else {
-        $attribute = request()->attribute;
         $value = request()->value;
     }
 
