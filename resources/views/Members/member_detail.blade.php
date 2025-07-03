@@ -256,60 +256,64 @@
       @if(count($member->children) > 0)
         <h1 class="container px-6 mx-auto flex items-center" style="margin-top: 50px; font-weight: bold;">Children</h1>
       @endif
-      @foreach($member->children as $child)
-        <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
-          <div>
-            <label for="profile_pic.{{ $child->id }}">
-              <img id="image.{{ $child->id }}" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $child->profile_pic }}"/>
-              <input type="file" @change="changeChildPicture" id="profile_pic.{{ $child->id }}" v-show="false" />
-            </label>
+      <div class="children flex flex-wrap">
+        @foreach($member->children as $child)
+          <div class="child" style="width: 33.33%;">
+            <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
+              <div>
+                <label for="profile_pic.{{ $child->id }}">
+                  <img id="image.{{ $child->id }}" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $child->profile_pic }}"/>
+                  <input type="file" @change="changeChildPicture" id="profile_pic.{{ $child->id }}" v-show="false" />
+                </label>
+              </div>
+              <br>
+              <div style="margin-left: 10px;">
+                <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="child.child_name.{{ $child->id }}" data-type="text">{{ $child->child_name }}</h1>
+                <input type="hidden" id="child.child_name.{{ $child->id }}" value="{{ $child->child_name }}"/>
+                <span class="editable" data-editable="child.membership_id.{{ $child->id }}">
+                  <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $child->membership->card_name }} Membership</p>
+                </span>
+                <select style="display: none;" id="child.membership_id.{{ $child->id }}">
+                  @foreach ($childMemberships as $childMembership)
+                    <option value="{{ $childMembership->id }}">{{ $childMembership->card_name }}</option>
+                  @endforeach
+                </select>
+                @if($member->membership_status === "regular")
+                  <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
+                @else
+                  <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300 p-1 px-2 rounded-md">{{ $member->membership_status }}</span>
+                @endif
+              </div>
+            </div>
+            <div class="container px-6 mx-auto" style="margin-top: 30px;">
+              <p>Date of Birth: 
+                <span class="editable" data-editable="child.date_of_birth.{{ $child->id }}" data-type="date">
+                  {{ \Carbon\Carbon::parse($child->date_of_birth)->format("d M Y") }}
+                </span>
+                <input type="hidden" id="child.date_of_birth.{{ $child->id }}" value="{{ $child->date_of_birth }}"/>
+              <p>
+              <p>Date of Issue: 
+                <span class="editable" data-editable="child.date_of_issue.{{ $child->id }}" data-type="date">
+                  {{ \Carbon\Carbon::parse($child->date_of_issue)->format("d M Y") }}
+                </span>
+                <input type="hidden" id="child.date_of_issue.{{ $child->id }}" value="{{ $child->date_of_issue }}"/>
+              <p>
+              <p>Validity: 
+                <span class="editable" data-editable="child.validity.{{ $child->id }}" data-type="date">
+                  {{ \Carbon\Carbon::parse($child->validity)->format("d M Y") }}
+                </span>
+                <input type="hidden" id="child.validity.{{ $child->id }}" value="{{ $child->validity }}"/>
+              <p>
+              <p>Blood Group: 
+                <span class="editable" data-editable="child.blood_group.{{ $child->id }}" data-type="text">
+                  {{ $child->blood_group }}
+                </span>
+                <input type="hidden" id="child.blood_group.{{ $child->id }}" value="{{ $child->validity }}"/>
+              <p>
+            </div>
           </div>
-          <br>
-          <div style="margin-left: 10px;">
-            <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="child.child_name.{{ $child->id }}" data-type="text">{{ $child->child_name }}</h1>
-            <input type="hidden" id="child.child_name.{{ $child->id }}" value="{{ $child->child_name }}"/>
-            <span class="editable" data-editable="child.membership_id.{{ $child->id }}">
-              <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $child->membership->card_name }} Membership</p>
-            </span>
-            <select style="display: none;" id="child.membership_id.{{ $child->id }}">
-              @foreach ($childMemberships as $childMembership)
-                <option value="{{ $childMembership->id }}">{{ $childMembership->card_name }}</option>
-              @endforeach
-            </select>
-            @if($member->membership_status === "regular")
-              <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
-            @else
-              <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300 p-1 px-2 rounded-md">{{ $member->membership_status }}</span>
-            @endif
-          </div>
-        </div>
-        <div class="container px-6 mx-auto" style="margin-top: 30px;">
-          <p>Date of Birth: 
-            <span class="editable" data-editable="child.date_of_birth.{{ $child->id }}" data-type="date">
-              {{ \Carbon\Carbon::parse($child->date_of_birth)->format("d M Y") }}
-            </span>
-            <input type="hidden" id="child.date_of_birth.{{ $child->id }}" value="{{ $child->date_of_birth }}"/>
-          <p>
-          <p>Date of Issue: 
-            <span class="editable" data-editable="child.date_of_issue.{{ $child->id }}" data-type="date">
-              {{ \Carbon\Carbon::parse($child->date_of_issue)->format("d M Y") }}
-            </span>
-            <input type="hidden" id="child.date_of_issue.{{ $child->id }}" value="{{ $child->date_of_issue }}"/>
-          <p>
-          <p>Validity: 
-            <span class="editable" data-editable="child.validity.{{ $child->id }}" data-type="date">
-              {{ \Carbon\Carbon::parse($child->validity)->format("d M Y") }}
-            </span>
-            <input type="hidden" id="child.validity.{{ $child->id }}" value="{{ $child->validity }}"/>
-          <p>
-          <p>Blood Group: 
-            <span class="editable" data-editable="child.blood_group.{{ $child->id }}" data-type="text">
-              {{ $child->blood_group }}
-            </span>
-            <input type="hidden" id="child.blood_group.{{ $child->id }}" value="{{ $child->validity }}"/>
-          <p>
-        </div>
-      @endforeach
+        @endforeach
+      </div>
     </div>
   </main>
   <script>
