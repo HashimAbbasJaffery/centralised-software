@@ -11,7 +11,6 @@ use Google_Service_Sheets;
 use Google_Service_Sheets_Spreadsheet;
 use Google_Service_Sheets_ValueRange;
 use Google_Service_Drive;
-use Google_Service_Drive_Permission;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Member;
 
@@ -36,7 +35,6 @@ class SaveInGoogleDrive implements ShouldQueue
         $client = new Google_Client();
         $client->setApplicationName("Google Sheets Export");
 
-        // 👇 Add Google Drive API scope to allow sharing
         $client->setScopes([
             Google_Service_Sheets::SPREADSHEETS,
             Google_Service_Drive::DRIVE,
@@ -51,13 +49,31 @@ class SaveInGoogleDrive implements ShouldQueue
         $spreadsheet = new Google_Service_Sheets_Spreadsheet([
             'properties' => ['title' => 'Laravel Members Export - ' . now()->toDateTimeString()]
         ]);
+
         $spreadsheetId = null;
         if(!$setting) {
             $spreadsheet = $sheets->spreadsheets->create($spreadsheet);
             $spreadsheetId = $spreadsheet->spreadsheetId;
+
+            // ⭐️ NEW: move the file into your shared folder
+            $driveService = new Google_Service_Drive($client);
+            $folderId = '1zQgEQO7yvGZWIRke6loNq4SEvD25POkt';
+            
+            // Get existing parents
+            $file = $driveService->files->get($spreadsheetId, ['fields' => 'parents']);
+            $previousParents = join(',', $file->parents);
+
+            // Move into your shared folder
+            $driveService->files->update($spreadsheetId, new \Google_Service_Drive_DriveFile(), [
+                'addParents' => $folderId,
+                'removeParents' => $previousParents,
+                'fields' => 'id, parents'
+            ]);
+
         } else {
             $spreadsheetId = $setting->google_sheet_id;
         }
+
         // 2. Insert data
         $value = [];
         $vals = Member::all();
@@ -96,40 +112,38 @@ class SaveInGoogleDrive implements ShouldQueue
             ];
         }
 
-
-
         $values = [
             [
-            "id", 
-            "Member Name", 
-            "Date of Birth",
-            "Gender",
-            "Marital Status",
-            "CNIC/Passport",
-            "Phone Number",
-            "Alternate Phone Number",
-            "Email Address",
-            "Residential Address",
-            "City Country",
-            "Membership Type",
-            "Membership Number",
-            "Membership Status",
-            "File Number",
-            "Date of Applying",
-            "Form Fee",
-            "Processing Fee",
-            "First Payment",
-            "Total Installment",
-            "Installment Month",
-            "Payment Status",
-            "Blood Group",
-            "Emergency Contact",
-            "Card Type",
-            "Date of Issue",
-            "Validity",
-            "Locker Category",
-            "Locker Number"
-        ],
+                "id", 
+                "Member Name", 
+                "Date of Birth",
+                "Gender",
+                "Marital Status",
+                "CNIC/Passport",
+                "Phone Number",
+                "Alternate Phone Number",
+                "Email Address",
+                "Residential Address",
+                "City Country",
+                "Membership Type",
+                "Membership Number",
+                "Membership Status",
+                "File Number",
+                "Date of Applying",
+                "Form Fee",
+                "Processing Fee",
+                "First Payment",
+                "Total Installment",
+                "Installment Month",
+                "Payment Status",
+                "Blood Group",
+                "Emergency Contact",
+                "Card Type",
+                "Date of Issue",
+                "Validity",
+                "Locker Category",
+                "Locker Number"
+            ],
             ...$value
         ];
 
@@ -144,14 +158,9 @@ class SaveInGoogleDrive implements ShouldQueue
             ['valueInputOption' => 'RAW']
         );
 
-        // 3. Share sheet with your Gmail
-        $driveService = new Google_Service_Drive($client);
-        $permission = new Google_Service_Drive_Permission([
-            'type' => 'user',
-            'role' => 'writer', // use 'reader' if you only want to view
-            'emailAddress' => 'habbas21219@gmail.com' // 👈 replace with your Gmail
-        ]);
-        $driveService->permissions->create($spreadsheetId, $permission);
+        // 3. Remove old permission code (you don't need to share manually anymore!)
+        // (it would error out)
+        // $driveService->permissions->create($spreadsheetId, $permission);
 
         // 4. Show the sheet URL
         $url = "https://docs.google.com/spreadsheets/d/$spreadsheetId";
