@@ -259,7 +259,7 @@ const app = Vue.createApp({
           fullname: "{{ $user->fullname }}",
           password: "",
           permissions: @json($permissions),
-          email: "",
+          email: "{{ $user->email }}",
         }
     },
   methods: {
