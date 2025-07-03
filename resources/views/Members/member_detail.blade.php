@@ -212,11 +212,18 @@
             const base64String = event.target.result;
             profileImage.src = base64String;
 
+            const formData = new FormData();
+            formData.append("_method", "PATCH");
+            formData.append("attribute", "profile_picture");
+            formData.append("value", file);
+
             const response = await axios.post(route('member.patch', { 
               ...route().params, 
-              attribute: "profile_picture", 
-              value: file, 
-              _method: "PATCH" 
+              formData
+            }, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
             }));
 
             console.log(response);
