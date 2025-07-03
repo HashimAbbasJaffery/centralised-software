@@ -259,7 +259,7 @@
       <div class="children flex flex-wrap">
         @foreach($member->children as $child)
           <div class="child" style="width: 33.33%;">
-            <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
+            <div class="flex items-center" style="margin-top: 50px;">
               <div>
                 <label for="profile_pic.{{ $child->id }}">
                   <img id="image.{{ $child->id }}" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $child->profile_pic }}"/>
@@ -285,7 +285,7 @@
                 @endif
               </div>
             </div>
-            <div class="container px-6 mx-auto" style="margin-top: 30px;">
+            <div class="" style="margin-top: 30px;">
               <p>Date of Birth: 
                 <span class="editable" data-editable="child.date_of_birth.{{ $child->id }}" data-type="date">
                   {{ \Carbon\Carbon::parse($child->date_of_birth)->format("d M Y") }}
