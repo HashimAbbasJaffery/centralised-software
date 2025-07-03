@@ -32,7 +32,7 @@ class IntroletterController extends Controller
                         ->orWhere('spouse', 'like', "%$keyword%")
                         ->orWhere('children', 'like', "%$keyword%");
                     })
-                    ->latest()
+                    ->latest("created_at")
                     ->paginate(8);
 
         return IntroletterResource::collection($introletters);
