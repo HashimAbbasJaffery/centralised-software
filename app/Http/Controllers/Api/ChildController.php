@@ -31,6 +31,8 @@ class ChildController extends Controller
         $filePath = $directory . "/" . $fileName;
            
         $validated['profile_pic'] = $filePath;
+    } else {
+        $validated["profile_pic"] = "profile_pictures/default-user.png";
     }
 
     // Save to DB (example)
