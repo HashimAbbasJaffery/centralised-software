@@ -12,7 +12,7 @@
         }
     </style>
     <main class="h-full pb-16" id="app">
-        <div class="container px-6 mx-auto grid">
+        <div class="container px-6 mx-auto grid" style="overflow: scroll;">
             <h2 class="mt-6 mb-3 text-2xl font-semibold text-gray-700 dark:text-gray-200">View Payment Schedule</h2>
             <button v-if="!is_fetching_members" @click="showMembers" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" style="margin-top: 20px; width: 150px; margin-bottom: 20px; text-align: center;">Select Member</button>
             <button disabled v-else @click="showMembers" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" style="margin-top: 20px; width: 150px; margin-bottom: 20px; text-align: center; display: flex; width: 150px; justify-content: center;">
