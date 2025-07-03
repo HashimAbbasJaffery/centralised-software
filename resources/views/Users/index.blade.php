@@ -181,7 +181,7 @@
           this.is_fetching = false;
         },
         editMember(id) {
-          window.location = route('member.recovery.receipt.update', { receipt: id });
+          window.location = route('user.update', { user: id });
         },
         async deleteMember(id) {
           Swal.fire({
