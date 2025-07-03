@@ -199,12 +199,70 @@
     </div>
 
     <div>
-      <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
-        <label for="profile_picture">
-          <img id="profileImage" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $member->profile_picture }}"/>
-          <input type="file" @change="changeProfilePicture" id="profile_picture" v-show="false" />
-        </label>
-      </div>
+      
+      @if(count($member->spouses) > 0)
+        <h1 class="container px-6 mx-auto flex items-center" style="margin-top: 50px; font-weight: bold;">Spouses</h1>
+      @endif
+      @foreach($member->spouses as $spouse)
+        <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
+          <div>
+            <label for="profile_picture">
+              <img id="profileImage" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $spouse->picture }}"/>
+              <input type="file" @change="changeProfilePicture" id="profile_picture" v-show="false" />
+            </label>
+          </div>
+          <br>
+          <div style="margin-left: 10px;">
+            <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="member_name" data-type="text">{{ $spouse->spouse_name }}</h1>
+            <input type="hidden" id="member_name" value="{{ $member->member_name }}"/>
+            <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $member->membership->card_name }} Membership</p>
+            @if($member->membership_status === "regular")
+              <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
+            @else
+              <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300 p-1 px-2 rounded-md">{{ $member->membership_status }}</span>
+            @endif
+          </div>
+        </div>
+        <div class="container px-6 mx-auto" style="margin-top: 30px;">
+          <p>Date of Birth: <span>{{ \Carbon\Carbon::parse($spouse->date_of_birth)->format("d M Y") }}</span><p>
+          <p>Date of Issue: <span>{{ \Carbon\Carbon::parse($spouse->date_of_issue)->format("d M Y") }}</span><p>
+          <p>Validity: <span>{{ \Carbon\Carbon::parse($spouse->validity)->format("d M Y") }}</span><p>
+          <p>Blood Group: <span>{{ $spouse->blood_group }}</span><p>
+        </div>
+      @endforeach
+    </div>
+
+    <div>
+      @if(count($member->children) > 0)
+        <h1 class="container px-6 mx-auto flex items-center" style="margin-top: 50px; font-weight: bold;">Children</h1>
+      @endif
+      @foreach($member->children as $child)
+        <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
+          <div>
+            <label for="profile_picture">
+              <img id="profileImage" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $child->profile_pic }}"/>
+              <input type="file" @change="changeProfilePicture" id="profile_picture" v-show="false" />
+            </label>
+          </div>
+          <br>
+          <div style="margin-left: 10px;">
+            <h1 style="font-size: 20px; font-weight: bold;" class="editable" data-editable="member_name" data-type="text">{{ $child->child_name }}</h1>
+            <input type="hidden" id="member_name" value="{{ $member->member_name }}"/>
+            <p style="margin-bottom: 5px; font-size: 13px; font-style: italic;">{{ $child->membership->card_name }} Membership</p>
+            @if($member->membership_status === "regular")
+              <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300 p-1 px-2 rounded-md">Regular</span>
+            @else
+              <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300 p-1 px-2 rounded-md">{{ $member->membership_status }}</span>
+            @endif
+          </div>
+        </div>
+        <div class="container px-6 mx-auto" style="margin-top: 30px;">
+          <p>Date of Birth: <span>{{ \Carbon\Carbon::parse($child->date_of_birth)->format("d M Y") }}</span><p>
+          <p>Date of Issue: <span>{{ \Carbon\Carbon::parse($child->date_of_issue)->format("d M Y") }}</span><p>
+          <p>Validity: <span>{{ \Carbon\Carbon::parse($child->validity)->format("d M Y") }}</span><p>
+          <p>Blood Group: <span>{{ $child->blood_group }}</span><p>
+        </div>
+      @endforeach
     </div>
   </main>
   <script>
