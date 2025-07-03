@@ -217,14 +217,11 @@
             formData.append("attribute", "profile_picture");
             formData.append("value", file);
 
-            const response = await axios.post(route('member.patch', { 
-              ...route().params, 
-              formData
-            }, {
+            const response = await axios.post(route('member.patch', route().params), formData, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
-            }));
+            });
 
             console.log(response);
           };
