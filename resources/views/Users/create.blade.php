@@ -6,7 +6,7 @@
             <div class="step-form px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
   <div style="display: flex; column-gap: 20px;">
     <!-- Member's Name -->
-    <div style="width: 33.33%;">
+    <div style="width: 50%;">
       <label class="block text-sm" style="margin-bottom: 20px;">
         <span class="text-gray-700 dark:text-gray-400">Username</span>
         <input
@@ -24,7 +24,7 @@
     </div>
 
     <!-- Date of Birth -->
-    <div style="width: 33.33%;">
+    <div style="width: 50%;">
       <label class="block text-sm" style="margin-bottom: 20px;">
         <span class="text-gray-700 dark:text-gray-400">Full Name</span>
         <input
@@ -43,7 +43,7 @@
     </div>
 
     <!-- CNIC/Passport -->
-    <div style="width: 33.33%;">
+    <div style="width: 50%;">
       <label class="block text-sm" style="margin-bottom: 20px;">
         <span class="text-gray-700 dark:text-gray-400">Password</span>
         <input
@@ -57,6 +57,23 @@
         >
         <span class="cnic_field_message step_1_message text-xs text-red-600 dark:text-red-400" style="display: none;">
           Reference Number field is required
+        </span>
+      </label>
+    </div>
+    <div style="width: 50%;">
+      <label class="block text-sm" style="margin-bottom: 20px;">
+        <span class="text-gray-700 dark:text-gray-400">Email</span>
+       <input
+          data-message="cnic_field_message"
+          type="email"
+          v-model="email"
+          class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700
+                     focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
+                     dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          placeholder="Email"
+        >
+        <span class="cnic_field_message step_1_message text-xs text-red-600 dark:text-red-400" style="display: none;">
+          Email field is required
         </span>
       </label>
     </div>
@@ -247,6 +264,7 @@ const app = Vue.createApp({
           username: "",
           fullname: "",
           password: "",
+          email: "",
           permissions: []
         }
     },
@@ -257,8 +275,10 @@ const app = Vue.createApp({
         username: this.username,
         fullname: this.fullname,
         password: this.password,
+        email: this.email,
         permissions: JSON.stringify(this.permissions)
       });
+      console.log(response);
       if(response.data.status === "200") {
         window.location = route("users");
       }

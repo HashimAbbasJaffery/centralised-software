@@ -140,7 +140,7 @@
               class="transition-colors duration-300 ease-in-out block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 border border-transparent rounded-lg active:bg-purple-600 focus:outline-none focus:shadow-outline-purple"
               :class="{ 'normal-state': !passed, 'passed-state': passed }"
               style="height: 40px;"
-              @click="login"
+              @click="generateOtp"
               :disabled="is_authenticating"
             >
               <span v-if="is_authenticating" class="loader normal"></span>
@@ -160,6 +160,7 @@
     </div>
   </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.9.0/axios.min.js" integrity="sha512-FPlUpimug7gt7Hn7swE8N2pHw/+oQMq/+R/hH/2hZ43VOQ+Kjh25rQzuLyPz7aUWKlRpI7wXbY6+U3oFPGjPOA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     const app = Vue.createApp({
         data() {
@@ -172,6 +173,63 @@
             }
         },
         methods: {
+            fails() {
+              this.failed = true;
+              this.passed = false;
+              this.is_authenticating = false;
+            },
+            pass() {
+              this.failed = false;
+              this.passed = true;
+              this.is_authenticating = false;
+            },
+            async generateOtp() {
+              this.is_authenticating = true;
+              try {
+                const response = await axios.get(route("api.otp", { password: this.password, user: this.username }));
+
+
+                  Swal.fire({
+                    title: 'Enter OTP',
+                    input: 'text',
+                    inputLabel: 'email',
+                    inputPlaceholder: 'Enter your OTP here',
+                    confirmButtonText: 'Verify',
+                    showCancelButton: true,
+                    inputAttributes: {
+                        maxlength: 6,
+                        autocapitalize: 'off',
+                        autocorrect: 'off'
+                    },
+                    preConfirm: (otp) => {
+                        if (!otp) {
+                            Swal.showValidationMessage('OTP is required')
+                        }
+                        return otp
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const otp = result.value;
+                        this.verifyOtp(otp);
+                    } else {
+                      this.fai();
+                    }
+                });
+              } catch(e) {
+                this.fails();
+              }
+
+            },
+            async verifyOtp(otp) {
+              try {
+                const response = await axios.get(route("api.otp.verify", { password: this.password, user: this.username, otp }));
+                if(response.status === 200) {
+                  this.login();
+                }
+              } catch(e) {
+                this.fails();
+              }
+            },
             async login() {
               try {
                 this.is_authenticating = true;

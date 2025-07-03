@@ -18,6 +18,7 @@ class IntroletterController extends Controller
     public function index() {
     $keyword = str_replace(['%', '_'], ['\%', '\_'], request()->keyword);
     $introletters = Introletter::query()
+                    ->latest()
                     ->where(function ($query) use ($keyword) {
                         $query->whereHas('member', function ($q) use ($keyword) {
                             $q->where('member_name', 'like', "%$keyword%")
