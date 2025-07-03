@@ -218,8 +218,6 @@
               value: file, 
               _method: "PATCH" 
             }));
-
-            console.log(response);
           };
 
           reader.readAsDataURL(file); 

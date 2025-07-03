@@ -19,12 +19,19 @@ use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Models\Member;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::patch("/member/{member}/patch", function(Member $member) {
-    $attribute = request()->attribute;
-    $value = request()->value;
+
+    if(request()->hasFile("attribute")) {
+        $filePath = app(ImageService::class)->upload(request()->file("attribute"));
+        $value = $filePath;
+    } else {
+        $attribute = request()->attribute;
+        $value = request()->value;    
+    }
 
     $member->$attribute = $value;
     $member->save();
