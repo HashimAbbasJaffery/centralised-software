@@ -27,7 +27,7 @@ Route::patch("/member/{member}/patch", function(Member $member) {
     // return request()->file("attribute");
 
     if(request()->hasFile("value")) {
-        $filePath = app(ImageService::class)->upload(request()->file("attribute"));
+        $filePath = app(ImageService::class)->upload(request()->file("value"));
         $value = $filePath;
     } else {
         $attribute = request()->attribute;
