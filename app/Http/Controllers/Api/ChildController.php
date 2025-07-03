@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Child;
 use Illuminate\Http\Request;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\Storage;
 
 class ChildController extends Controller
 {
@@ -23,8 +24,13 @@ class ChildController extends Controller
         ]);
 
     if ($request->hasFile('profile_pic')) {
-        $filePath = app(ImageService::class)->upload($request->file("profile_pic"));
-        $validated['profile_pic_path'] = $filePath;
+        $directory = "uploads/children_pictures";
+        $fileName = $request->child_name . "_" . time() . "." . $request->profile_pic->extension();
+            
+        Storage::disk("public")->putFileAs($directory, $request->profile_pic, $fileName);
+        $filePath = $directory . "/" . $fileName;
+           
+        $validated['profile_pic'] = $filePath;
     }
 
     // Save to DB (example)
