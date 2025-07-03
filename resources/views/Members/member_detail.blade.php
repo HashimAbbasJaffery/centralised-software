@@ -212,6 +212,7 @@
             const base64String = event.target.result;
             profileImage.src = base64String;
 
+            console.log(file);
             const formData = new FormData();
             formData.append("_method", "PATCH");
             formData.append("attribute", "profile_picture");
