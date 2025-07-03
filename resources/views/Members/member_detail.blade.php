@@ -199,7 +199,7 @@
     </div>
 
     <div>
-      <div>
+      <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
         <label for="profile_picture">
           <img id="profileImage" style="cursor: pointer; border-radius: 100%; height: 100px; width: 100px;" src="https://gwadargymkhana.com.pk/members/storage/{{ $member->profile_picture }}"/>
           <input type="file" @change="changeProfilePicture" id="profile_picture" v-show="false" />
