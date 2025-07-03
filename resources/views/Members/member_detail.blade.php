@@ -379,7 +379,7 @@
           reader.readAsDataURL(file); 
         },
         addChild() {
-          alert("added");
+          alert("added"); 
         },
         changeProfilePicture(e) {
           const file = e.target.files[0];
