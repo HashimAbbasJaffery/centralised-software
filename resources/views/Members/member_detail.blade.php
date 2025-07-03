@@ -428,6 +428,11 @@
       </div>
 
       <div class="swal-form-group">
+        <label for="swal-cnic">CNIC</label>
+        <input type="text" id="swal-cnic">
+      </div>
+
+      <div class="swal-form-group">
         <label for="swal-validity">Validity</label>
         <input type="date" id="swal-validity">
       </div>
@@ -449,6 +454,7 @@
       return {
         name: document.getElementById('swal-name').value,
         membership: document.getElementById('swal-membership').value,
+        cnic: document.getElementById("swal-cnic").value,
         date_of_birth: document.getElementById('swal-dob').value,
         date_of_issue: document.getElementById('swal-issue').value,
         validity: document.getElementById('swal-validity').value,
@@ -458,10 +464,31 @@
     }
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log('Form Data:', result.value);
+       // Prepare form data for AJAX
+      const formData = new FormData();
+      formData.append('child_name', result.value.name);
+      formData.append('member_id', route().params.member)
+      formData.append('membership_id', result.value.membership);
+      formData.append('date_of_birth', result.value.date_of_birth);
+      formData.append('date_of_issue', result.value.date_of_issue);
+      formData.append("cnic", result.value.cnic),
+      formData.append('validity', result.value.validity);
+      formData.append('blood_group', result.value.blood_group);
+      if (result.value.profile_pic) {
+        formData.append('profile_pic', result.value.profile_pic);
+      }
 
-      // Do something with the data
-      Swal.fire('Success!', 'Form submitted successfully.', 'success');
+      // Send via AJAX using fetch
+         axios.post(route("api.child.create"), formData)
+      .then(response => {
+        Swal.fire('Success!', 'Form submitted successfully.', 'success');
+        console.log('Server Response:', response.data);
+      })
+      .catch(error => {
+        console.error(error);
+        Swal.fire('Error', 'Something went wrong.', 'error');
+      });
+
     }
   });
         },

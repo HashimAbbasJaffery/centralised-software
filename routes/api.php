@@ -4,6 +4,7 @@ use App\ApiResponse;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BirthdayController;
 use App\Http\Controllers\Api\CardTypeController;
+use App\Http\Controllers\Api\ChildController;
 use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\ComplainController;
 use App\Http\Controllers\Api\ComplainQuestionController;
@@ -89,6 +90,7 @@ Route::get("/membership-cards/all", [CardTypeController::class, "getAll"])->name
 Route::delete("/membership-card/{cardType}/delete", [CardTypeController::class, "destroy"])->name("api.card.delete");
 Route::put("/membership-card/{cardType}/update", [CardTypeController::class, "update"])->name("api.card.update");
 Route::get("/child/memberships", [CardTypeController::class, "childMemberships"])->name("api.card.child");
+Route::post("/child/create", [ChildController::class, "store"])->name("api.child.create");
 
 Route::post("/club/create", [ClubController::class, "store"])->name("api.club.create");
 Route::get("/clubs", [ClubController::class, "index"])->name("api.club.index");
