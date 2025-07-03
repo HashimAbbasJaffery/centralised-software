@@ -379,7 +379,91 @@
           reader.readAsDataURL(file); 
         },
         addChild() {
-          alert("added"); 
+          Swal.fire({
+    title: 'Membership Form',
+    width: 600,
+    html: `
+      <style>
+        .swal-form-group {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 12px;
+          text-align: left;
+        }
+        .swal-form-group label {
+          font-weight: bold;
+          margin-bottom: 4px;
+        }
+        .swal-form-group input,
+        .swal-form-group select {
+          padding: 8px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      </style>
+
+      <div class="swal-form-group">
+        <label for="swal-name">Name</label>
+        <input type="text" id="swal-name" placeholder="Enter Name">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-membership">Membership</label>
+        <select id="swal-membership">
+          <option value="">Select Membership</option>
+          @foreach($childMemberships as $childMembership)
+            <option value="{{ $childMembership->id }}">{{ $childMembership->card_name }}</option>
+          @endforeach
+        </select>
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-dob">Date of Birth</label>
+        <input type="date" id="swal-dob">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-issue">Date of Issue</label>
+        <input type="date" id="swal-issue">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-validity">Validity</label>
+        <input type="date" id="swal-validity">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-blood">Blood Group</label>
+        <input type="text" id="swal-blood" placeholder="e.g. A+, B-">
+      </div>
+
+      <div class="swal-form-group">
+        <label for="swal-profile">Profile Picture</label>
+        <input type="file" id="swal-profile">
+      </div>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Submit',
+    focusConfirm: false,
+    preConfirm: () => {
+      return {
+        name: document.getElementById('swal-name').value,
+        membership: document.getElementById('swal-membership').value,
+        date_of_birth: document.getElementById('swal-dob').value,
+        date_of_issue: document.getElementById('swal-issue').value,
+        validity: document.getElementById('swal-validity').value,
+        blood_group: document.getElementById('swal-blood').value,
+        profile_pic: document.getElementById('swal-profile').files[0]
+      }
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log('Form Data:', result.value);
+
+      // Do something with the data
+      Swal.fire('Success!', 'Form submitted successfully.', 'success');
+    }
+  });
         },
         changeProfilePicture(e) {
           const file = e.target.files[0];
