@@ -38,11 +38,15 @@ class Member extends Model
     public function scopeFilter($query) {
         $keyword = request()->keyword;
         $query->where(function($query) use($keyword) {
-            $query->whereLike("member_name", "%$keyword%")
+            $query
+                    ->whereHas('children', function($query) {
+                        return $query->whereLike("child_name", "%$query");
+                    })
+                    ->whereLike("member_name", "%$keyword%")
                     ->orWhereLike("membership_number", "%$keyword%")
                     ->orWhereLike("file_number", "%$keyword%")
                     ->orWhere(function($query) use ($keyword){
-                        $query->where("locker_category", $keyword)
+                        return $query->where("locker_category", $keyword)
                                 ->where("locker_number", $keyword);
                     });
         });
