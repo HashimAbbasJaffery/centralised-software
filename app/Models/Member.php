@@ -39,7 +39,8 @@ class Member extends Model
         $keyword = request()->keyword;
         $query->where(function($query) use($keyword) {
             $query->whereLike("member_name", "%$keyword%")
-                    ->orWhereLike("membership_number", "%$keyword%");
+                    ->orWhereLike("membership_number", "%$keyword%")
+                    ->orWhereLike("file_number", "%$keyword%");
         });
 
         return $query;
@@ -126,7 +127,6 @@ class Member extends Model
     public function attachChildren($children) {
         if(!count($children)) return;
         foreach($children as $child) {
-            Log::info($children);
             $directory = "uploads/children_pictures";
             if(gettype($child["profile_pic"]) === "string" && $child["profile_pic"]) {
                 $fileName = $child["profile_pic"];
