@@ -141,7 +141,7 @@ class SaveInGoogleDrive implements ShouldQueue
             $spreadsheetId,
             'Sheet1!A1',
             $body,
-            ['valueInputOption' => 'RAW']
+            ['valueInputOption' => 'RAW'] 
         );
 
         // 3. Share sheet with your Gmail
