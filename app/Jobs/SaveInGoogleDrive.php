@@ -165,7 +165,9 @@ class SaveInGoogleDrive implements ShouldQueue
 
     } catch (\Google_Service_Exception $e) {
         \Log::error('Google_Service_Exception: ' . $e->getMessage());
-        \Log::error('Google_Service_Exception JSON: ' . json_encode($e->getErrors()));
+        \Log::error('HTTP Code: ' . $e->getCode());
+        \Log::error('Errors Array: ' . json_encode($e->getErrors()));
+        \Log::error('Full Exception: ' . $e);
         throw $e;
 
     } catch (\Exception $e) {
