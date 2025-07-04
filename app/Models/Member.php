@@ -39,8 +39,8 @@ class Member extends Model
         $keyword = request()->keyword;
         $query->where(function($query) use($keyword) {
             $query
-                    ->whereHas('children', function($query) {
-                        return $query->whereLike("child_name", "%$query");
+                    ->whereHas('children', function($query) use ($keyword){
+                        return $query->whereLike("child_name", "%$keyword%");
                     })
                     ->whereLike("member_name", "%$keyword%")
                     ->orWhereLike("membership_number", "%$keyword%")
