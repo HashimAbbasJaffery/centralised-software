@@ -146,12 +146,22 @@ class SaveInGoogleDrive implements ShouldQueue
 
         // 3. Share sheet with your Gmail
         $driveService = new Google_Service_Drive($client);
-        $permission = new Google_Service_Drive_Permission([
-            'type' => 'user',
-            'role' => 'writer', // use 'reader' if you only want to view
-            'emailAddress' => 'habbas21219@gmail.com' 
-        ]);
-        $driveService->permissions->create($spreadsheetId, $permission);
+        $folderId = '1zQgEQO7yvGZWIRke6loNq4SEvD25POkt';
+        
+        // Get existing parents
+        $file = $driveService->files->get($spreadsheetId, ['fields' => 'parents']);
+        $previousParents = isset($file->parents) ? join(',', $file->parents) : null;
+
+        // Move the file
+        $driveService->files->update(
+            $spreadsheetId,
+            new \Google_Service_Drive_DriveFile(),
+            [
+                'addParents' => $folderId,
+                'removeParents' => $previousParents,
+                'fields' => 'id, parents'
+            ]
+        );
 
         // 4. Show the sheet URL
         $url = "https://docs.google.com/spreadsheets/d/$spreadsheetId";
