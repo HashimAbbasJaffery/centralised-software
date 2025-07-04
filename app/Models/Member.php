@@ -37,18 +37,17 @@ class Member extends Model
     }
     public function scopeFilter($query) {
         $keyword = request()->keyword;
-        $query->where(function($query) use($keyword) {
-            $query
-                    ->whereHas('children', function($query) use ($keyword){
-                        return $query->whereLike("child_name", "%$keyword%");
-                    })
-                    ->orWhereLike("member_name", "%$keyword%")
-                    ->orWhereLike("membership_number", "%$keyword%")
-                    ->orWhereLike("file_number", "%$keyword%")
-                    ->orWhere(function($query) use ($keyword){
-                        return $query->where("locker_category", $keyword)
-                                ->where("locker_number", $keyword);
-                    });
+        $query->where(function ($q) use ($keyword) {
+            $q->whereHas('children', function ($qc) use ($keyword) {
+                $qc->whereLike('child_name', "%$keyword%");
+            })
+            ->orWhereLike('member_name', "%$keyword%")
+            ->orWhereLike('membership_number', "%$keyword%")
+            ->orWhereLike('file_number', "%$keyword%")
+            ->orWhere(function ($q) use ($keyword) {
+                $q->where('locker_category', $keyword)
+                ->where('locker_number', $keyword);
+            });
         });
 
         return $query;
