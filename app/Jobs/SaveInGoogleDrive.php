@@ -31,7 +31,8 @@ class SaveInGoogleDrive implements ShouldQueue
      * Execute the job.
      */
     public function handle(): void
-    {
+{
+    try {
         $setting = Setting::first();
         $client = new Google_Client();
         $client->setApplicationName("Google Sheets Export");
@@ -58,6 +59,7 @@ class SaveInGoogleDrive implements ShouldQueue
         } else {
             $spreadsheetId = $setting->google_sheet_id;
         }
+
         // 2. Insert data
         $value = [];
         $vals = Member::all();
@@ -96,40 +98,38 @@ class SaveInGoogleDrive implements ShouldQueue
             ];
         }
 
-
-
         $values = [
             [
-            "id", 
-            "Member Name", 
-            "Date of Birth",
-            "Gender",
-            "Marital Status",
-            "CNIC/Passport",
-            "Phone Number",
-            "Alternate Phone Number",
-            "Email Address",
-            "Residential Address",
-            "City Country",
-            "Membership Type",
-            "Membership Number",
-            "Membership Status",
-            "File Number",
-            "Date of Applying",
-            "Form Fee",
-            "Processing Fee",
-            "First Payment",
-            "Total Installment",
-            "Installment Month",
-            "Payment Status",
-            "Blood Group",
-            "Emergency Contact",
-            "Card Type",
-            "Date of Issue",
-            "Validity",
-            "Locker Category",
-            "Locker Number"
-        ],
+                "id", 
+                "Member Name", 
+                "Date of Birth",
+                "Gender",
+                "Marital Status",
+                "CNIC/Passport",
+                "Phone Number",
+                "Alternate Phone Number",
+                "Email Address",
+                "Residential Address",
+                "City Country",
+                "Membership Type",
+                "Membership Number",
+                "Membership Status",
+                "File Number",
+                "Date of Applying",
+                "Form Fee",
+                "Processing Fee",
+                "First Payment",
+                "Total Installment",
+                "Installment Month",
+                "Payment Status",
+                "Blood Group",
+                "Emergency Contact",
+                "Card Type",
+                "Date of Issue",
+                "Validity",
+                "Locker Category",
+                "Locker Number"
+            ],
             ...$value
         ];
 
@@ -149,7 +149,7 @@ class SaveInGoogleDrive implements ShouldQueue
         $permission = new Google_Service_Drive_Permission([
             'type' => 'user',
             'role' => 'writer', // use 'reader' if you only want to view
-            'emailAddress' => 'habbas21219@gmail.com' // 👈 replace with your Gmail
+            'emailAddress' => 'habbas21219@gmail.com' 
         ]);
         $driveService->permissions->create($spreadsheetId, $permission);
 
@@ -162,5 +162,16 @@ class SaveInGoogleDrive implements ShouldQueue
                 "google_sheet_id" => $spreadsheetId
             ]);
         }
+
+    } catch (\Google_Service_Exception $e) {
+        \Log::error('Google_Service_Exception: ' . $e->getMessage());
+        \Log::error('Google_Service_Exception JSON: ' . json_encode($e->getErrors()));
+        throw $e;
+
+    } catch (\Exception $e) {
+        \Log::error('General Exception: ' . $e->getMessage());
+        throw $e;
     }
+}
+
 }
