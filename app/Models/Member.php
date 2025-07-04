@@ -42,8 +42,8 @@ class Member extends Model
                     ->orWhereLike("membership_number", "%$keyword%")
                     ->orWhereLike("file_number", "%$keyword%")
                     ->orWhere(function($query) use ($keyword){
-                        $query->whereLike("locker_category", "%$keyword%")
-                                ->whereLike("locker_number", "%$keyword%");
+                        $query->where("locker_category", $keyword)
+                                ->where("locker_number", $keyword);
                     });
         });
 
