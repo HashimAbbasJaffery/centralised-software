@@ -318,7 +318,7 @@
             </div>
           </div>
         @endforeach
-        <div @click="addChild" style="width: 33.33%; border: 1px dashed black; border-radius: 5px; margin-top: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <div @click="addChild" style="width: 33.33%; height: 33.33%; border: 1px dashed black; border-radius: 5px; margin-top: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
           <span style="color: white; background: rgba(126, 58, 242, var(--bg-opacity);border-radius: 50px; display: flex; align-items: center; justify-content: center;">
             <i class="fa-solid fa-plus" style="padding: 5px;"></i>
           </span>
