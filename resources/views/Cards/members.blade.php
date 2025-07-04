@@ -53,11 +53,29 @@ table {
   tbody {
     border-top: 1px solid #ccc; /* Ensures border between tbody sections */
   }
+  .card-buttons:disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
   </style>
   
 
 
   <main id="app" class="h-full pb-16 overflow-y-auto">
+    <div class="checked-members" v-if="checked_members.length > 0 && openList" style="overflow-y: auto; border: 1px solid black; background: white; position: absolute; right: 0; bottom: 0; margin: 20px; margin-bottom: 70px; width: 25%; height: 50%; border-radius: 10px;">
+      <div class="member flex justify-between items-center" v-for="member in checked_member_details" style="padding: 5px;">
+        <p v-text="member[1]"></p>
+        <button style="background: 	#F44336; color: white; padding: 3px; border-radius: 5px;" @click="deleteCheckedMember(member[0])">Delete</button>
+      </div>
+    </div>
+    <div @click="openList = !openList" style="position: absolute; right: 0; bottom: 0;" v-if="checked_members.length > 0">
+      <div class="flex items-center justify-center" style="position: relative; cursor: pointer; color: white; background: black; width: 30px; height: 30px; border-radius: 50px; margin: 20px;">
+        <svg style="height: 14px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192l42.7 0c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0L21.3 320C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7l42.7 0C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3l-213.3 0zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352l117.3 0C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7l-330.7 0c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>
+        <div class="counter flex items-center justify-center" style="width: 15px; height: 15px; background: #b91c1c; font-size: 5x; padding: 1px; position: absolute; border-radius: 50px; top: -5px; left: 0;">
+          <span style="font-size: 9px; top: 0;" v-text="checked_members.length"></span>
+        </div>
+      </div>
+    </div>
     <!-- Remove everything INSIDE this div to a really blank page -->
     
     <div class="container px-6 mx-auto grid">
@@ -85,7 +103,7 @@ table {
          <td style="text-align: center; vertical-align: middle;">
                 <input
                     type="checkbox"
-                    @change="showFamily(member.id)"
+                    @change="showFamily(member.id, member.member_name)"
                     style="height: 15px; width: 15px;"
                     :checked="checked_members.includes(member.id)"
                     class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
@@ -116,7 +134,7 @@ table {
   <td class="pl-4 border-l-2 border-dotted border-gray-300 text-center align-middle">
     <input
       type="checkbox"
-      @change="saveToSessionStorage(`spouse-${spouse.id}`)"
+      @change="saveToSessionStorage(`spouse-${spouse.id}`, `${spouse.spouse_name}`)"
       :checked="checked_members.includes(`spouse-${spouse.id}`)"
       style="height: 15px; width: 15px;"
       class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
@@ -170,7 +188,7 @@ table {
       type="checkbox"
       style="height: 15px; width: 15px;"
     :checked="checked_members.includes(`child-${child.id}`)"
-      @change="saveToSessionStorage(`child-${child.id}`)"
+      @change="saveToSessionStorage(`child-${child.id}`, `${child.child_name}`)"
       class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
     >
   </td>
@@ -221,8 +239,8 @@ table {
         </p>
       </div>
       <div class="print-buttons" v-if="!is_fetching" style="display: flex; gap: 10px; margin-top: 20px;">
-          <button @click="selectFront" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (front)</button>
-          <button @click="selectBack" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (back)</button>
+          <button :disabled="!checked_members.length" @click="selectFront" class="card-buttons px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (front)</button>
+          <button :disabled="!checked_members.length" @click="selectBack" class="card-buttons px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">View Selected (back)</button>
       </div>
       <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
     </div>
@@ -261,7 +279,9 @@ table {
           child_checkbox: [],
           family: [],
           checked_members: [],
-          debounceTimer: null
+          checked_member_details: new Map(),
+          debounceTimer: null,
+          openList: false
         }
       },
       created() {
@@ -298,6 +318,12 @@ table {
         }
       },
       methods: {
+        deleteCheckedMember(id) {
+          this.checked_member_details.delete(id);
+          this.checked_members = this.checked_members.filter(checked_member => checked_member !== id);
+          sessionStorage.setItem("checked_members", JSON.stringify(this.checked_members));
+
+        },
         selectFront() {
             const url = route('card.front', { members: JSON.parse(sessionStorage.checked_members) });
             window.open(url, '_blank');
@@ -306,23 +332,27 @@ table {
             const url = route("card.back", { members: JSON.parse(sessionStorage.checked_members) });
             window.open(url, '_blank');
         },
-        saveToSessionStorage(id) {
+        saveToSessionStorage(id, name) {
             const index = this.checked_members.indexOf(id);
             if (index === -1) {
-                this.checked_members.push(id); // Add
+              this.checked_members.push(id); // Add
+                
+              this.checked_member_details.set(id, name);
             } else {
                 this.checked_members.splice(index, 1); // Remove
+                this.checked_member_details.delete(id);
             }
             sessionStorage.setItem("checked_members", JSON.stringify(this.checked_members));
+
         },
-        showFamily(id) {
+        showFamily(id, name) {
             const index = this.family.indexOf(id);
             if (index === -1) {
                 this.family.push(id); // Add
             } else {
                 this.family.splice(index, 1); // Remove
             }
-            this.saveToSessionStorage(id);
+            this.saveToSessionStorage(id, name);
         },
         async createToWati() {
           const response = await axios.get(route('api.member.all'));
