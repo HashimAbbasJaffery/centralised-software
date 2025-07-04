@@ -198,10 +198,10 @@
       </div>
     </div>
 
-    <div>
+    <div class="container px-6 mx-auto">
       
       @if(count($member->spouses) > 0)
-        <h1 class="container px-6 mx-auto flex items-center" style="margin-top: 50px; font-weight: bold;">Spouses</h1>
+        <h1 class="flex items-center" style="margin-top: 50px; font-weight: bold;">Spouses</h1>
       @endif
       <div class="spouses flex flex-wrap">
       @foreach($member->spouses as $spouse)
