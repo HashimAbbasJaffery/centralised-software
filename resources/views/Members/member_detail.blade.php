@@ -260,9 +260,7 @@
    </div>
 
     <div class="container px-6 mx-auto">
-      @if(count($member->children) > 0)
-        <h1 class="" style="margin-top: 50px; font-weight: bold;">Children</h1>
-      @endif
+      <h1 class="" style="margin-top: 50px; font-weight: bold;">Children</h1>
       <div class="children flex flex-wrap">
         @foreach($member->children as $child)
           <div class="child" style="width: 33.33%;">
