@@ -113,7 +113,7 @@ Route::delete("/club/{club}/delete", [ClubController::class, "delete"])->name("a
 
 Route::get("club/by-country", function() {
     $country = request()->country;
-    $club = Club::firstWhere("country", $country);
+    $club = Club::where("country", $country)->get();
     return $club;
 })->withoutMiddleware([VerifyCsrfToken::class]);
 
