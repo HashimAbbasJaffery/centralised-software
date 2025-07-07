@@ -83,7 +83,7 @@ Route::get("/member/fetch-by-membership", function() {
     $cnic_passport = request()->cnic_passport;
 
     $member = Member::selectRaw("member_name AS full_name")
-                        ->where("membership_no", $membership_no)
+                        ->where("membership_number", $membership_no)
                         ->where("cnic_passport", $cnic_passport)
                         ->first();
     
