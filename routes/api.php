@@ -24,6 +24,7 @@ use App\Models\Child;
 use App\Models\Member;
 use App\Models\Spouse;
 use App\Services\ImageService;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -105,7 +106,7 @@ Route::put("/duration/{duration}/update", [DurationController::class, "update"])
 
 Route::get("/introletters", [IntroletterController::class, "index"])->name("api.introletter.index");
 Route::delete("/introletter/{introletter}/delete", [IntroletterController::class, "delete"])->name("api.introletter.delete");
-Route::post("/introletter/create", [IntroletterController::class, "store"])->name("api.introletter.create");
+Route::post("/introletter/create", [IntroletterController::class, "store"])->name("api.introletter.create")->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::post("/recovery/{member}/create", [RecoveryController::class, "store"])->name("recovery.create");
 Route::get("/recovery/{member}/get", [RecoveryController::class, "get"])->name("api.recovery.get");
