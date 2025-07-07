@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\SpouseController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
 use App\Models\Child;
+use App\Models\Club;
 use App\Models\Member;
 use App\Models\Spouse;
 use App\Services\ImageService;
@@ -109,6 +110,12 @@ Route::post("/spouse/create", [SpouseController::class, "store"])->name("api.spo
 Route::post("/club/create", [ClubController::class, "store"])->name("api.club.create");
 Route::get("/clubs", [ClubController::class, "index"])->name("api.club.index");
 Route::delete("/club/{club}/delete", [ClubController::class, "delete"])->name("api.club.delete");
+
+Route::get("club/by-country", function() {
+    $country = request()->country;
+    $club = Club::firstWhere("country", $country);
+    return $club;
+})->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get("/durations", [DurationController::class, "index"])->name("api.duration.index");
 Route::post("/duration/create", [DurationController::class, "store"])->name("api.duration.create");
