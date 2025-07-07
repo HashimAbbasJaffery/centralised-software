@@ -476,6 +476,7 @@
       .then(response => {
         Swal.fire('Success!', 'Form submitted successfully.', 'success');
         console.log('Server Response:', response.data);
+        window.location.reload();
       })
       .catch(error => {
         console.error(error);
@@ -590,6 +591,8 @@
       .then(response => {
         Swal.fire('Success!', 'Form submitted successfully.', 'success');
         console.log('Server Response:', response.data);
+
+        window.location.reload();
       })
       .catch(error => {
         console.error(error);

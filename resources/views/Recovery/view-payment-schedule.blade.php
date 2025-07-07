@@ -187,7 +187,7 @@ const app = Vue.createApp({
         const row = this.rows.filter(row => row.id == id);
         const value = parseInt(value1) - parseInt(value2);
         row[0][key] = value;
-        return isNaN(value) ? '' : value;
+        return isNaN(value) ? '' : value;   
     },
     addRow() {
         this.balances.push(this.rows[this.rows.length - 1].total_balance);
