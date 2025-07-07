@@ -323,6 +323,7 @@ footer{
                                     <input v-else-if="report.payment_status === 'level4'" class="form-control print-status" type="text" style="color: white; background-color: rgb(166, 4, 17);" value="Level 4" readonly>
                                     <input v-else-if="report.payment_status === 'level5'" class="form-control print-status" type="text" style="color: white; background-color: rgb(102, 20, 22);" value="Level 4" readonly>
                                     <input v-else-if="report.payment_status === 'cleared'" class="form-control print-status" type="text" style="color: white; background-color: rgb(39, 36, 27);" value="Level 4" readonly>
+                                    <input v-else class="form-control print-status" type="text" style="color: black; background-color: #e9ecef;" value="Regular" readonly>
                                 </td>
                                 <td></td>
                             </tr>
