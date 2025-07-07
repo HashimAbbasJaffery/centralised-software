@@ -111,6 +111,11 @@ Route::post("/club/create", [ClubController::class, "store"])->name("api.club.cr
 Route::get("/clubs", [ClubController::class, "index"])->name("api.club.index");
 Route::delete("/club/{club}/delete", [ClubController::class, "delete"])->name("api.club.delete");
 
+Route::get("club/countries", function() {
+    $countries = Club::select("country")->distinct()->get();
+    return $countries;
+});
+
 Route::get("club/by-country", function() {
     $country = request()->country;
     $club = Club::where("country", $country)->get();
