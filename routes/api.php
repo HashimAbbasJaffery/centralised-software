@@ -126,7 +126,7 @@ Route::get("club/by-city", function() {
     $city = request()->city;
     $clubs = Club::where("city", $city)->get();
     return $clubs;
-});
+})->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get("/durations", [DurationController::class, "index"])->name("api.duration.index");
 Route::post("/duration/create", [DurationController::class, "store"])->name("api.duration.create");
