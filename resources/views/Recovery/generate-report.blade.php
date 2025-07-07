@@ -316,7 +316,6 @@ footer{
                                 <td class="text-right pe-2 latest_payable" v-text="report.recovery[0]?.payable.toLocaleString() ?? 'no updated'">no updated</td>
 
                                 <td class="status">
-                                    <input v-if="report.payment_status === 'regular'" class="form-control print-status" type="text" style="color: black; background-color: #e9ecef;" value="Regular" readonly>
                                     <input v-if="report.payment_status === 'level1'" class="form-control print-status" type="text" style="color: black; background-color: #bbd5d2;" value="Level 1" readonly>
                                     <input v-else-if="report.payment_status === 'level2'" class="form-control print-status" type="text" style="color: black; background-color: rgb(254, 240, 0);" value="Level 2" readonly>
                                     <input v-else-if="report.payment_status === 'level3'" class="form-control print-status" type="text" style="color: black; background-color: rgb(255, 156, 7);" value="Level 3" readonly>
