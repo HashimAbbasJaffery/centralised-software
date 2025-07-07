@@ -122,6 +122,12 @@ Route::get("club/by-country", function() {
     return $club;
 })->withoutMiddleware([VerifyCsrfToken::class]);
 
+Route::get("club/by-city", function() {
+    $city = request()->city;
+    $clubs = Club::where("city", $city)->get();
+    return $clubs;
+});
+
 Route::get("/durations", [DurationController::class, "index"])->name("api.duration.index");
 Route::post("/duration/create", [DurationController::class, "store"])->name("api.duration.create");
 Route::delete("/duration/{duration}/delete", [DurationController::class, "delete"])->name("api.duration.delete");
