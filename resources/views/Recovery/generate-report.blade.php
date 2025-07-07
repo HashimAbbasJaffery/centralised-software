@@ -311,9 +311,10 @@ footer{
                                 <td v-text="index + 1"></td>
                                 <td v-text="report.membership_number"></td>
                                 <td v-text="report.member_name"></td>
+
                                 <td v-text="report.phone_number?.replace('+', '').split(', ')[0] ?? '-'"></td>
-                                <td v-if="report.alternate_ph_number.length > 0" v-text="report.alternate_ph_number?.replace('+', '') ?? '-'">&nbsp;</td>
-                                <td v-else>-</td>
+                                <td v-text="report.alternate_ph_number?.replace('+', '') ?? '-'">&nbsp;</td>
+                                
                                 <td class="text-right pe-2 latest_payable" v-text="report.recovery[0]?.payable.toLocaleString() ?? 'no updated'">no updated</td>
 
                                 <td class="status">

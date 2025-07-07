@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\IntroletterResource;
+use App\Models\Club;
+use App\Models\Duration;
 use App\Models\Introletter;
 use App\Models\Member;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -44,5 +46,20 @@ class IntroletterController extends Controller
         $introletter->delete();
 
         return $this->apiResponse->success("Introduction letter has been deleted");
+    }
+
+    public function store(Request $request) {
+        $duration = Duration::firstWhere("month", explode(" ", $request->duration)[0]);
+        $club = Club::firstWhere("club_name", $request->club);
+        $member = Member::firstWhere("membership_number", $request->membership_number);
+        $children = $request->children;
+        $spouse = $request->spouse;
+
+        $member->introletter()->create([
+            "spouse" => $spouse,
+            "children" => $children,
+            "club_id" => $club->id,
+            "duration_id" => $duration->id, 
+        ]);
     }
 }
