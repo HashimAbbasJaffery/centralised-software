@@ -156,7 +156,6 @@ Route::post("/members/save/google_drive", [GoogleServicesController::class, "sav
 Route::get("/payment-methods", [PaymentMethodController::class, "get"])->name("api.payment-methods.index");
 Route::post("/payment-method/create", [PaymentMethodController::class, "store"])->name("api.payment-methods.create");
 Route::delete("/payment-method/{paymentMethod}/delete", [PaymentMethodController::class, "destroy"])->name("api.payment-methods.delete");
-// Route::put("/payment-method/{paymentMethod}")
 
 Route::get("/single-member/{member:user_token}/get", function(Member $member, ApiResponse $apiResponse) {
     if(!($member && $member->exists())) {
