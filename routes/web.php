@@ -31,6 +31,7 @@ use App\Models\Member;
 use App\Models\Permission;
 use App\Models\PersonalAccessToken;
 use App\Models\RecoverySheet;
+use App\Models\Setting;
 use App\Models\Spouse;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -53,7 +54,6 @@ use Illuminate\Support\Facades\Route;
 //     }
 //     dd($issues);
 // });
-
 
 Route::get("sheets", function() {
     Member::chunk(500, function ($members) {
