@@ -308,7 +308,7 @@ footer{
                     </thead>
                     <tbody>
                             <tr style="font-size:13px;" v-for="(report, index) in reports" :key="report.id">
-                                <td v-text="index"></td>
+                                <td v-text="index + 1"></td>
                                 <td v-text="report.membership_number"></td>
                                 <td v-text="report.member_name"></td>
                                 <td v-text="report.phone_number.replace('+', '')"></td>
