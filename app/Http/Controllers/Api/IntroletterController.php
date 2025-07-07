@@ -53,7 +53,7 @@ class IntroletterController extends Controller
 
     public function store(Request $request) {
         $duration = Duration::firstWhere("months", explode(" ", $request->duration)[0]);
-        $club = Club::firstWhere("club_name", $request->club);
+        $club = Club::firstWhere("club_name", "LIKE", "%$request->club%");
         Log::info($request->club);
         $member = Member::firstWhere("membership_number", $request->membership_number);
         $children = $request->children;
