@@ -11,6 +11,7 @@ use App\Models\Introletter;
 use App\Models\Member;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class IntroletterController extends Controller
 {
