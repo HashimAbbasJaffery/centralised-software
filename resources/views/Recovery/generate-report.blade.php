@@ -308,6 +308,7 @@ footer{
                     </thead>
                     <tbody>
                             <tr style="font-size:13px;" v-for="(report, index) in reports" :key="report.id">
+                                <pre v-text="report"></pre>
                                 <td v-text="index + 1"></td>
                                 <td v-text="report.membership_number"></td>
                                 <td v-text="report.member_name"></td>
