@@ -964,6 +964,12 @@ new Vue({
           window.location = route("member.manage");
         }
       } catch (e) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Incomplete Form',
+          text: 'Make sure all fields are filled',
+          confirmButtonText: 'OK'
+        });
         console.error(e.response?.data?.errors ?? e);
       } finally {
         this.is_submitting = false;
