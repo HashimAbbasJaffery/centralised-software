@@ -125,7 +125,12 @@
         <div v-show="tab === 'contact information'">
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Phone Number:</span> {{ str_replace("+", $member->phone_number_code, $member->phone_number) }}</p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> {{ str_replace("+", $member->alternate_ph_number_code, $member->alternate_ph_number) }}</p>
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span> {{ str_replace("+", $member->emergency_contact_code, $member->emergency_contact) }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span>
+            <span class="editable" data-editable="emergency_contact">
+              {{ str_replace("+", $member->emergency_contact_code, $member->emergency_contact) }}
+            </span>
+            <input type="hidden" id="emergency_contact" value="{{ $member->emergency_contact }}"/>
+          </p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Email Address:</span> 
             <span class="editable" data-editable="email_address" type="email">
               {{ $member->email_address }}
