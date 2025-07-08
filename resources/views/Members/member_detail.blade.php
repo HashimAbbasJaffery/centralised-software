@@ -178,7 +178,7 @@
             </select>
           </p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Issue(Card):</span> 
-            <span class="editable" data-editable="date_of_issue" type="date">
+            <span class="editable" data-editable="date_of_issue" data-type="date">
               {{ \Carbon\Carbon::parse($member->date_of_issue)->format("d-M-Y") }}
             </span>
             <input type="hidden" id="date_of_issue" value="{{ $member->date_of_issue }}"/>
