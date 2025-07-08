@@ -148,7 +148,7 @@
                 )) ;
             @endphp
             <span class="editable" data-editable="emergency_contact">
-              {{ $emergency_ph_number }}
+              {{ Str::contains($emergency_ph_number, "-") ? "-" : $emergency_ph_number }}
             </span>
             <input type="hidden" id="emergency_contact" value="{{ $member->emergency_contact }}"/>
           </p>
