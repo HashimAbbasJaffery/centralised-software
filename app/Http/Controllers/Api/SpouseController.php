@@ -41,4 +41,13 @@ class SpouseController extends Controller
         'data' => $spouse
     ]);
     }
+
+    public function delete(Spouse $spouse) {
+        $spouse->delete();
+
+        return response()->json([
+            "Message" => "Successfully Divorced!",
+            'data' => $spouse
+        ]);
+    }
 }

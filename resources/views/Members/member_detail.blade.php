@@ -196,10 +196,10 @@
             <span class="editable" data-editable="card_type" type="text">
               {{ $member->card_type }}
             </span>
-              <select id="card_type" style="display: none;">
-                <option value="cleared">Cleared</option>
-                <option value="Provisional Membership">Provisional Membership</option>
-                <option value="Family Not Allowed">Family Not Allowed</option>
+            <select id="card_type" style="display: none;">
+              <option value="cleared">Cleared</option>
+              <option value="Provisional Membership">Provisional Membership</option>
+              <option value="Family Not Allowed">Family Not Allowed</option>
             </select>
           </p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Issue(Card):</span> 
