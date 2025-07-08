@@ -209,7 +209,7 @@
           const response = await axios.get(route('api.valid.member'));
           const members = response.data.data;
           const header = "Name,CountryCode,Phone,AllowBroadcast,AllowSMS,Attribute 1,Attribute 2\n";
-          const rows = members.map(row => `${row.member_name},${row.phone_number_code},${row.phone_number_without_code},TRUE,TRUE`).join("\n");
+          const rows = members.map(row => `M - ${row.member_name},${row.phone_number_code},${row.phone_number_without_code},TRUE,TRUE`).join("\n");
           const csvContent = header + rows;
 
           // Create download link
