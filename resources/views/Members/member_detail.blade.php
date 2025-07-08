@@ -127,7 +127,7 @@
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> {{ str_replace("+", $member->alternate_ph_number_code, $member->alternate_ph_number) }}</p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span>
             <span class="editable" data-editable="emergency_contact">
-              {{ Str::replaceFirst("+", $member->emergency_contact_code, $member->emergency_contact) }}
+              {{ Str::replaceFirst("+", $member->emergency_contact_code, Str::replaceFirst($emergency_contact_code, "", $member->emergency_contact)) }}
             </span>
             <input type="hidden" id="emergency_contact" value="{{ $member->emergency_contact }}"/>
           </p>
