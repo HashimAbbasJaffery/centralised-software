@@ -124,7 +124,7 @@
         </div>
         <div v-show="tab === 'contact information'">
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Phone Number:</span> 
-            @if(Str::replaceFirst($member->phone_number_code, "", $member->phone_number) != "-")
+            @if(Str::replaceFirst("+", $member->phone_number_code, Str::replaceFirst($member->phone_number_code, "", $member->phone_number)) != "-")
               {{ Str::replaceFirst("+", $member->phone_number_code, Str::replaceFirst($member->phone_number_code, "", $member->phone_number)) }}
             @else
               -
