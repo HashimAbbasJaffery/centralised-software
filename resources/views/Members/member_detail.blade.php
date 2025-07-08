@@ -147,7 +147,7 @@
                 )) ;
             @endphp
             <span class="editable" data-editable="emergency_contact">
-              {{ strlen(Str::replaceFirst($emergency_contact_code, "", $emergency_contact)) > 0 ? $emergency_ph_number : "-" }}
+              {{ strlen(Str::replaceFirst($member->emergency_contact_code, "", $emergency_contact)) > 0 ? $emergency_ph_number : "-" }}
             </span>
             <input type="hidden" id="emergency_contact" value="{{ $member->emergency_contact }}"/>
           </p>
