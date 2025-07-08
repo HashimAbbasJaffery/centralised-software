@@ -134,7 +134,7 @@
             @php
               $alternate_ph_number = str_replace("+", $member->alternate_ph_number_code,  Str::replaceFirst($member->alternate_ph_number_code, "", $member->alternate_ph_number));
             @endphp
-            {{ Str::contains($alternate_ph_number, "-") ? "-" : $alternate_ph_number }}
+            {{ strlen(Str::replaceFirst($member->alternate_ph_number_code, "", $alternate_ph_number)) > 0 ? $alternate_ph_number : "-" }}
           </p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Emergency Number:</span>
             @php
