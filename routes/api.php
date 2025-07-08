@@ -79,6 +79,8 @@ Route::patch("/spouse/{spouse}/patch", function(Spouse $spouse) {
     return request()->all();
 })->name("spouse.patch");
 Route::get("/member/all", [MemberController::class, "getAllMembers"])->name("api.member.all");
+Route::get("/member/get-valid-members", [MemberController::class, "getAllMembers"])->name("api.valid.member");
+
 Route::get("/member/fetch-by-membership", function() {
     $membership_no = request()->membership_no;
     $cnic_passport = request()->cnic_passport;
