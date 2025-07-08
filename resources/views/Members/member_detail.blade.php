@@ -127,7 +127,6 @@
             @php
               $phone_number = Str::replaceFirst("+", $member->phone_number_code, Str::replaceFirst($member->phone_number_code, "", $member->phone_number));
             @endphp
-
             {{ strlen(Str::replaceFirst($member->phone_number_code, "", $member->phone_number)) > 0 ? $phone_number : "-" }}
           </p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> 
@@ -148,7 +147,7 @@
                 )) ;
             @endphp
             <span class="editable" data-editable="emergency_contact">
-              {{ Str::contains($emergency_ph_number, "-") ? "-" : $emergency_ph_number }}
+              {{ strlen(Str::replaceFirst($emergency_contact_code, "", $emergency_contact)) > 0 ? $emergency_ph_number : "-" }}
             </span>
             <input type="hidden" id="emergency_contact" value="{{ $member->emergency_contact }}"/>
           </p>
