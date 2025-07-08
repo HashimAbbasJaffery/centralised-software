@@ -177,7 +177,12 @@
                 <option value="Family Not Allowed">Family Not Allowed</option>
             </select>
           </p>
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Issue(Card):</span> {{ \Carbon\Carbon::parse($member->date_of_issue)->format("d-M-Y") }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Issue(Card):</span> 
+            <span class="editable" data-editable="date_of_issue" type="date">
+              {{ \Carbon\Carbon::parse($member->date_of_issue)->format("d-M-Y") }}
+            </span>
+            <input type="hidden" id="date_of_issue" value="{{ $member->date_of_issue }}"/>
+          </p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Validity(Card):</span> {{ \Carbon\Carbon::parse($member->validity)->format("d-M-Y") }}</p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Date of Applying:</span> {{ \Carbon\Carbon::parse($member->date_of_applying)->format("d-M-Y") }}</p>
         </div>
