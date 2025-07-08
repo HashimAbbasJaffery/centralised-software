@@ -128,7 +128,7 @@
               $phone_number = Str::replaceFirst("+", $member->phone_number_code, Str::replaceFirst($member->phone_number_code, "", $member->phone_number));
             @endphp
 
-            {{ strlen(Str::replaceFirst($member->phone_number_code, "", $member->phone_number)) > 0 ? $phone : $phone_number }}
+            {{ strlen(Str::replaceFirst($member->phone_number_code, "", $member->phone_number)) > 0 ? $phone_number : "-" }}
           </p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Alternate Phone Number:</span> 
             @php
