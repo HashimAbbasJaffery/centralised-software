@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateFamilySheet;
 use App\Models\Child;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Storage;
@@ -38,13 +40,20 @@ class ChildController extends Controller
     // Save to DB (example)
     $child = Child::create($validated);
 
+    $member = Member::find($request->member_id);
+    dispatch(new CreateFamilySheet($member));
+
     return response()->json([
         'message' => 'Child created successfully!',
         'data' => $child
     ]);
     }
     public function delete(Child $child) {
+        $member_id = $child->member_id;
         $child->delete();
+
+        $member = Member::find($member_id);
+        dispatch(new CreateFamilySheet($member));
 
         return response()->json([
             'message' => 'Child',
