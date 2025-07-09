@@ -370,7 +370,7 @@
         }
       },
       methods: {
-        async function divorce(id) {
+        async divorce(id) {
           const confirmed = await Swal.fire({
             title: 'Are you sure?',
             text: "Do you really want to delete this spouse? This action cannot be undone.",
