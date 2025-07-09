@@ -44,7 +44,6 @@ Route::patch("/member/{member}/patch", function(Member $member) {
 
     $member->$attribute = $value;
     $member->save();
-    Log::info($member->isDirty());
 
     return request()->all();
 })->name("member.patch");
