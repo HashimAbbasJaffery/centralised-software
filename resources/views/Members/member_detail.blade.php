@@ -238,7 +238,7 @@
       <h1 class="flex items-center" style="margin-top: 50px; font-weight: bold;">Spouses</h1>
       <div class="spouses flex flex-wrap">
       @foreach($member->spouses as $spouse)
-        <div class="spouse" style="width: 33.33%;">
+        <div class="spouse" style="width: 33.33%; display: flex; flex-direction: column; justify-content: center;">
           <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
             <div>
               <label for="picture.{{ $spouse->id }}">
