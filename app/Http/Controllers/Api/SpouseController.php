@@ -7,6 +7,7 @@ use App\Jobs\CreateFamilySheet;
 use App\Models\Member;
 use App\Models\Spouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class SpouseController extends Controller
@@ -38,6 +39,7 @@ class SpouseController extends Controller
         // Save to DB (example)
         $spouse = Spouse::create($validated);
 
+        Log::info("storing spouse");
         $member = Member::find($request->member_id);
         dispatch(new CreateFamilySheet($member));
     
