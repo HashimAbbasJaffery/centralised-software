@@ -89,6 +89,10 @@ class Member extends Model
             dispatch(new SaveInGoogleDrive());
             dispatch(new CreateFamilySheet($member));
         });
+
+        static::deleted(function($member) {
+            dispatch(new SaveInGoogleDrive());
+        });
     }
     public function profession() {
         return $this->hasOne(Profession::class);
