@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\RecoveryController;
 use App\Http\Controllers\Api\SpouseController;
 use App\Http\Controllers\Api\TokenController;
 use App\Http\Controllers\ThirdParty\GoogleServicesController;
+use App\Jobs\CreateFamilySheet;
 use App\Models\Child;
 use App\Models\Club;
 use App\Models\Member;
@@ -62,6 +63,12 @@ Route::patch("/child/{child}/patch", function(Child $child) {
 
     $child->$attribute = $value;
     $child->save();
+
+    $child->load("member");
+
+    if($child->member) {
+        dispatch(new CreateFamilySheet($child->member));
+    }
     
     return request()->all();
 })->name("child.patch");
