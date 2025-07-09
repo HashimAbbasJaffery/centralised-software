@@ -27,6 +27,7 @@ use App\Models\Spouse;
 use App\Services\ImageService;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::patch("/member/{member}/patch", function(Member $member) {
@@ -43,7 +44,8 @@ Route::patch("/member/{member}/patch", function(Member $member) {
 
     $member->$attribute = $value;
     $member->save();
-    
+    Log::info($member->isDirty());
+
     return request()->all();
 })->name("member.patch");
 
