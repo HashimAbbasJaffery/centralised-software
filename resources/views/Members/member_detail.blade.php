@@ -284,7 +284,7 @@
               <input type="hidden" id="spouse.blood_group.{{ $spouse->id }}" value="{{ $spouse->blood_group }}"/>
             <p>
           </div>
-          <button style="background: #e53935; color: white; margin: 0 auto; border-radius: 5px; margin-top: 10px;">
+          <button style="background: #e53935; color: white; margin: 0 auto; border-radius: 5px; margin-top: 10px; width: 10px; height: 10px;">
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
