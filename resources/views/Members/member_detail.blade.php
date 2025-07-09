@@ -371,7 +371,7 @@
         }
       },
       methods: {
-        async function deleteChild(id) {
+        async deleteChild(id) {
             // Show confirmation dialog
             const result = await Swal.fire({
               title: 'Are you sure?',
