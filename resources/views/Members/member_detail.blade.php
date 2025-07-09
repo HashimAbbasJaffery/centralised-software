@@ -370,8 +370,11 @@
         }
       },
       methods: {
-        divorce(id) {
-          alert(id);
+        async divorce(id) {
+          const response = await axios.post(route('api.spouse.delete', [ 'spouse' => id ]));
+          if(response.status == "200") {
+            window.location.reload();
+          }
         },
         changeSpousePicture(e) {
           const id = e.target.id.split(".")[1];
