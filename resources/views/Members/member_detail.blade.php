@@ -372,7 +372,7 @@
       methods: {
         async divorce(id) {
           try {
-            const response = await axios.post(route('api.spouse.delete', id));
+            const response = await axios.post(route('api.spouse.delete', id), { _method: "DELETE" });
             if (response.status === 200) {
               window.location.reload();
             }
