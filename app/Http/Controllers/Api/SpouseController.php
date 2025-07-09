@@ -39,7 +39,6 @@ class SpouseController extends Controller
         // Save to DB (example)
         $spouse = Spouse::create($validated);
 
-        Log::info("storing spouse");
         $member = Member::find($request->member_id);
         dispatch(new CreateFamilySheet($member));
     
@@ -51,6 +50,10 @@ class SpouseController extends Controller
 
     public function delete(Spouse $spouse) {
         $spouse->delete();
+
+        
+        $member = Member::find($spouse->member_id);
+        dispatch(new CreateFamilySheet($member));
 
         return response()->json([
             "Message" => "Successfully Divorced!",
