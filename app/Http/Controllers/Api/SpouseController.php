@@ -38,7 +38,8 @@ class SpouseController extends Controller
         // Save to DB (example)
         $spouse = Spouse::create($validated);
 
-        dispatch(new CreateFamilySheet($request->member_id));
+        $member = Member::find($request->member_id);
+        dispatch(new CreateFamilySheet($member));
     
         return response()->json([
             'message' => 'Spouse created successfully!',
