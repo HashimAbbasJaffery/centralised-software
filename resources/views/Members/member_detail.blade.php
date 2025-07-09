@@ -370,17 +370,32 @@
         }
       },
       methods: {
-        async divorce(id) {
-          try {
-            const response = await axios.post(route('api.spouse.delete', id), { _method: "DELETE" });
-            if (response.status === 200) {
-              window.location.reload();
+        async function divorce(id) {
+          const confirmed = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this spouse? This action cannot be undone.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+          });
+
+          if (confirmed.isConfirmed) {
+            try {
+              const response = await axios.post(route('api.spouse.delete', id), { _method: "DELETE" });
+              if (response.status === 200) {
+                await Swal.fire('Deleted!', 'The spouse record has been deleted.', 'success');
+                window.location.reload();
+              }
+            } catch (error) {
+              console.error('Error deleting spouse:', error);
+              await Swal.fire('Error', 'Could not delete spouse. Please try again.', 'error');
             }
-          } catch (error) {
-            console.error('Error deleting spouse:', error);
-            alert('Could not delete spouse. Please try again.');
           }
         },
+
         changeSpousePicture(e) {
           const id = e.target.id.split(".")[1];
           const file = e.target.files[0];
