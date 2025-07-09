@@ -284,7 +284,7 @@
               <input type="hidden" id="spouse.blood_group.{{ $spouse->id }}" value="{{ $spouse->blood_group }}"/>
             <p>
           </div>
-          <button style="background: #e53935; color: white; width: 90%;">Delete</button>
+          <button style="background: #e53935; color: white; width: 90%; margin: 0 auto;">Delete</button>
         </div>
       @endforeach
       <div @click="addSpouse" style="padding: 10px 10px; width: 33.33%; border: 1px dashed black; border-radius: 5px; margin-top: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
