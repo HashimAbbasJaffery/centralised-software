@@ -64,10 +64,10 @@ Route::patch("/child/{child}/patch", function(Child $child) {
     $child->$attribute = $value;
     $child->save();
 
-    $child->load("member");
+    $member = Member::find($child->member_id);
 
     if($child->member) {
-        dispatch(new CreateFamilySheet($child->member));
+        dispatch(new CreateFamilySheet($member));
     }
     
     return request()->all();
