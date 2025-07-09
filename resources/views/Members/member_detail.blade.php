@@ -238,7 +238,7 @@
       <h1 class="flex items-center" style="margin-top: 50px; font-weight: bold;">Spouses</h1>
       <div class="spouses flex flex-wrap">
       @foreach($member->spouses as $spouse)
-        <div class="spouse" style="width: 33.33%; display: flex; flex-direction: column; justify-content: center; border-radius: 5px;">
+        <div class="spouse" style="width: 33.33%; display: flex; flex-direction: column; justify-content: center;">
           <div class="container px-6 mx-auto flex items-center" style="margin-top: 50px;">
             <div>
               <label for="picture.{{ $spouse->id }}">
@@ -284,7 +284,7 @@
               <input type="hidden" id="spouse.blood_group.{{ $spouse->id }}" value="{{ $spouse->blood_group }}"/>
             <p>
           </div>
-          <button style="background: #e53935; color: white; width: 90%; margin: 0 auto;">Delete</button>
+          <button style="background: #e53935; color: white; width: 90%; margin: 0 auto; border-radius: 5px;">Delete</button>
         </div>
       @endforeach
       <div @click="addSpouse" style="padding: 10px 10px; width: 33.33%; border: 1px dashed black; border-radius: 5px; margin-top: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
