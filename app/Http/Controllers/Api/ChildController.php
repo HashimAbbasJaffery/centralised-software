@@ -43,4 +43,12 @@ class ChildController extends Controller
         'data' => $child
     ]);
     }
+    public function delete(Child $child) {
+        $child->delete();
+
+        return response()->json([
+            'message' => 'Child',
+            'data' => $child
+        ]);
+    }
 }

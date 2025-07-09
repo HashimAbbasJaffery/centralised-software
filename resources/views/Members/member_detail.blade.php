@@ -352,6 +352,7 @@
                 <input type="hidden" id="child.blood_group.{{ $child->id }}" value="{{ $child->validity }}"/>
               <p>
             </div>
+            <button class="bg-purple-600" @click="deleteChild('{{ $child->id }}')" style="color: white; width: 90%; margin: 0 auto; border-radius: 5px; margin-top: 10px;">Delete</button>
           </div>
         @endforeach
         <div @click="addChild" style="padding: 10px 10px; width: 33.33%; border: 1px dashed black; border-radius: 5px; margin-top: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
@@ -370,6 +371,48 @@
         }
       },
       methods: {
+        async function deleteChild(id) {
+            // Show confirmation dialog
+            const result = await Swal.fire({
+              title: 'Are you sure?',
+              text: "This will permanently delete this child record.",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'Cancel'
+            });
+
+            if (result.isConfirmed) {
+            try {
+              const response = await axios.post(route("api.child.delete", id), { _method: "DELETE" });
+
+              if (response.status === 200) {
+                await Swal.fire(
+                  'Deleted!',
+                  'The child record has been deleted.',
+                  'success'
+                );
+                window.location.reload();
+              } else {
+                await Swal.fire(
+                  'Error!',
+                  'Could not delete the child record.',
+                  'error'
+                );
+              }
+            } catch (error) {
+              console.error('Error deleting child:', error);
+              await Swal.fire(
+                'Error!',
+                'Something went wrong. Please try again.',
+                'error'
+              );
+            }
+          }
+        },
+
         async divorce(id) {
           const confirmed = await Swal.fire({
             title: 'Are you sure?',

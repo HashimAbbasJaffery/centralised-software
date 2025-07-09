@@ -107,6 +107,8 @@ Route::delete("/membership-card/{cardType}/delete", [CardTypeController::class, 
 Route::put("/membership-card/{cardType}/update", [CardTypeController::class, "update"])->name("api.card.update");
 Route::get("/child/memberships", [CardTypeController::class, "childMemberships"])->name("api.card.child");
 Route::post("/child/create", [ChildController::class, "store"])->name("api.child.create");
+Route::delete("/child/{child}/delete", [ChildController::class, "delete"])->name("api.child.delete");
+
 Route::post("/spouse/create", [SpouseController::class, "store"])->name("api.spouse.create");
 Route::delete("/spouse/{spouse}/delete", [SpouseController::class, "delete"])->name("api.spouse.delete");
 
