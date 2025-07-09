@@ -49,11 +49,12 @@ class SpouseController extends Controller
     }
 
     public function delete(Spouse $spouse) {
+        $member_id = $spouse->member_id;
         $spouse->delete();
-
         
-        $member = Member::find($spouse->member_id);
+        $member = Member::find($member_id);
         dispatch(new CreateFamilySheet($member));
+        
 
         return response()->json([
             "Message" => "Successfully Divorced!",
