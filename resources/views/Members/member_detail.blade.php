@@ -371,9 +371,14 @@
       },
       methods: {
         async divorce(id) {
-          const response = await axios.post(route('api.spouse.delete', [ 'spouse' => id ]));
-          if(response.status == "200") {
-            window.location.reload();
+          try {
+            const response = await axios.post(route('api.spouse.delete', id));
+            if (response.status === 200) {
+              window.location.reload();
+            }
+          } catch (error) {
+            console.error('Error deleting spouse:', error);
+            alert('Could not delete spouse. Please try again.');
           }
         },
         changeSpousePicture(e) {
