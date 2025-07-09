@@ -38,6 +38,6 @@ class CreateFamilySheet implements ShouldQueue
 
         $this->member->has_receipt_created = true;
         $this->member->save();
-
+        
     }
 }

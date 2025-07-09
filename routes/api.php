@@ -42,8 +42,9 @@ Route::patch("/member/{member}/patch", function(Member $member) {
         $value = request()->value;
     }
 
-    $member->$attribute = $value;
-    $member->save();
+    $member->update([
+        $attribute => $value
+    ]);
 
     return request()->all();
 })->name("member.patch");
