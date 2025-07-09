@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateFamilySheet;
+use App\Models\Member;
 use App\Models\Spouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -35,6 +37,9 @@ class SpouseController extends Controller
 
         // Save to DB (example)
         $spouse = Spouse::create($validated);
+
+        $member = Member::find($spouse->id);
+        dispatch(new CreateFamilySheet($member));
 
         return response()->json([
             'message' => 'Spouse created successfully!',
