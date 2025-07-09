@@ -84,6 +84,13 @@ Route::patch("/spouse/{spouse}/patch", function(Spouse $spouse) {
 
     $spouse->$attribute = $value;
     $spouse->save();
+
+    
+    $member = Member::find($spouse->member_id);
+
+    if($child->member) {
+        dispatch(new CreateFamilySheet($member));
+    }
     
     return request()->all();
 })->name("spouse.patch");
