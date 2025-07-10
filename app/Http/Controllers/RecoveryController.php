@@ -57,7 +57,7 @@ class RecoveryController extends Controller
 
         $statuses = explode(",", request()->statuses);
         
-        $members = Member::select("id", "member_name", "membership_number", "phone_number", "alternate_ph_number", "payment_status")
+        $members = Member::select("id", "member_name", "membership_number", "phone_number", "alternate_ph_number", "recovery_phone_number","payment_status")
                         ->whereHas("recovery", function($query) use($startDate, $endDate) {
                             $query->whereDate("month", ">=", $startDate)
                                     ->whereDate("due_date", "<=", $endDate);
