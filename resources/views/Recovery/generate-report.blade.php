@@ -313,6 +313,10 @@ footer{
                                 <td v-text="report.member_name"></td>
 
                                 <td v-text="report.phone_number ? report.phone_number.replace('+', '').split(', ')[0] : (report.alternate_ph_number ? report.alternate_ph_number.replace('+', '') : '-')"></td>
+                                
+                                <td v-if="report.phone_number" v-text="report.phone_number.replace('+', '').split(', ')[0]"></td>
+                                <td v-else-if="report.alternate_ph_number" v-text="report.alternate_ph_number.replace('+', '')"></td>
+                                <td v-else>-</td>
 
                                 <td v-text="report.alternate_ph_number?.replace('+', '') ?? '-'">&nbsp;</td>
                                 
