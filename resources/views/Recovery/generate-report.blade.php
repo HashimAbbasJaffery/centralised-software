@@ -318,7 +318,8 @@ footer{
                                 <td v-else-if="report.alternate_ph_number.length > 0" v-text="report.alternate_ph_number.replace('+', '')"></td>
                                 <td v-else>-</td>
 
-                                <td v-text="report.alternate_ph_number?.replace('+', '') ?? '-'">&nbsp;</td>
+                                <td v-if="report.alternate_ph_number?.replace('+', '')?.length ?? null > 0" v-text="report.alternate_ph_number?.replace('+', '')">&nbsp;</td>
+                                <td v-else>-</td>
                                 
                                 <td class="text-right pe-2 latest_payable" v-text="report.recovery[0]?.payable.toLocaleString() ?? 'no updated'">no updated</td>
 
