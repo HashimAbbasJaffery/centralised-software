@@ -61,7 +61,7 @@
                     </table>
                 </div>
             </div>
-            <div v-show="!is_fetching_sheet" class="member-installment" style="margin-top: 20px; border-radius: 10px; overflow-x: scroll;" v-if="member.id">
+            <div v-show="!is_fetching_sheet" class="member-installment" style="margin-top: 20px; border-radius: 10px;" v-if="member.id">
                 <div class="container grid" style="border-radius: 10px;">
                     <table class="w-full whitespace-no-wrap" style="margin-right: 20px;">
                 <thead>
