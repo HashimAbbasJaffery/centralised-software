@@ -180,9 +180,9 @@
                         <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Date of Issue: </span>{{ \Carbon\Carbon::parse($member->date_of_issue)->format("d/m/Y") }}</td>
                         <td style="font-size: 8pt; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Validity: </span>{{ \Carbon\Carbon::parse($member->validity)->format("d/m/Y") }}</td>
                         @if($member->card_type)
-                            <td style="font-size: 6pt !important; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
+                            <td style="font-size: 7pt !important; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
                         @else
-                            <td style="font-size: 6pt !important; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
+                            <td style="font-size: 7pt !important; border: 0.5px solid black; padding-left: 5pt; padding-top: 5pt; padding-bottom: 5pt;"><span style="font-weight: 500;">Card Type: </span>{{ $member->card_type }}</td>
                         @endif
                     </tr>
                 </table>
