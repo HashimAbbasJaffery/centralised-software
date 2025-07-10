@@ -39,21 +39,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-// Route::get("separation", function() {
-//     // $members = Member::all();
-//     $members = Member::whereHas("children")->get();
-//     $issues = [];
-//     foreach($members as $member) {
-//         $children = $member->children()->where("membership_id", $member->membership_type)->get();
-//         if($children->isNotEmpty()) {
-//             foreach($children as $child) {
-                
-//             }
-//             $issues[] = $member->member_name;
-//         }
-//     }
-//     dd($issues);
-// });
 
 Route::get("sheets", function() {
     Member::chunk(500, function ($members) {

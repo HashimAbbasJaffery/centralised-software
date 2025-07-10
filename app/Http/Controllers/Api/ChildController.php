@@ -22,7 +22,7 @@ class ChildController extends Controller
             'validity' => 'required|date',
             'blood_group' => 'required',
             'cnic' => 'required',
-            'profile_pic' => 'nullable|image|max:2048', // 2MB limit
+            'profile_pic' => 'nullable|image|max:2048',
         ]);
 
     if ($request->hasFile('profile_pic')) {
