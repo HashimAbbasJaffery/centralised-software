@@ -135,7 +135,7 @@ class MembersCardController extends Controller
             }   
         }
         $member_collection = $member_collection->chunk(2)->map(fn($chunk) => $chunk->reverse())->flatten(1);
-                            
+        
         return view("Cards.back", compact("member_collection"));
     }
 }
