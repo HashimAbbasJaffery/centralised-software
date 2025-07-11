@@ -38,7 +38,8 @@
           data-message="date_of_birth_field_message"
           placeholder="Paid Amount field is required"
           type="text"
-          v-model="paid_amount"
+          @input="onPaidAmountInput"
+          :value="formattedPaidAmount"
           class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700
                      focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
                      dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -136,7 +137,20 @@ const app = Vue.createApp({
             this.member_name = response.data.member_name;
         }
     },
+  computed: {
+    formattedPaidAmount() {
+      return this.paid_amount
+        ? this.paid_amount.toLocaleString('en-US')
+        : '';
+    },
+  },
   methods: {
+    onPaidAmountInput(event) {
+      // Remove commas and parse as number
+      const raw = event.target.value.replace(/,/g, '');
+      const num = parseFloat(raw);
+      this.paid_amount = isNaN(num) ? 0 : num;
+    },
     async submit(e) {
         e.preventDefault();
 
