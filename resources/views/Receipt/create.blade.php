@@ -76,14 +76,14 @@
         <span class="text-gray-700 dark:text-gray-400">Payment Methods</span>
         <select
             v-model="payment_method"
-          data-message="gender_field_message"
-          class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700
-                     focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
-                     dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-        >
-        @foreach($payment_methods as $payment_method)
-            <option value="{{ $payment_method->id }}">{{ $payment_method->payment_method }}</option>
-        @endforeach
+            data-message="gender_field_message"
+            class="step_1 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700
+                      focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
+                      dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+          >
+          @foreach($payment_methods as $payment_method)
+              <option value="{{ $payment_method->id }}">{{ $payment_method->payment_method }}</option>
+          @endforeach
         </select>
         <span class="gender_field_message step_1_message text-xs text-red-600 dark:text-red-400" style="display: none;">
           Payment Method field is required

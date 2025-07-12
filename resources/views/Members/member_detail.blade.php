@@ -107,7 +107,7 @@
             </span>
             <input type="hidden" id="cnic_passport" value="{{ $member->cnic_passport }}"/>
             </p>
-          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City/Country:</span> {{ $member->city_country }}</p>
+          <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">City/Country:</span> {{ $member->country }}/{{ $member->city }}</p>
           <p style="margin-top: 10px;"><span style="display: inline-block; width: 200px;">Blood Group:</span> 
             <span style="text-transform: uppercase;" class="editable" data-editable="blood_group" data-type="text">{{ $member->blood_group }}</span>
             <select id="blood_group" style="display: none;">
