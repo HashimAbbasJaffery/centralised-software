@@ -52,6 +52,7 @@ class SaveInGoogleDrive implements ShouldQueue
         $spreadsheet = new Google_Service_Sheets_Spreadsheet([
             'properties' => ['title' => 'Laravel Members Export - ' . now()->toDateTimeString()]
         ]);
+        
         $spreadsheetId = null;
         if(!$setting) {
             $spreadsheet = $sheets->spreadsheets->create($spreadsheet);
