@@ -723,7 +723,7 @@ new Vue({
     processing_fee: "",
     first_payment: "",
     total_installment: "",
-    installment_month: "",
+    installment_month: "0",
     payment_status: "regular",
 
     blood_group: "a+",
