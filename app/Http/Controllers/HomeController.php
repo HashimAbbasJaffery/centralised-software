@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\Member;
+use App\Models\RecoverySheet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,9 @@ class HomeController extends Controller
                                 ->orderByDesc("introletters_count")
                                 ->limit(1)
                                 ->first();
-        
+        $today = now();
+
+
         return view("dashboard", compact("members_monthly", "total_clubs", "famous_club", "recent_member"));
     }
 }
