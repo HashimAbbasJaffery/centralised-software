@@ -24,9 +24,7 @@
           v-model="member_name"
           readonly
         >
-        <span class="member_field_message text-xs text-red-600 dark:text-red-400" style="display: none;">
-          Member's field is required
-        </span>
+        {{-- <span v-if="errors.errors?.paid_amount?.length ?? null > 0" v-text="errors.errors?.paid_amount[0]" class="member_field_message text-xs text-red-600 dark:text-red-400"></span> --}}
       </label>
     </div>
 
@@ -44,9 +42,7 @@
                      focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
                      dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
         >
-        <span class="date_of_birth_field_message step_1_message text-xs text-red-600 dark:text-red-400" style="display: none;">
-          Paid Amount field is required
-        </span>
+        <span v-if="errors.errors?.paid_amount?.length ?? null > 0" v-text="errors.errors?.paid_amount[0]" class="member_field_message text-xs text-red-600 dark:text-red-400"></span>
       </label>
     </div>
 
@@ -62,9 +58,7 @@
                      dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
           placeholder="Reference Number"
         >
-        <span class="cnic_field_message step_1_message text-xs text-red-600 dark:text-red-400" style="display: none;">
-          Reference Number field is required
-        </span>
+        <span v-if="errors.errors?.reference_number?.length ?? null > 0" v-text="errors.errors?.reference_number[0]" class="member_field_message text-xs text-red-600 dark:text-red-400"></span>
       </label>
     </div>
   </div>
@@ -107,12 +101,17 @@
         <span class="cnic_field_message step_1_message text-xs text-red-600 dark:text-red-400" style="display: none;">
           Date field is required
         </span>
+        <span v-if="errors.errors?.date?.length ?? null > 0" v-text="errors.errors?.date[0]" class="member_field_message text-xs text-red-600 dark:text-red-400"></span>
+      
       </label>
     </div>
   </div>
-  <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-        Submit
-    </button>
+<button style="width: 70px; height: 30px;" class="relative px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+  <span 
+    class="loader"
+  ></span>
+</button>
+
 </div>
 </form>
 
@@ -128,7 +127,9 @@ const app = Vue.createApp({
             reference_number: "",
             payment_method: "1",
             date: "",
-            selectedId: ""
+            selectedId: "",
+            errors: [],
+            is_storing: false
         }
     },
     watch: {
@@ -154,18 +155,24 @@ const app = Vue.createApp({
     async submit(e) {
         e.preventDefault();
 
-        const response = await axios.post(
+        this.is_storing = true;
+        try {
+          const response = await axios.post(
             route("api.member.receipt", { member: this.selectedId }),
-            { 
-                paid_amount: this.paid_amount, 
-                reference_number: this.reference_number, 
-                payment_method_id: this.payment_method, 
-                date: this.date 
-            }
-        );
-        console.log(response);
-        if(response.data.status === "200") {
+              { 
+                  paid_amount: this.paid_amount, 
+                  reference_number: this.reference_number, 
+                  payment_method_id: this.payment_method, 
+                  date: this.date 
+              }
+            );
+          if(response.data.status === "200") {
             window.location = route("member.recovery.receipts.get");
+          }
+        } catch(e) {
+          this.errors = e.response.data;
+        } finally {
+          this.is_storing = false;
         }
         
     },
