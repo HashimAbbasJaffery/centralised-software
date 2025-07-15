@@ -27,34 +27,33 @@ class HomeController extends Controller
         
         $lastYear = now()->subYear();
         $currentYear = now()->year;
-
-        $lastYearRecoverySheet = RecoverySheet::selectRaw("SUM(paid) AS paid, MONTH(month)")
-                                        ->whereYear("month", ">=", $lastYear)
-                                        ->whereYear("due_date", "<=", $lastYear)
-                                        ->groupByRaw("MONTH(month)")
-                                        ->get();
-
-                                        
-        $currentYearRecoverySheet = RecoverySheet::selectRaw("SUM(paid) AS paid, MONTH(month)")
+                    
+        $currentYearRecoverySheetPayable = RecoverySheet::selectRaw("SUM(payable) AS payable, MONTH(month)")
                                         ->whereYear("month", ">=", $currentYear)
                                         ->whereYear("due_date", "<=", $currentYear)
                                         ->groupByRaw("MONTH(month)")
                                         ->get();
 
-        $lastYearRecoverySheet->map(function($year) {
+        $currentYearRecoverySheetPaid = RecoverySheet::selectRaw("SUM(paid) AS paid, MONTH(month)")
+                                        ->whereYear("month", ">=", $currentYear)
+                                        ->whereYear("due_date", "<=", $currentYear)
+                                        ->groupByRaw("MONTH(month)")
+                                        ->get();
+
+        $currentYearRecoverySheetPayable->map(function($year) {
             if($year->paid === null) {
                 $year->paid = 0;
             }
             return $year;
         });
 
-        $currentYearRecoverySheet->map(function($year) {
+        $currentYearRecoverySheetPaid->map(function($year) {
             if($year->paid === null) {
                 $year->paid = 0;
             }
             return $year;
         });
 
-        return view("dashboard", compact("members_monthly", "total_clubs", "famous_club", "recent_member", "memberships", "lastYearRecoverySheet", "currentYearRecoverySheet"));
+        return view("dashboard", compact("members_monthly", "total_clubs", "famous_club", "recent_member", "memberships", "currentYearRecoverySheetPayable", "currentYearRecoverySheetPaid"));
     }
 }
