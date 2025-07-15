@@ -79,18 +79,18 @@
               </div>
               <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                  Installments Comparison
+                  Installments Collection of {{ now()->year }}
                 </h4>
                 <canvas id="line" width="466" height="232" style="display: block; height: 155px; width: 311px;" class="chartjs-render-monitor"></canvas>
                 <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
                   <!-- Chart legend -->
                   <div class="flex items-center">
                     <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
-                    <span>Current Year Installments</span>
+                    <span>Installment Paid</span>
                   </div>
                   <div class="flex items-center">
                     <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                    <span>Last Year Payments</span>
+                    <span>Installment To Be Paid</span>
                   </div>
                 </div>
               </div>
@@ -107,18 +107,18 @@ const lineConfig = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', "August", "September", "October", "November", "December"],
     datasets: [
       {
-        label: 'Current Year Installments',
+        label: 'Installment Paid',
         /**
          * These colors come from Tailwind CSS palette
          * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
          */
         backgroundColor: '#0694a2',
         borderColor: '#0694a2',
-        data: @json($currentYearRecoverySheet->pluck("paid")->toArray()),
+        data: @json($currentYearRecoverySheetPaid->pluck("paid")->toArray()),
         fill: false,
       },
       {
-        label: 'Last Year Payments',
+        label: 'Installments To Be Paid',
         fill: false,
         /**
          * These colors come from Tailwind CSS palette
@@ -126,7 +126,7 @@ const lineConfig = {
          */
         backgroundColor: '#7e3af2',
         borderColor: '#7e3af2',
-        data: @json($lastYearRecoverySheet->pluck("paid")->toArray()),
+        data: @json($currentYearRecoverySheetPayable->pluck("payable")->toArray()),
       },
     ],
   },
