@@ -86,11 +86,11 @@
                   <!-- Chart legend -->
                   <div class="flex items-center">
                     <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
-                    <span>Organic</span>
+                    <span>Current Year Installments</span>
                   </div>
                   <div class="flex items-center">
                     <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                    <span>Paid</span>
+                    <span>Last Year Payments</span>
                   </div>
                 </div>
               </div>
