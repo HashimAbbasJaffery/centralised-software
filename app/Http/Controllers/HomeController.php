@@ -29,16 +29,16 @@ class HomeController extends Controller
         $currentYear = now()->year;
                     
         $currentYearRecoverySheetPayable = RecoverySheet::selectRaw("SUM(payable) AS payable, MONTH(month)")
-                                        ->whereYear("month", ">=", $currentYear)
-                                        ->whereYear("due_date", "<=", $currentYear)
-                                        ->groupByRaw("MONTH(month)")
-                                        ->get();
+                                            ->whereYear("month", ">=", $currentYear)
+                                            ->whereYear("due_date", "<=", $currentYear)
+                                            ->groupByRaw("MONTH(month)")
+                                            ->get();
 
         $currentYearRecoverySheetPaid = RecoverySheet::selectRaw("SUM(paid) AS paid, MONTH(month)")
-                                        ->whereYear("month", ">=", $currentYear)
-                                        ->whereYear("due_date", "<=", $currentYear)
-                                        ->groupByRaw("MONTH(month)")
-                                        ->get();
+                                            ->whereYear("month", ">=", $currentYear)
+                                            ->whereYear("due_date", "<=", $currentYear)
+                                            ->groupByRaw("MONTH(month)")
+                                            ->get();
 
         $currentYearRecoverySheetPayable->map(function($year) {
             if($year->paid === null) {
