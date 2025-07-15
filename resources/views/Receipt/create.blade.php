@@ -243,7 +243,6 @@ const app = Vue.createApp({
             });
           }
         });
-
       } catch (error) {
         console.error("Error fetching members:", error);
         Swal.fire('Error', 'Could not load members.', 'error');
