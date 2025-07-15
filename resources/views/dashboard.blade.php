@@ -79,7 +79,7 @@
               </div>
               <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                  Traffic
+                  Installments Comparison
                 </h4>
                 <canvas id="line" width="466" height="232" style="display: block; height: 155px; width: 311px;" class="chartjs-render-monitor"></canvas>
                 <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
