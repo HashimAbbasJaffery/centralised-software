@@ -66,7 +66,7 @@ class Member extends Model
     }
     protected function emergencyContact(): Attribute {
         return Attribute::make(
-            get: fn($value) => "+$value",
+            get: fn($value) => "+" . \Str::replaceFirst($this->emergency_contact_code, "", $value),
             set: fn($value) => str_replace("+", "", $value)
         );
     }
