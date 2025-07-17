@@ -60,7 +60,7 @@ class Member extends Model
     }
     protected function alternatePhNumber(): Attribute {
         return Attribute::make(
-            get: fn($value) => "+$value",
+            get: fn($value) => "+". \Str::replaceFirst($this->alternate_ph_number_code, "", $value),
             set: fn($value) => str_replace("+", "", $value)
         );
     }
