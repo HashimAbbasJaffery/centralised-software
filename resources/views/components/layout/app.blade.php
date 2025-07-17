@@ -50,7 +50,7 @@
         display: inline-block;
         box-sizing: border-box;
         animation: rotation 1s linear infinite;
-        }
+      }
 
         @keyframes rotation {
         0% {
@@ -100,8 +100,7 @@
     <style>
             
       .hide {
-        
-      animation: hide 0.3s forwards;
+        animation: hide 0.3s forwards;
       }
       .hideNavbar {
         animation: hideNavbar 0.3s forwards;
