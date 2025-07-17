@@ -54,16 +54,8 @@ class Member extends Model
     }
     protected function phoneNumber(): Attribute {
         return Attribute::make(
-            get: fn($value) => "+$value",
-            set: fn($value) => str_replace(
-                "+", 
-                "", 
-                \Str::replaceFirst(
-                    $this->phone_number_code, 
-                    "", 
-                    $value
-                    )
-                )
+            get: fn($value) => "+". \Str::replaceFirst($this->phone_number_code, "", $value),
+            set: fn($value) => str_replace("+", "", $value)
         );
     }
     protected function alternatePhNumber(): Attribute {
