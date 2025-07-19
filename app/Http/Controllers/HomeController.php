@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    /**
+     * Prepares and returns aggregated dashboard data for the home view.
+     *
+     * Gathers statistics including the count of members registered in the current month, the most recent member, total clubs, the club with the most intro letters, membership card types with related counts, and monthly payable and paid recovery sheet sums for the current year. Passes all data to the "dashboard" view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index() {
         $members_monthly = Member::whereMonth('created_at', Carbon::now()->month)->count();
         $recent_member = Member::latest()->limit(1)->first();
@@ -29,16 +36,16 @@ class HomeController extends Controller
         $currentYear = now()->year;
                     
         $currentYearRecoverySheetPayable = RecoverySheet::selectRaw("SUM(payable) AS payable, MONTH(month)")
-                                            ->whereYear("month", ">=", $currentYear)
-                                            ->whereYear("due_date", "<=", $currentYear)
-                                            ->groupByRaw("MONTH(month)")
-                                            ->get();
+                                        ->whereYear("month", ">=", $currentYear)
+                                        ->whereYear("due_date", "<=", $currentYear)
+                                        ->groupByRaw("MONTH(month)")
+                                        ->get();
 
         $currentYearRecoverySheetPaid = RecoverySheet::selectRaw("SUM(paid) AS paid, MONTH(month)")
-                                            ->whereYear("month", ">=", $currentYear)
-                                            ->whereYear("due_date", "<=", $currentYear)
-                                            ->groupByRaw("MONTH(month)")
-                                            ->get();
+                                        ->whereYear("month", ">=", $currentYear)
+                                        ->whereYear("due_date", "<=", $currentYear)
+                                        ->groupByRaw("MONTH(month)")
+                                        ->get();
 
         $currentYearRecoverySheetPayable->map(function($year) {
             if($year->paid === null) {
