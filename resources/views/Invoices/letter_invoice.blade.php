@@ -170,7 +170,7 @@ h2{
             <td>Membership No:</td>
             <td>{{ $introletter->member->membership_number }}</td>
             <td>Expiry Date</td>
-            <td><?php echo date('d M Y', strtotime($introletter->created_at->addMonth())); ?></td>
+            <td><?php echo date('d M Y', strtotime($introletter->created_at->addMonths($introletter->duration->months))); ?></td>
         </tr> 
         
     </table>
