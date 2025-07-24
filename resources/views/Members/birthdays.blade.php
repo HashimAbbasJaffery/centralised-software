@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-          <tr v-for="member in members" class="text-gray-700 dark:text-gray-400">
+          <tr v-for="member in sortedMembers" class="text-gray-700 dark:text-gray-400">
             <td class="px-4 py-3">
               <div class="flex items-center text-sm">
                 <!-- Avatar with inset shadow -->
@@ -99,6 +99,13 @@
           this.getContent(route("api.member.birthday", { keyword: newValue }));
         },
       },
+      computed: {
+        sortedMembers() {
+          return this.members.slice().sort((a, b) => {
+            return new Date(a.dob) - new Date(b.dob); // Ascending
+          });
+        }
+      }
       methods: {
         formatDate(date) {
           return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }).replace(' ', '-').replace(' ', '-') 
