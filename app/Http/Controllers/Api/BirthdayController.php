@@ -24,7 +24,6 @@ class BirthdayController extends Controller
                 $today->format('m-d'),
                 $end->format('m-d'),
             ])
-            ->orderBy("date_of_birth", "asc")
             ->whereNotIn("payment_status", ["level3", "level4"])
             ->whereRaw("DATE_FORMAT(date_of_birth, '%m-%d') BETWEEN ? AND ?", [
                 $today->format('m-d'),
