@@ -37,7 +37,6 @@ class BirthdayController extends Controller
                 }
             })
             ->orderByRaw("MONTH(date_of_birth), DAY(date_of_birth)")
-            ->orderBy("created_at", "desc")
             ->paginate(8);
 
 
