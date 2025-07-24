@@ -25,7 +25,7 @@ class BirthdayController extends Controller
                 $today->format('m-d'),
                 $end->format('m-d'),
             ])
-            ->orderBy("date_of_birth", "desc")
+            ->orderByRaw("MONTH(date_of_birth) ASC")
             ->paginate(8);
         return MemberResource::collection($members);
     }
