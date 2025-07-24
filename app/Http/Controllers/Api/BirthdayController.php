@@ -7,6 +7,7 @@ use App\Http\Resources\MemberResource;
 use App\Models\Member;
 use App\Service\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BirthdayController extends Controller
 {
@@ -27,6 +28,9 @@ class BirthdayController extends Controller
             ])
             ->orderBy("date_of_birth", "asc")
             ->paginate(8);
+
+
+            Log::info($members);
         return MemberResource::collection($members);
     }
 }
