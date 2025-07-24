@@ -14,19 +14,18 @@ class BirthdayController extends Controller
         $this->middleware("auth:sanctum");
     }
     public function index() {
-        $this->user->isAllowedToPerformAction("member:birthdays");
+        // $this->user->isAllowedToPerformAction("member:birthdays");
 
-        $today = now();
-        $end = now()->addDays(15);
-        $members = Member::filter()
-            ->orderBy("created_at", "desc")
-            ->orderBy("date_of_birth", "asc")
-            ->whereNotIn("payment_status", ["level3", "level4"])
-            ->whereRaw("DATE_FORMAT(date_of_birth, '%m-%d') BETWEEN ? AND ?", [
-                $today->format('m-d'),
-                $end->format('m-d'),
-            ])
-            ->paginate(8);
-        return MemberResource::collection($members);
+        // $today = now();
+        // $end = now()->addDays(15);
+        // $members = Member::filter()
+        //     ->orderBy("created_at", "desc")
+        //     ->whereNotIn("payment_status", ["level3", "level4"])
+        //     ->whereRaw("DATE_FORMAT(date_of_birth, '%m-%d') BETWEEN ? AND ?", [
+        //         $today->format('m-d'),
+        //         $end->format('m-d'),
+        //     ])
+        //     ->paginate(8);
+        // return MemberResource::collection($members);
     }
 }
