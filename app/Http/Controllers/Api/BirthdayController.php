@@ -19,7 +19,7 @@ class BirthdayController extends Controller
         $today = now();
         $end = now()->addDays(15);
         $members = Member::filter()
-            ->orderBy("created_at", "desc")
+            ->orderBy("created_at", "asc")
             ->whereNotIn("payment_status", ["level3", "level4"])
             ->whereRaw("DATE_FORMAT(date_of_birth, '%m-%d') BETWEEN ? AND ?", [
                 $today->format('m-d'),
