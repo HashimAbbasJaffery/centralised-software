@@ -22,7 +22,7 @@
             <th class="px-4 py-3">Member Name</th>
             <th class="px-4 py-3">Membership Number</th>
             <th class="px-4 py-3">Birthdate</th>
-            <th class="px-4 py-3">Email</th>
+            <th class="px-4 py-3">Residential Address</th>
             <th class="px-4 py-3">Phone Number</th>
           </tr>
         </thead>
@@ -43,7 +43,7 @@
             </td>
             <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
             <td class="px-4 py-3 text-sm" v-text="formatDate(member.date_of_birth)"></td>
-            <td class="px-4 py-3 text-xs" v-text="member.email_address"></td>
+            <td class="px-4 py-3 text-xs" v-text="member.residential_address"></td>
             <td class="px-4 py-3 text-sm" v-text="member.phone_number"></td>
           </tr>
         </tbody>
