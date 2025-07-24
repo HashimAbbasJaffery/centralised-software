@@ -43,7 +43,7 @@
             </td>
             <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
             <td class="px-4 py-3 text-sm" v-text="formatDate(member.date_of_birth)"></td>
-            <td class="px-4 py-3 text-xs" v-text="member.residential_address"></td>
+            <td class="px-4 py-3 text-xs whitespace-normal break-words max-w-[200px]" v-text="member.residential_address"></td>
             <td class="px-4 py-3 text-sm" v-text="member.phone_number"></td>
           </tr>
         </tbody>
