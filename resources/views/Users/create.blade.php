@@ -258,7 +258,7 @@
             <input type="checkbox" value="payment:actions" v-model="permissions" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
             <p style="font-size: 12px;">Give privilege to perform actions on Payment Methods</p>
           </label>
-        </td>
+        </td> 
       </tr>
     </tbody>
   </table>
@@ -272,7 +272,7 @@
       <tr>
         <td style="padding: 10px 50px 10px 0px;">
           <label style="display: flex; column-gap: 10px;">
-            <input type="checkbox" value="payment:actions" v-model="permissions" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
+            <input type="checkbox" value="show:graph" v-model="permissions" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
             <p style="font-size: 12px;">Ability to show graphs</p>
           </label>
         </td>
