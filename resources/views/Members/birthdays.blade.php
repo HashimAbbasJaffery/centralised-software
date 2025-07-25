@@ -46,7 +46,7 @@
             <td class="px-4 py-3 text-xs whitespace-pre-line break-words max-w-[200px]">
               @{{ member.residential_address }}
             </td>
-            <td class="px-4 py-3 text-sm" v-text="member.phone_number"></td>
+            <td class="px-4 py-3 text-sm" v-text="member.phone_number.replace(/^\+/, '+' + member.phone_number_code)"></td>
           </tr>
         </tbody>
       </table>
