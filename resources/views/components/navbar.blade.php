@@ -11,9 +11,10 @@ id="navbar-app"
     >
       GwadarGymkhana
     </a>
-    <template x-if="hasPrivileges('member')">
-      <ul class="mt-6" style="height: 100%;">
-        <li class="relative px-6 py-3">
+    <template x-if="hasPrivileges('show:graph')">
+      {{-- show:graph --}}
+      <ul class="mt-6" style="height: 100%">
+         <li class="relative px-6 py-3">
           <a href="{{ route('home') }}">
             <span class="inline-flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px;" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M160 80c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 352c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-352zM0 272c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 160c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48L0 272zM368 96l32 0c26.5 0 48 21.5 48 48l0 288c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48z"/></svg>
@@ -21,6 +22,10 @@ id="navbar-app"
             </span>
           </a>
         </li>
+      </ul>
+    </template>
+    <template x-if="hasPrivileges('member')">
+      <ul class="mt-6" style="height: 100%;">
         <li class="relative px-6 py-3">
           <button
             class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
