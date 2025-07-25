@@ -262,6 +262,23 @@
       </tr>
     </tbody>
   </table>
+
+  <thead>
+      <tr>
+        <th colspan="100%" style="text-align: left;"><h2>Graphs</h2></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 10px 50px 10px 0px;">
+          <label style="display: flex; column-gap: 10px;">
+            <input type="checkbox" value="payment:actions" v-model="permissions" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
+            <p style="font-size: 12px;">Ability to show graphs</p>
+          </label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
   <button style="margin-top: 30px;" class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
