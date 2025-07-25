@@ -162,15 +162,19 @@ h2{
             <td style="width: 20%;">To the reciprocal club</td>
             <td colspan="4">{{ $introletter->club->club_name }}</td>
             <td>Issue Date</td>
-            <td><?php echo date('d M Y', strtotime($introletter->issue_date)); ?></td>
+            <td>
+                {{ \Carbon\Carbon::parse($introletter->issue_date ?? now())->format('d M Y') }}
+            </td>
         </tr> 
         <tr>
             <td>Member's name</td>
             <td colspan="2">{{ $introletter->member->member_name }}</td>
             <td>Membership No:</td>
             <td>{{ $introletter->member->membership_number }}</td>
-                <td>Expiry Date</td>
-                <td>{{ \Carbon\Carbon::parse($introletter->issue_date)->addMonths($introletter->duration->months)->format('d M Y') }}</td>
+            <td>Expiry Date</td>
+            <td>
+                <td>{{ (\Carbon\Carbon::make($introletter->issue_date) ?? now())->copy()->addMonths(is_numeric($introletter->duration->months ?? null) ? $introletter->duration->months : 0)->format('d M Y') }}</td>
+            </td>
         </tr> 
         
     </table>
