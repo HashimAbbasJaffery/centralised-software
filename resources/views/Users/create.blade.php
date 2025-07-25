@@ -245,6 +245,22 @@
         </td>
       </tr>
     </tbody>
+
+    <thead>
+      <tr>
+        <th colspan="100%" style="text-align: left;"><h2>Payment Methods</h2></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 10px 50px 10px 0px;">
+          <label style="display: flex; column-gap: 10px;">
+            <input type="checkbox" value="payment:actions" v-model="permissions" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
+            <p style="font-size: 12px;">Give privilege to perform actions on Payment Methods</p>
+          </label>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
 
