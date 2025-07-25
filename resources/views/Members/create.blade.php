@@ -734,9 +734,9 @@ new Vue({
     locker_category: "a",
     locker_number: "",
 
-    company_name: "-",
-    company_designation: "-",
-    profession: "-",
+    company_name: "",
+    company_designation: "",
+    profession: "",
     office_ph_number: "",
     office_country: "",
     office_city: "",
