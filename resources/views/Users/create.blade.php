@@ -261,9 +261,8 @@
         </td> 
       </tr>
     </tbody>
-  </table>
 
-  <thead>
+      <thead>
       <tr>
         <th colspan="100%" style="text-align: left;"><h2>Graphs</h2></th>
       </tr>
