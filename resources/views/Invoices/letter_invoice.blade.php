@@ -170,7 +170,7 @@ h2{
             <td>Membership No:</td>
             <td>{{ $introletter->member->membership_number }}</td>
                 <td>Expiry Date</td>
-                <td><?php echo $introletter->issue_date->addMonths($introletter->duration->months)->format('d M Y'); ?></td>
+                <td>{{ \Carbon\Carbon::parse($introletter->issue_date)->addMonths($introletter->duration->months)->format('d M Y') }}</td>
         </tr> 
         
     </table>
