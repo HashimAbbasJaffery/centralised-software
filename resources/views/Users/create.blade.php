@@ -1,5 +1,5 @@
 <x-layout.app>
-    <main class="h-full pb-16" id="app">
+    <main class="h-full pb-16" id="app" style="overflow: scroll;">
         <div class="container px-6 mx-auto grid">
             <h2 class="mt-6 mb-3 text-2xl font-semibold text-gray-700 dark:text-gray-200">Create User</h2>
           <form @submit="submit">
