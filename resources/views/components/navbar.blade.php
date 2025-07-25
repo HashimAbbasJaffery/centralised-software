@@ -13,7 +13,7 @@ id="navbar-app"
     </a>
     <template x-if="hasPrivileges('show:graph')">
       {{-- show:graph --}}
-      <ul class="mt-6" style="height: 100%">
+      <ul class="mt-6">
          <li class="relative px-6 py-3">
           <a href="{{ route('home') }}">
             <span class="inline-flex items-center">
