@@ -43,8 +43,8 @@
             </td>
             <td class="px-4 py-3 text-sm" v-text="member.membership_number"></td>
             <td class="px-4 py-3 text-sm" v-text="formatDate(member.date_of_birth)"></td>
-            <td class="px-4 py-3 text-xs whitespace-pre-line break-words max-w-[200px]">
-              @{{ member.residential_address }}
+            <td class="px-4 py-3 text-xs break-words max-w-[200px]"
+              v-html="member.residential_address.replace(/(.{80})/g, '$1<br>')">
             </td>
             <td class="px-4 py-3 text-sm" v-text="member.phone_number.replace(/^\+/, '+' + member.phone_number_code)"></td>
           </tr>
