@@ -98,37 +98,105 @@ tests/                           – Pest tests (sparse)
 ## 5. Major Controllers & Endpoints
 
 ### Members
-- `GET /api/members` – paginated list with filter scope.
-- `POST /api/member/create` – create member + profession/spouse/children uploads.
-- `PUT /api/member/{id}/update` – update member and dependents.
-- `DELETE /api/member/{id}/delete`
-- `GET /api/member/{member}/sheet` – download family sheet PDF.
-- OTP‑based lookup: `GET /api/single-member/{user_token}/get`
+
+#### `GET /api/members`
+- **Query**: `keyword` (optional search), `page` (pagination)
+- **Response**: paginated `MemberResource` list
+
+#### `POST /api/member/create`
+- **Body (multipart)**: all fields in `MemberRequest` such as `member_name`, `date_of_birth`, `gender`, `marital_status`, `cnic_passport`, `phone_number`, `alternate_ph_number`, `email_address`, `residential_address`, `member_city`, `member_country`, `membership_type`, `membership_number`, `membership_status`, `file_number`, `date_of_applying`, `form_fee`, `processing_fee`, `first_payment`, `installment_month`, `total_installment`, `blood_group`, `emergency_contact`, `card_type`, `date_of_issue`, `validity`, `payment_status`, `locker_category`, `locker_number`, optional `company_name`, `company_designation`, `profession`, `profile_picture`, arrays of `spouses[]` and `children[]`
+- **Response**: success message
+
+#### `PUT /api/member/{member}/update`
+- **Path**: `member` ID
+- **Body**: same payload as creation
+- **Response**: success message
+
+#### `DELETE /api/member/{member}/delete`
+- **Path**: `member` ID
+- **Response**: success message
+
+#### `GET /api/member/{member}/sheet`
+- **Path**: `member` ID
+- **Response**: PDF download of family sheet
+
+#### `GET /api/single-member/{user_token}/get`
+- **Path**: `user_token` (UUID)
+- **Response**: member record or 404
 
 ### Recovery & Receipts
-- `POST /api/recovery/{member}/create` – store payment schedule.
-- `GET /api/recovery/{member}/get` – fetch schedule.
-- `POST /api/member/{member}/receipt/create` – generate receipt, PDF, e‑mail.
-- `GET /api/receipts/get` – search/paginate receipts.
-- Background jobs: `CreateReceipt`, `CalculateFees`, `PrepareRecoveryData`, `GenerateRecoveryPDF`.
+
+#### `POST /api/recovery/{member}/create`
+- **Path**: `member` ID
+- **Body**: `rows` array of objects `{month, due_date, payment_description, current_month_payable, late_month_charges, payable, paid, due, due_amount, balance, total_balance}`
+- **Response**: success message
+
+#### `GET /api/recovery/{member}/get`
+- **Path**: `member` ID
+- **Response**: `RecoveryResource` collection
+
+#### `POST /api/member/{member}/receipt/create`
+- **Path**: `member` ID
+- **Body**: `paid_amount`, `reference_number`, `payment_method_id`, `date`
+- **Response**: success message; receipt PDF generated and mailed
+
+#### `GET /api/receipts/get`
+- **Query**: `keyword` (optional search), `page`
+- **Response**: paginated `ReceiptResource` list
+
+#### Payment Methods
+- `GET /api/payment-methods` – query `keyword`, returns list
+- `POST /api/payment-method/create` – body `payment_method`, returns new ID
+- `DELETE /api/payment-method/{paymentMethod}/delete` – path `paymentMethod` ID
 
 ### Reciprocal Clubs & Intro Letters
-- CRUD endpoints for `club`, `duration`, and `introletter`.
-- Introletter creation links a member, destination club, allowed duration, spouse/children.
+
+#### Clubs
+- `POST /api/club/create` – body `club_name`, `country`, `city`
+- `GET /api/clubs` – query `keyword`, paginated list
+- `DELETE /api/club/{club}/delete` – path `club` ID
+
+#### Durations
+- `GET /api/durations` – query `keyword`, paginated list
+- `POST /api/duration/create` – body `months`, `fee`
+- `PUT /api/duration/{duration}/update` – path `duration` ID, body `months`, `fee`
+- `DELETE /api/duration/{duration}/delete` – path `duration` ID
+
+#### Introletters
+- `GET /api/introletters` – query `keyword`, paginated list
+- `POST /api/introletter/create` – body `membership_number`, `club` name, `duration` text, optional `spouse`, `children`
+- `DELETE /api/introletter/{introletter}/delete` – path `introletter` ID
 
 ### Complaints
-- `complain-type` endpoints manage categories and question templates.
-- `complains` endpoints list and delete submissions.
+
+- `GET /api/complain-types` – query `keyword`, paginated list
+- `POST /api/complain-type/create` – body `complain_type`
+- `PUT /api/complain-type/{complainType}/update` – path `complainType` ID, body `complain_type`
+- `DELETE /api/complain-type/{complainType}/delete` – path `complainType` ID
+- `GET /api/complain-type/{complainType}/questions` – path ID
+- `POST /api/complain-type/{complainType}/question/create` – body `question`, `is_relevant`, optional `answer`
+- `PUT /api/complain-type/{complainQuestion}/question/update` – path `complainQuestion` ID, body `question`, `is_relevant`, optional `answer`
+- `DELETE /api/complain-type/{complainQuestion}/question/delete` – path `complainQuestion` ID
+- `GET /api/complains` – paginated list
+- `DELETE /api/complain/{complain}/delete` – path `complain` ID
 
 ### Users & Auth
-- OTP flow: `/api/otp/{username}/create`, `/api/otp/{username}/check`
-- Login & token issuance: `/api/login`
-- Token validation: `/api/check-token`
-- User CRUD and permission management.
+
+- `GET /api/otp/{username}/create` – path `username`, query `password`; sends OTP
+- `GET /api/otp/{username}/check` – path `username`, query `otp`
+- `POST /api/login` – body `username`, `password`; returns bearer token
+- `POST /api/logout` – bearer token in header
+- `GET /api/check-token` – bearer token; validates token
+- `GET /api/users` – query `keyword`, paginated `UserResource` list
+- `POST /api/user/create` – body `username`, `fullname`, `email`, `password`, `permissions` (JSON array)
+- `PUT /api/user/{user}/update` – path `user` ID, same body as create
+- `DELETE /api/user/{user}/delete` – path `user` ID
+- `GET /api/user/priveleges` – returns ability list
 
 ### Misc
-- Member patch routes allow single-field updates for member, spouse, or child (file or text).
-- Deployment webhook `POST /deploy` performs `git pull` on server.
+
+- `PATCH /api/member/{member}/patch`, `PATCH /api/child/{child}/patch`, `PATCH /api/spouse/{spouse}/patch` – body `attribute` and `value` or file to update single field
+- `POST /deploy` – no body; triggers `git pull` on server
 
 ---
 
