@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\IntroletterDatatables;
 use App\Models\Introletter;
 use Illuminate\Http\Request;
 
 class IntroletterController extends Controller
 {
-    public function index() {
-        return view("Introletter.index");
+    public function index(IntroletterDatatables $dataTable) {
+        return $dataTable->render("Introletter.index");
     }
     public function invoice(Introletter $introletter) {
        $file_number = $introletter->member->file_number;

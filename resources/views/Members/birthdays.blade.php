@@ -16,7 +16,7 @@
       <div style="display: flex; justify-content: space-between;">
         <input v-model="search" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="width: 25%; margin-bottom: 20px;" placeholder="Search">
       </div>
-      <table v-if="members.length > 0 && !is_fetching" class="w-full whitespace-no-wrap">
+      {{-- <table v-if="members.length > 0 && !is_fetching" class="w-full whitespace-no-wrap">
         <thead>
           <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <th class="px-4 py-3">Member Name</th>
@@ -49,7 +49,8 @@
             <td class="px-4 py-3 text-sm" v-text="member.phone_number.replace(/^\+/, '+' + member.phone_number_code)"></td>
           </tr>
         </tbody>
-      </table>
+      </table> --}}
+      {{ $dataTable->table() }}
       <span v-if="is_fetching" class="loader big purple" style="margin: auto;"></span>
       <div v-else-if="!is_fetching && !members.length" class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -153,5 +154,8 @@
       }
     }).mount("#app");
   </script>
+  @push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+@endpush
 </x-layout.app>
 
