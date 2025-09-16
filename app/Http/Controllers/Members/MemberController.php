@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Members;
 
+use App\DataTables\MembersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\CardType;
 use App\Models\Member;
@@ -12,9 +13,11 @@ use function GuzzleHttp\json_encode;
 
 class MemberController extends Controller
 {
-    public function index() {
+    public function index(MembersDataTable $dataTable) {
         $setting = Setting::first();
-        return view("Members.index", compact("setting"));
+        return $dataTable->render("Members.index", [
+            "setting" => $setting
+        ]);
     }
     public function create() {
         return view("Members.create");

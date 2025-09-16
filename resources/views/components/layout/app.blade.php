@@ -119,6 +119,7 @@
         }
       }
     </style>
+    
   </head>
   <body>
     <div
@@ -183,5 +184,6 @@
     </div>
 </div>
 </body>
+@stack("scripts")
 </html>
 
