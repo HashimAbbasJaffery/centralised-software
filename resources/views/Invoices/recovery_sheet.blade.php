@@ -153,7 +153,7 @@ table, tfoot td{
 				<!-- Right Column -->
 				<div style="width: 33.33%; float: left; text-align: right; line-height: 10pt; margin-top: 10pt;">
 					<h2 style="font-weight: bold; margin: 0; padding-bottom: 0px; margin-bottom: 0px;">MONTH</h2>
-					<h2 style="margin: 0;">Jun 2025</h2>
+					<h2 style="margin: 0;">{{ \Carbon\Carbon::today()->format('F') }}</h2>
 				</div>
 
 				<!-- Clear floats -->
