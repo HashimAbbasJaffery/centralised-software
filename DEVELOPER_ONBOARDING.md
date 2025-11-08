@@ -195,5 +195,6 @@ Configure mail transport in `.env` (`MAIL_MAILER`, `MAIL_HOST`, etc.).
 
 ---
 
+
 This guide should provide the next developer with a solid understanding of the system’s structure, dependencies, and workflows, enabling smooth continuation of maintenance and feature development.
 
