@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         Mail::to($user->email)->queue(new SendOTP($user->otp));
 
-        return $user;
+        return $this->apiResponse->success("Api token has been created");
     }
     public function login() {
         $username = request()->username;
