@@ -665,7 +665,7 @@
               </div>
             </div>
             <div style="display: flex; column-gap: 10px; justify-content: space-between;">
-              <button @click="previous" :disabled="current_step < 2" style="background: #1f2937;" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-700 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+              <button @click="previous" :disabled="current_step == 1" :style="{ background: current_step == 1 ? '#6b7280' : '#1f2937' }" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-700 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Previous
               </button>
 
