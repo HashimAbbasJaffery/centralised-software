@@ -318,10 +318,10 @@ footer{
                                 <td v-else-if="report.alternate_ph_number.length > 0" v-text="report.alternate_ph_number.replace('+', '')"></td>
                                 <td v-else>-</td>
 
-                                <td v-if="report.alternate_ph_number?.replace('+', '')?.length ?? null > 0" v-text="report.alternate_ph_number?.replace('+', '')">&nbsp;</td>
+                                <td v-if="report.alternate_ph_number?.replace('+', '')?.length ?? null > 0" v-text="report.alternate_ph_number?.replace('+', '')"></td>
                                 <td v-else>-</td>
                                 
-                                <td class="text-right pe-2 latest_payable" v-text="report.recovery[0]?.payable.toLocaleString() ?? 'no updated'">no updated</td>
+                                <td class="text-right pe-2 latest_payable" v-text="report.recovery[0]?.payable.toLocaleString() ?? 'no updated'"></td>
 
                                 <td class="status">
                                     <input v-if="report.payment_status === 'level1'" class="form-control print-status" type="text" style="color: black; background-color: #bbd5d2;" value="Level 1" readonly>
@@ -382,6 +382,7 @@ footer{
                     this.start_date = "";
                     this.end_date = "";
                     this.reports = [];
+                    this.sum = 0;
                 },
                 async getData() {
                     if(!this.fetched) this.fetched = true;
