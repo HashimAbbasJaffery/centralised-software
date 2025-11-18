@@ -407,16 +407,6 @@ id="navbar-app"
 
 </aside>
 
-<script>
-  const logout = async () => {
-    const response = await axios.post(route("api.logout"));
-    if(response.data.status === "200") {
-      localStorage.removeItem("token");
-      localStorage.removeItem("privileges");
-      window.location = route("login");
-    }
-  }
-</script>
 
 
 
