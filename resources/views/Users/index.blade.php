@@ -123,48 +123,7 @@
         }
       },
       methods: {
-        async mailTo(id) {
-          const response = await axios.get(route("api.member.recovery.receipt.mailer", { receipt: id }));
-          console.log(response);
-        },
-        async getReceipt(id) {
-          const response = await axios.get(route("api.member.receipt.download", { receipt: id }), { responseType: "blob" });
-          
-          const contentDisposition = response.headers['content-disposition'];
-
-          let fileName = 'receipt.pdf'; // fallback
-
-          if (contentDisposition) {
-            const fileNameMatch = contentDisposition.match(/filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/);
-            if (fileNameMatch && fileNameMatch.length >= 3) {
-              fileName = fileNameMatch[2];
-            }
-          }
-
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', fileName);
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        },
-        backCard() {
-          window.location = route("card.back", { members: this.child_checkbox });
-        },
-        frontCard() {
-          window.location = route("card.front", { members: this.child_checkbox })
-        },
-        debounce(func, delay = 300) {
-          let timeoutId;
-          return function (...args) {
-            const context = this;
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-              func.apply(context, args);
-            }, delay);
-          };
-        },
+        
         changePage(url) {
           if(!url) return;
 
