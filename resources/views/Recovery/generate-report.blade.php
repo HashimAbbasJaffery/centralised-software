@@ -382,10 +382,10 @@ footer{
                     this.start_date = "";
                     this.end_date = "";
                     this.reports = [];
-                    this.sum = 0;
                 },
                 async getData() {
                     if(!this.fetched) this.fetched = true;
+                    this.sum = 0; // sum should be zero for every request.
 
                     const choice__data = document.querySelectorAll(".choices__item[aria-selected='true']");
                     this.statuses = [];
