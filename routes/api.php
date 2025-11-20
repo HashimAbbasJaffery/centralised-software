@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\ComplainTypeController;
 use App\Http\Controllers\Api\DurationController;
 use App\Http\Controllers\Api\FamilySheetController;
 use App\Http\Controllers\Api\IntroletterController;
+use App\Http\Controllers\Api\LeadLinkController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\ParentToggleController;
@@ -227,3 +228,7 @@ Route::get("/member/{member}/sheet", [FamilySheetController::class, "get"])->nam
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::get("/leads", [LeadLinkController::class, "index"])->name("api.leads");
+Route::post("/lead/create", [LeadLinkController::class, "store"])->name("api.lead.store");
+Route::put('/lead/{id}/mark-used', [LeadLinkController::class, 'markUsed'])->name("api.lead.used");

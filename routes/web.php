@@ -15,6 +15,7 @@ use App\Http\Controllers\DurationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportingController;
 use App\Http\Controllers\IntroletterController;
+use App\Http\Controllers\LeadLinkController;
 use App\Http\Controllers\Members\MemberController;
 use App\Http\Controllers\MembersCardController;
 use App\Http\Controllers\MembershipCardController;
@@ -211,6 +212,10 @@ Route::get("/login", [AuthController::class, "login"])->name("login");
 Route::get("/users", [UserController::class, "index"])->name("users");
 Route::get("/user/create", [UserController::class, "create"])->name("user.create");
 Route::get("/user/{user}/update", [UserController::class, "update"])->name("user.update");
+
+Route::get("/leads", [LeadLinkController::class, "index"])->name("leads");
+Route::get("/lead/create", [LeadLinkController::class, "create"])->name("lead.create");
+Route::get('/lead/re/eligibility/{token}', [LeadLinkController::class, 'reEligibilityForm'])->name('lead.re-eligibility.form');
 
 Route::get("/temp-members", [TempMemberController::class, "index"])->name("temp.member.index");
 Route::get("/temp-members/pdf", [TempMemberController::class, "generatePDF"])->name("temp.member.pdf");
