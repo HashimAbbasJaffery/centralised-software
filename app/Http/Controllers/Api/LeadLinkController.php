@@ -54,8 +54,7 @@ class LeadLinkController extends Controller
             'county_code' => $validator->validated()['county_code'],
             'phone_number' => $validator->validated()['phone_number'],
             'token' => $token,
-            'expires_at' => now()->addMinutes(4),
-            // 'expires_at' => now()->addHours(26),
+            'expires_at' => now()->addHours(26),
             'status' => 'active'
         ]);
 
