@@ -24,7 +24,7 @@ class LeadLinkController extends Controller
     {
         $keyword = request()->keyword;
         $leadLinks = LeadLink::where("lead_name", "like", "%{$keyword}%")
-            ->orWhere('phone_number', 'like', "%{$keyword}%")
+            ->orWhere('phone_number', 'like', "%{$keyword}%")->orderBy("created_at", "desc")
             ->paginate(8)
         ;
 
