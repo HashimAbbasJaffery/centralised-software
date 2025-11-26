@@ -231,4 +231,4 @@ Route::get('/user', function (Request $request) {
 
 Route::get("/leads", [LeadLinkController::class, "index"])->name("api.leads");
 Route::post("/lead/create", [LeadLinkController::class, "store"])->name("api.lead.store");
-Route::put('/lead/{id}/mark-used', [LeadLinkController::class, 'markUsed'])->name("api.lead.used");
+Route::put('/lead/{id}/mark-used', [LeadLinkController::class, 'markUsed'])->middleware('throttle:3,1')->name("api.lead.used");
