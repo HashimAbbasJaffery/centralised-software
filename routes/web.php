@@ -215,7 +215,7 @@ Route::get("/user/{user}/update", [UserController::class, "update"])->name("user
 
 Route::get("/leads", [LeadLinkController::class, "index"])->name("leads");
 Route::get("/lead/create", [LeadLinkController::class, "create"])->name("lead.create");
-Route::get('/pref/{token}', [LeadLinkController::class, 'reEligibilityForm'])->name('lead.re-eligibility.form');
+Route::get('/pref/{token}', [LeadLinkController::class, 'reEligibilityForm'])->middleware('throttle:10,1')->name('lead.re-eligibility.form');
 
 Route::get("/temp-members", [TempMemberController::class, "index"])->name("temp.member.index");
 Route::get("/temp-members/pdf", [TempMemberController::class, "generatePDF"])->name("temp.member.pdf");
