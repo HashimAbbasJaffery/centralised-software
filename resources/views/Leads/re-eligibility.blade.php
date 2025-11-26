@@ -105,9 +105,10 @@
 
                     <!-- Submit -->
                     <div>
-                        <button type="submit"
+                        <button type="submit" :disabled="is_submitting"
                             class="w-full bg-black text-white font-semibold px-4 py-2 rounded hover:bg-gray-800 transition">
-                            Submit
+                            <span v-if="is_submitting">Submitting...</span>
+                            <span v-else>Submit</span>
                         </button>
                     </div>
                 </form>
@@ -138,6 +139,8 @@
                     },
                     linkId: '{{ $link->id ?? '' }}',
                     submitted: false,
+                    is_submitting: false,
+
                     expiresIn: null, // countdown
                     expiresAt: '{{ $link->expires_at ? $link->expires_at->format('Y-m-d\\TH:i:s\\Z') : '' }}',
                     timer: null
@@ -177,7 +180,8 @@
                         });
                         return;
                     }
-                    console.log("linkid: ", this.linkId);
+
+                    this.is_submitting = true;
 
                     // Send data to backend (axios example)
                     axios.post('https://www.privyr.com/api/v1/incoming-leads/0vZfjMQw/9lyI47FM#generic-webhook', {
@@ -193,6 +197,7 @@
                             // Mark link as used in our backend
                             axios.put(route('api.lead.used', this.linkId))
                                 .then(() => {
+                                    this.is_submitting = false;
                                     this.submitted = true; // show submitted message
                                 })
                                 .catch(err => console.error(err));
