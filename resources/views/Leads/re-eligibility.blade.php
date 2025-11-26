@@ -15,31 +15,44 @@
 </head>
 
 <body>
+    <style>
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 5px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        .loader.big {
+            width: 40px;
+            height: 40px;
+        }
+
+        .loader.purple {
+            border: 5px solid #7e3af2;
+            border-bottom-color: transparent;
+        }
+    </style>
     <div id="app" class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-        <div class="w-full max-w-xl bg-white px-8 rounded-lg shadow-md" style="padding: 50px;">
-            <template v-if="!submitted">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold text-black">Priority Re-Eligibility Form</h1>
-                    <span class="text-red-600 font-semibold" v-if="expiresIn" v-text="expiresIn"></span>
+        <template v-if="expiresIn === null">
+            <span class="text-center loader big purple"></span>
+        </template>
+        <template v-else-if="!submitted">
+            <div class="w-full max-w-xl bg-white px-8 rounded-lg shadow-md" style="padding: 0px 50px 50px 50px;">
+                <div class="w-full text-center" style="margin: 15px 0px;" v-if="expiresIn">
+                    <p class="font-semibold text-black">
+                        You have
+                        <span class="text-red-600 font-semibold" v-text="expiresIn"></span>
+                        before this form expires.
+                    </p>
                 </div>
-                <p class="mb-6 text-black">
-                    Dear <span class="font-semibold" v-text="form.name"></span>,<br>
-                    We received your lead form and our team explained the complete membership process to you.
-                    Since the purchase was not completed, your lead is currently marked as “not eligible for priority
-                    follow-up.”
-                </p>
-                <p class="mb-6 text-black">
-                    We receive many inquiries every day, and to keep our sales team efficient, we cannot prioritise
-                    duplicate leads once a deal has not closed.
-                </p>
-                <p class="mb-6 text-black">
-                    That said, we genuinely don’t want you to miss out — especially with membership prices increasing over
-                    time, more reciprocal clubs partnering with us, and the club moving closer to full operations.
-                </p>
-                <p class="mb-6 text-black">
-                    If you feel you may reconsider, you can regain eligibility by completing the short form below before the countdown (shown at the top-right) ends. After that, the link will expire.
-                </p>
-    
+                <h1 class="text-2xl font-bold text-black">Priority Re-Eligibility Form</h1>
+                <div class="flex justify-between items-center mb-6">
+                </div>
                 <!-- Vue Form -->
                 <form @submit.prevent="submitForm" class="space-y-4 text-black">
                     <!-- Auto-filled fields -->
@@ -53,7 +66,7 @@
                         <input type="text" v-model="form.number" readonly
                             class="w-full border border-gray-300 rounded px-3 py-2 text-black bg-white">
                     </div>
-    
+
                     <!-- Question 1 -->
                     <div>
                         <label class="block font-semibold mb-1">1. What was the main reason for not purchasing the
@@ -66,7 +79,7 @@
                             <option>Waiting for the club to become fully operational</option>
                         </select>
                     </div>
-    
+
                     <!-- Question 2 -->
                     <div>
                         <label class="block font-semibold mb-1">2. When should we contact you again?</label>
@@ -79,16 +92,17 @@
                             <option>After 1 year</option>
                         </select>
                     </div>
-    
+
                     <!-- Terms -->
                     <div class="text-sm text-black">
                         <input type="checkbox" v-model="form.agree" id="terms">
                         <label for="terms">
-                            I understand that membership fees will increase over time. If I choose to purchase later, I
+                            I understand that membership fees will increase over time. If I choose to purchase
+                            later, I
                             agree to pay the updated fee applicable at that time.
                         </label>
                     </div>
-    
+
                     <!-- Submit -->
                     <div>
                         <button type="submit"
@@ -97,19 +111,20 @@
                         </button>
                     </div>
                 </form>
-            </template>
-
-            <template v-else>
-                <!-- Success message -->
+            </div>
+        </template>
+        <template v-else>
+            <!-- Success message -->
+            <div class="w-full max-w-xl bg-white px-8 rounded-lg shadow-md" style="padding: 0px 50px 50px 50px;">
                 <div class="text-center py-20">
                     <h1 class="text-2xl font-bold mb-4 text-black">Form Submitted Successfully!</h1>
                     <p class="text-black">Thank you, your response has been recorded. Our team will get back to you if
                         required.</p>
                 </div>
-            </template>
-        </div>
+            </div>
+        </template>
     </div>
-@routes
+    @routes
     <script>
         const app = Vue.createApp({
             data() {
@@ -123,7 +138,7 @@
                     },
                     linkId: '{{ $link->id ?? '' }}',
                     submitted: false,
-                    expiresIn: '', // countdown string
+                    expiresIn: null, // countdown
                     expiresAt: '{{ $link->expires_at ? $link->expires_at->format('Y-m-d\\TH:i:s\\Z') : '' }}',
                     timer: null
                 }
