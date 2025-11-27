@@ -116,7 +116,7 @@
         </template>
         <template v-else>
             <!-- Success message -->
-            <div class="w-full max-w-xl bg-white px-8 rounded-lg shadow-md" style="padding: 0px 50px 50px 50px;">
+            <div class="w-full max-w-xl bg-white px-8 rounded-lg shadow-md" style="padding: 20px;">
                 <div class="text-center py-20">
                     <h1 class="text-2xl font-bold mb-4 text-black">Form Submitted Successfully!</h1>
                     <p class="text-black">Thank you, your response has been recorded. Our team will get back to you if
@@ -135,6 +135,7 @@
                         number: '{{ $link->phone_number ?? '' }}',
                         reason: '',
                         contact_time: '',
+                        consent_to_future_fee_changes: 'I understand that membership fees will increase over time. If I choose to purchase later, I agree to pay the updated fee applicable at that time',
                         agree: false,
                     },
                     linkId: '{{ $link->id ?? '' }}',
@@ -191,6 +192,7 @@
                             other_fields: {
                                 reason: this.form.reason,
                                 contact_time: this.form.contact_time,
+                                consent_to_future_fee_changes: this.form.consent_to_future_fee_changes,
                             },
                         })
                         .then(res => {
