@@ -286,7 +286,7 @@
                             <thead>
                                 <tr>
                                     <th colspan="100%" style="text-align: left;">
-                                        <h2>Manage Leads</h2>
+                                        <h2>Manage Not Eligible Leads</h2>
                                     </th>
                                 </tr>
                             </thead>
