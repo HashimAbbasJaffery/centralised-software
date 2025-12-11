@@ -232,7 +232,7 @@ table, tfoot td{
         @else
             <h6 style="font-weight:600; font-size:12px; margin: 0; margin-bottom: 5pt;  margin-top: 25pt; text-align: right;">PAY DUES BEFORE {{ $formattedDate }}</h6>
         @endif
-        <h5 style="margin: 0; font-weight:bold; font-size:30px; line-height: 25px;">PKR. {{ number_format($to_be_paid_row?->payable ?? "0") }}/-</h5>
+        <h5 style="margin: 0; font-weight:bold; font-size:20px; line-height: 25px;">PKR. {{ number_format($to_be_paid_row?->payable ?? "0") }}/-</h5>
     </td>
 </tr>
 
