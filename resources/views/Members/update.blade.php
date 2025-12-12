@@ -552,7 +552,7 @@
                                 <option value="level3">Level 3 - Final Notice</option>
                                 <option value="level4">Level 4 - Membership Cancelled</option>
                                 <option value="cleared">Cleared</option>
-                                <option value="re-regularised">Re-Regularized</option>
+                                <option value="re-regularized">Re-Regularized</option>
                             </select>
                         </label>
                     </div>
