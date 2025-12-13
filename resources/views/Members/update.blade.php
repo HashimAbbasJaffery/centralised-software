@@ -551,8 +551,9 @@
                                 <option value="level2">Level 2 - Payment Reminder Letter</option>
                                 <option value="level3">Level 3 - Final Notice</option>
                                 <option value="level4">Level 4 - Membership Cancelled</option>
-                                <option value="cleared">Cleared</option>
                                 <option value="re-regularized">Re-Regularized</option>
+                                <option value="honorary">Honorary</option>
+                                <option value="cleared">Cleared</option>
                             </select>
                         </label>
                     </div>
@@ -907,46 +908,48 @@
                 </div>
             </div> --}}
             <div class="flex items-center justify-between w-full">
-    <!-- Steps in center -->
-    <div class="steps flex-1 flex justify-center">
-        <ol class="items-center space-y-4 sm:flex sm:space-x-8 sm:space-y-0 rtl:space-x-reverse"
-            style="display: flex; gap: 20px;">
-            
-            <!-- Previous Button -->
-            <li>
-                <button @click="previous" :disabled="current_step == 1" :style="{ background: current_step == 1 ? '#6b7280' : '#1f2937' }"
-                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg">
-                    Previous
-                </button>
-            </li>
+                <!-- Steps in center -->
+                <div class="steps flex-1 flex justify-center">
+                    <ol class="items-center space-y-4 sm:flex sm:space-x-8 sm:space-y-0 rtl:space-x-reverse"
+                        style="display: flex; gap: 20px;">
 
-            <!-- Steps -->
-            <li v-for="step in total_steps" @click="current_step = step" style="cursor: pointer;"
-                class="flex items-center text-blue-600 dark:text-blue-500 space-x-2.5 rtl:space-x-reverse">
-                <span v-text="step"
-                    :class="{ 'active': step < current_step, 'current-step': step === current_step }"
-                    class="points flex items-center justify-center w-8 h-8 border border-blue-600 rounded-full shrink-0 dark:border-blue-500"></span>
-            </li>
+                        <!-- Previous Button -->
+                        <li>
+                            <button @click="previous" :disabled="current_step == 1"
+                                :style="{ background: current_step == 1 ? '#6b7280' : '#1f2937' }"
+                                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg">
+                                Previous
+                            </button>
+                        </li>
 
-            <!-- Next Button -->
-            <li>
-                <button :disabled="current_step == 10" @click="next" :style="{ background: current_step == 10 ? '#6b7280' : '#1f2937' }"
-                    class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg">
-                    Next
-                </button>
-            </li>
-        </ol>
-    </div>
+                        <!-- Steps -->
+                        <li v-for="step in total_steps" @click="current_step = step" style="cursor: pointer;"
+                            class="flex items-center text-blue-600 dark:text-blue-500 space-x-2.5 rtl:space-x-reverse">
+                            <span v-text="step"
+                                :class="{ 'active': step < current_step, 'current-step': step === current_step }"
+                                class="points flex items-center justify-center w-8 h-8 border border-blue-600 rounded-full shrink-0 dark:border-blue-500"></span>
+                        </li>
 
-    <!-- Submit button on far right -->
-    <div class="submit">
-        <button :disabled="is_submitting" @click="submit"
-            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-            <span v-if="is_submitting">Updating...</span>
-            <span v-else>Submit</span>
-        </button>
-    </div>
-</div>
+                        <!-- Next Button -->
+                        <li>
+                            <button :disabled="current_step == 10" @click="next"
+                                :style="{ background: current_step == 10 ? '#6b7280' : '#1f2937' }"
+                                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg">
+                                Next
+                            </button>
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Submit button on far right -->
+                <div class="submit">
+                    <button :disabled="is_submitting" @click="submit"
+                        class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        <span v-if="is_submitting">Updating...</span>
+                        <span v-else>Submit</span>
+                    </button>
+                </div>
+            </div>
 
         </div>
     </main>

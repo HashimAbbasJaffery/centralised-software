@@ -394,8 +394,9 @@
                       <option value="level2">Level 2 - Payment Reminder Letter</option>
                       <option value="level3">Level 3 - Final Notice</option>
                       <option value="level4">Level 4 - Membership Cancelled</option>
-                      <option value="cleared">Cleared</option>
                       <option value="re-regularized">Re-Regularized</option>
+                      <option value="honorary">Honorary</option>
+                      <option value="cleared">Cleared</option>
                     </select>
                   </label>
                 </div>
