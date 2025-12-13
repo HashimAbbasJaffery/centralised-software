@@ -9,6 +9,7 @@ use App\Models\Setting;
 use Google_Service_Drive;
 use Google_Service_Sheets;
 use Google_Service_Drive_DriveFile;
+use Google_Service_Sheets_BatchClearValuesRequest;
 use Illuminate\Support\Facades\Log;
 use Google_Service_Drive_Permission;
 use Google_Service_Sheets_ValueRange;
@@ -16,6 +17,7 @@ use Google_Service_Sheets_Spreadsheet;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Google\Service\Sheets\BatchClearValuesRequest;
 use Google_Service_Sheets_BatchUpdateValuesRequest;
 use Google_Service_Sheets_BatchUpdateSpreadsheetRequest;
 
@@ -257,6 +259,15 @@ class SaveInGoogleDrive implements ShouldQueue
                     $sheetService->batchUpdate($spreadsheetId, $addSheetRequest);
                 }
             }
+            $clearRequest = new Google_Service_Sheets_BatchClearValuesRequest([
+                'ranges' => [
+                    'members!A:Z',
+                    'spouses!A:Z',
+                    'childs!A:Z',
+                ]
+            ]);
+
+            $sheets->batchClear($spreadsheetId, $clearRequest);
 
             // 3 Prepare all three data ranges
             $batchData = new Google_Service_Sheets_BatchUpdateValuesRequest([
