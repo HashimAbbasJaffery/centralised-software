@@ -70,7 +70,7 @@ class SaveInGoogleDrive implements ShouldQueue
             }
 
             // 2. Insert data
-            $vals = Member::with(['spouses', 'children'])->get();
+            $vals = Member::with(['spouses', 'children', 'profession'])->get();
             $value = [];
             $spouseValue = [];
             $childValue = [];
@@ -105,14 +105,14 @@ class SaveInGoogleDrive implements ShouldQueue
                     $val->total_installment,
                     $val->installment_month,
                     $val->payment_status,
-                    $val->profession?->company_name ?? '-',
-                    $val->profession?->designation ?? '-',
-                    $val->profession?->type_of_profession ?? '-',
-                    $val->profession?->office_phone_number ?? '-',
-                    $val->profession?->country ?? '-',
-                    $val->profession?->city ?? '-',
-                    $val->profession?->work_email ?? '-',
-                    $val->profession?->office_address ?? '-',
+                    $val->profession->company_name ?? '-',
+                    $val->profession->designation ?? '-',
+                    $val->profession->type_of_profession ?? '-',
+                    $val->profession->office_phone_number ?? '-',
+                    $val->profession->country ?? '-',
+                    $val->profession->city ?? '-',
+                    $val->profession->work_email ?? '-',
+                    $val->profession->office_address ?? '-',
                     $val->blood_group,
                     $val->emergency_contact,
                     $val->card_type,
