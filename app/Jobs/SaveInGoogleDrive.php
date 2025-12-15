@@ -49,7 +49,9 @@ class SaveInGoogleDrive implements ShouldQueue
                 Google_Service_Drive::DRIVE,
             ]);
 
-            $client->setAuthConfig(base_path(env('GOOGLE_SERVICE_ACCOUNT_PATH')));
+            $client->setAuthConfig(
+                storage_path(config('services.google.service_account'))
+            );
             $client->setAccessType("offline");
 
             $service = new Google_Service_Sheets($client);
