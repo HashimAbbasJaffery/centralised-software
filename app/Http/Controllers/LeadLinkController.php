@@ -24,13 +24,13 @@ class LeadLinkController extends Controller
             abort(403, "Link is invalid!");
         }
 
+        if ($link->status === 'used') {
+            return view('Leads.used');
+        }
+
         if ($link->expires_at && $link->expires_at->isPast()) {
             $link->markExpired(); // ensure status updated
             return view('Leads.expired');
-        }
-
-        if ($link->status === 'used') {
-            return view('Leads.used');
         }
 
         return view('Leads.re-eligibility', compact('link'));
