@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TempMemberController;
 
-Route::get("sheets", function() {
+Route::get("/members/sheets/bulk-dispatch", function() {
     Member::chunk(500, function ($members) {
         foreach ($members as $member) {
             dispatch(new CreateFamilySheet($member));
