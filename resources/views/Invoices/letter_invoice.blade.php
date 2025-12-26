@@ -347,27 +347,25 @@
                 <td style="width: 50%;">{{ $introletter->member->cnic_passport }}</td>
             </tr>
         </table>
-        <h6 class="my-1" style="font-size:10px; font-weight:400;">Visits are subject to the terms of the reciprocal agreement applicable with the host club, including limits on total annual visits and consecutive days.</h6>
         <h6 class="my-1" style="font-size:10px; font-weight:400;">Gwadar Gymkhana Club will not be responsible for
             credit facilities if any rendered to the members. I shall appreciate extension of facilities of your Club to
             our member with family holding membership cards. If you have any queries, please contact me at
             reciprocal@gwadargymkhana.com.pk. Thank you!</h6>
         <table class="table-bordered table my-2" style="border: 1px solid #000 !important;">
             <tr>
-                <td class="p-4" colspan="2"></td>
-                <td class="p-4" colspan="2"></td>
+                <td class="p-4"></td>
+                <td class="p-4"></td>
             </tr>
             <tr>
-                <td style="width: 16%">Approved by (with stamp):</td>
-                <td> Reciprocal Department - Sapnakumari</td>
-                <td style="width: 16%">Approved by (with stamp):</td>
-                <td> Recovery Department - Khadija Baloch</td>
+                <td>Approved by: Reciprocal Department - Sapna Kumari</td>
+                <td>Approved by: Recovery Department - Khadija Baloch</td>
             </tr>
         </table>
         <h6 class="my-1" style="font-size:10px; font-weight:400;">A payment of PKR 1000/- per month for the processing
             fee of this introduction letter has been received. <span style="font-weight:500;">Guest access is not
             allowed.</span>
         </h6>
+        <h6 class="my-1" style="font-size:10px; font-weight:400;">Visits are subject to the terms of the reciprocal agreement applicable with the host club, including limits on total annual visits and consecutive days.</h6>
     </div>
 
 
